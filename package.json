@@ -1,0 +1,16 @@
+{
+  "name": "gleam-njs",
+  "version": "1.0.0",
+  "description": "write nginx scripts (njs) with gleam",
+  "scripts": {
+    "build": "gleam run -m build",
+    "watch": "NJS_BUILD_WATCH=1 gleam run -m build",
+    "purge": "gleam clean && rm -rf dist/*",
+    "clean": "rm -rf dist/*"
+  },
+  "author": "Kai WU",
+  "license": "MIT",
+  "dependencies": {
+    "esbuild": "^0.23.0"
+  }
+}
