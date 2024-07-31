@@ -28,7 +28,7 @@ pub fn set_variables(
 pub fn done(request r: HTTPRequest) -> Nil
 
 @external(javascript, "./http_ffi.mjs", "http_error")
-pub fn error(request r: HTTPRequest, message m: String) -> Nil
+pub fn error(request r: HTTPRequest, message m: String) -> HTTPRequest
 
 @external(javascript, "./http_ffi.mjs", "http_finish")
 pub fn finish(request r: HTTPRequest) -> Nil
@@ -62,7 +62,7 @@ pub fn is_internal(request r: HTTPRequest) -> Bool
 pub fn internal_redirect(request r: HTTPRequest, uri u: String) -> Nil
 
 @external(javascript, "./http_ffi.mjs", "http_log")
-pub fn log(request r: HTTPRequest, message m: String) -> Nil
+pub fn log(request r: HTTPRequest, message m: String) -> HTTPRequest
 
 @external(javascript, "./http_ffi.mjs", "http_method")
 pub fn method(request r: HTTPRequest) -> String
@@ -86,27 +86,31 @@ pub fn response_buffer(request r: HTTPRequest) -> Buffer
 pub fn response_text(request r: HTTPRequest) -> String
 
 @external(javascript, "./http_ffi.mjs", "http_return")
-pub fn return_text(request r: HTTPRequest, code c: Int, return t: String) -> Nil
+pub fn return_text(
+  request r: HTTPRequest,
+  code c: Int,
+  return t: String,
+) -> HTTPRequest
 
 @external(javascript, "./http_ffi.mjs", "http_return")
 pub fn return_buffer(
   request r: HTTPRequest,
   code c: Int,
   return b: Buffer,
-) -> Nil
+) -> HTTPRequest
 
 @external(javascript, "./http_ffi.mjs", "http_send_text")
-pub fn send_text(request r: HTTPRequest, data d: String) -> Nil
+pub fn send_text(request r: HTTPRequest, data d: String) -> HTTPRequest
 
 @external(javascript, "./http_ffi.mjs", "http_send_buffer")
 pub fn send_buffer(
   request r: HTTPRequest,
   buffer d: Buffer,
   options o: o,
-) -> Nil
+) -> HTTPRequest
 
 @external(javascript, "./http_ffi.mjs", "http_send_header")
-pub fn send_header(request r: HTTPRequest) -> Nil
+pub fn send_header(request r: HTTPRequest) -> HTTPRequest
 
 @external(javascript, "./http_ffi.mjs", "http_status")
 pub fn status(request r: HTTPRequest) -> Int
@@ -125,4 +129,4 @@ pub fn subrequest(
 pub fn uri(request r: HTTPRequest) -> String
 
 @external(javascript, "./http_ffi.mjs", "http_warn")
-pub fn warn(request r: HTTPRequest, message m: String) -> Nil
+pub fn warn(request r: HTTPRequest, message m: String) -> HTTPRequest
