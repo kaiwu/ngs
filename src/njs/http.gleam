@@ -86,18 +86,17 @@ pub fn response_buffer(request r: HTTPRequest) -> Buffer
 pub fn response_text(request r: HTTPRequest) -> String
 
 @external(javascript, "./http_ffi.mjs", "http_return")
-pub fn return_text(
-  request r: HTTPRequest,
-  code c: Int,
-  return t: String,
-) -> HTTPRequest
+pub fn return_text(request r: HTTPRequest, code c: Int, return t: String) -> Nil
 
 @external(javascript, "./http_ffi.mjs", "http_return")
 pub fn return_buffer(
   request r: HTTPRequest,
   code c: Int,
   return b: Buffer,
-) -> HTTPRequest
+) -> Nil
+
+@external(javascript, "./http_ffi.mjs", "http_return_code")
+pub fn return_code(request r: HTTPRequest, code c: Int) -> Nil
 
 @external(javascript, "./http_ffi.mjs", "http_send_text")
 pub fn send_text(request r: HTTPRequest, data d: String) -> HTTPRequest
