@@ -1,7 +1,7 @@
 name = "ngs"
-version = "1.0.0"
+version = "0.1.0"
 target = "javascript"
-description = "Write functional type-safe nginx script (njs) with gleam"
+description = "Offload weight to nginx, implement HTTP server with gleam bindings to njs"
 
 # Fill out these fields if you intend to generate HTML documentation or publish
 # your project to the Hex package manager.
