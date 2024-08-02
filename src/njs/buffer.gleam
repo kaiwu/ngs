@@ -23,8 +23,8 @@ pub type Encoding {
 @external(javascript, "./buffer_ffi.mjs", "byte_length")
 pub fn byte_length(value v: v, encoding e: Encoding) -> Int
 
-@external(javascript, "./buffer_ffi.mjs", "new")
-pub fn new(size s: Int) -> ArrayBuffer
+@external(javascript, "./buffer_ffi.mjs", "new_array_buffer")
+pub fn new_array_buffer(size s: Int) -> ArrayBuffer
 
 @external(javascript, "./buffer_ffi.mjs", "alloc")
 pub fn alloc(size s: Int) -> Buffer
@@ -33,7 +33,7 @@ pub fn alloc(size s: Int) -> Buffer
 pub fn compare(buffer1 b1: Buffer, buffer2 b2: Buffer) -> Int
 
 @external(javascript, "./buffer_ffi.mjs", "concat")
-pub fn concat(buffers bs: Array(Buffer), length l: Int) -> Buffer
+pub fn concat(buffers bs: Array(Buffer), length t: t) -> Buffer
 
 @external(javascript, "./buffer_ffi.mjs", "from_bytes")
 pub fn from_bytes(array ab: Array(Byte)) -> Buffer
@@ -73,17 +73,15 @@ pub fn equals(buffer1 b1: Buffer, buffer2 b2: Buffer) -> Bool
 pub fn length(buffer bf: Buffer) -> Int
 
 @external(javascript, "./buffer_ffi.mjs", "fill")
-pub fn fill(
-  buffer bf: Buffer,
-  with v: BitArray,
-  from f: Int,
-  to t: Int,
-) -> Buffer
+pub fn fill(buffer bf: Buffer, with v: Byte, from f: Int, to t: Int) -> Buffer
 
 @external(javascript, "./buffer_ffi.mjs", "index_of")
-pub fn index_of(
+pub fn index_of(buffer bf: Buffer, value v: v, offset o: Int) -> Int
+
+@external(javascript, "./buffer_ffi.mjs", "index_of_string")
+pub fn index_of_string(
   buffer bf: Buffer,
-  value v: v,
+  value v: BitArray,
   offset o: Int,
   encoding e: Encoding,
 ) -> Int
@@ -96,10 +94,21 @@ pub fn last_index_of(
   encoding e: Encoding,
 ) -> Int
 
-@external(javascript, "./buffer_ffi.mjs", "includes")
-pub fn includes(
+@external(javascript, "./buffer_ffi.mjs", "last_index_of_string")
+pub fn last_index_of_string(
   buffer bf: Buffer,
-  value v: v,
+  value v: BitArray,
+  offset o: Int,
+  encoding e: Encoding,
+) -> Int
+
+@external(javascript, "./buffer_ffi.mjs", "includes")
+pub fn includes(buffer bf: Buffer, value v: v, offset o: Int) -> Bool
+
+@external(javascript, "./buffer_ffi.mjs", "includes_string")
+pub fn includes_string(
+  buffer bf: Buffer,
+  value v: BitArray,
   offset o: Int,
   encoding e: Encoding,
 ) -> Bool
@@ -115,11 +124,12 @@ pub fn to_string(
   to t: Int,
 ) -> String
 
+/// write at offset of buffer for length number of bytes
 @external(javascript, "./buffer_ffi.mjs", "write")
 pub fn write(
   buffer bf: Buffer,
   bitarray ba: BitArray,
   encoding e: Encoding,
-  from f: Int,
-  to t: Int,
+  offset o: Int,
+  length l: Int,
 ) -> Buffer
