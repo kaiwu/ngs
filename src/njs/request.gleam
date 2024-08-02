@@ -5,15 +5,16 @@ import njs/headers.{type Headers}
 
 pub type Request
 
-pub type RequestOption {
-  RequestOption(body: BitArray, headers: Headers, method: String)
+pub type RequestOption(h) {
+  RequestOption(body: BitArray, headers: h, method: String)
+  EmptyRequestOption(headers: h, method: String)
 }
 
 @external(javascript, "./ngx_ffi.mjs", "to_request")
-pub fn from_url(url u: String, option o: RequestOption) -> Request
+pub fn from_url(url u: String, option o: o) -> Request
 
 @external(javascript, "./ngx_ffi.mjs", "to_request")
-pub fn from_request(request r: Request, option o: RequestOption) -> Request
+pub fn from_request(request r: Request, option o: o) -> Request
 
 @external(javascript, "./ngx_ffi.mjs", "request_has_body")
 pub fn has_body(request r: Request) -> Bool

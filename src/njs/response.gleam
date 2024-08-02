@@ -5,18 +5,18 @@ import njs/headers.{type Headers}
 
 pub type Response
 
-pub type ResponseOption {
-  ResponseOption(status: Int, headers: Headers, status_text: String)
+pub type ResponseOption(h) {
+  ResponseOption(status: Int, headers: h, status_text: String)
 }
 
 @external(javascript, "./ngx_ffi.mjs", "to_response")
-pub fn from_string(body b: String, option o: ResponseOption) -> Response
+pub fn from_string(body b: String, option o: o) -> Response
 
 @external(javascript, "./ngx_ffi.mjs", "to_response")
-pub fn from_buffer(body b: Buffer, option o: ResponseOption) -> Response
+pub fn from_buffer(body b: Buffer, option o: o) -> Response
 
 @external(javascript, "./ngx_ffi.mjs", "empty_response")
-pub fn empty(option o: ResponseOption) -> Response
+pub fn empty(option o: o) -> Response
 
 @external(javascript, "./ngx_ffi.mjs", "response_has_body")
 pub fn has_body(response r: Response) -> Bool
