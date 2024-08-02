@@ -9,7 +9,16 @@ pub type Byte =
 
 pub type ArrayBuffer
 
-pub type Uint8Array
+pub type TypedArray
+
+pub type TypedArrayType {
+  Int8
+  UInt8
+  Int16
+  UInt16
+  Int32
+  UInt32
+}
 
 pub type Buffer
 
@@ -25,6 +34,9 @@ pub fn byte_length(value v: v, encoding e: Encoding) -> Int
 
 @external(javascript, "./buffer_ffi.mjs", "new_array_buffer")
 pub fn new_array_buffer(size s: Int) -> ArrayBuffer
+
+@external(javascript, "./buffer_ffi.mjs", "new_typed_array")
+pub fn new_typed_array(t: TypedArrayType, size s: Int) -> TypedArray
 
 @external(javascript, "./buffer_ffi.mjs", "alloc")
 pub fn alloc(size s: Int) -> Buffer

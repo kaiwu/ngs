@@ -5,6 +5,9 @@ import njs/buffer.{type Buffer}
 
 pub type HTTPRequest
 
+pub type HTTPHandler =
+  fn(HTTPRequest) -> Nil
+
 pub type HTTPResponse =
   HTTPRequest
 

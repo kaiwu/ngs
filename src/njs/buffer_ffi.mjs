@@ -5,6 +5,12 @@ import {
   Hex,
   Base64,
   Base64Url,
+  Int8,
+  UInt8,
+  Int16,
+  UInt16,
+  Int32,
+  UInt32,
 } from "./buffer.mjs";
 
 function encoding(e) {
@@ -26,6 +32,26 @@ export function byte_length(v, e) {
 
 export function new_array_buffer(s) {
   return new ArrayBuffer(s);
+}
+
+export function new_typed_array(t, s) {
+  let b = new ArrayBuffer(s);
+  if (t instanceof UInt8) {
+    return new UInt8Array(b);
+  }
+  else if (t instanceof Int16) {
+    return new Int16Array(b);
+  }
+  else if (t instanceof UInt16) {
+    return new UInt16Array(b);
+  }
+  else if (t instanceof Int32) {
+    return new Int32Array(b);
+  }
+  else if (t instanceof UInt32) {
+    return new UInt32Array(b);
+  }
+  return new Int8Array(b);
 }
 
 export function alloc(s) {
