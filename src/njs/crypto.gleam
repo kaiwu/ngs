@@ -1,3 +1,4 @@
+import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import njs/buffer.{type ArrayBuffer, type TypedArray}
 
@@ -24,6 +25,9 @@ pub type EncryptAlgorithm {
   )
 }
 
+pub type DecryptAlgorithm =
+  EncryptAlgorithm
+
 @external(javascript, "./crypto_ffi.mjs", "get_random_values")
 pub fn get_random_values(typedarray a: TypedArray) -> TypedArray
 
@@ -31,5 +35,39 @@ pub fn get_random_values(typedarray a: TypedArray) -> TypedArray
 pub fn encrypt(
   algorithm a: EncryptAlgorithm,
   key k: CryptoKey,
+  plaintext d: ArrayBuffer,
+) -> Promise(ArrayBuffer)
+
+@external(javascript, "./crypto_ffi.mjs", "decrypt")
+pub fn decrypt(
+  algorithm a: DecryptAlgorithm,
+  key k: CryptoKey,
+  ciphertext d: ArrayBuffer,
+) -> Promise(ArrayBuffer)
+
+@external(javascript, "./crypto_ffi.mjs", "digest")
+pub fn digest(algorithm a: String, data d: ArrayBuffer) -> Promise(ArrayBuffer)
+
+@external(javascript, "./crypto_ffi.mjs", "sign")
+pub fn sign(
+  algorithm a: a,
+  key k: CryptoKey,
   data d: ArrayBuffer,
 ) -> Promise(ArrayBuffer)
+
+@external(javascript, "./crypto_ffi.mjs", "verify")
+pub fn verify(
+  algorithm a: a,
+  key k: CryptoKey,
+  signature s: ArrayBuffer,
+  data d: ArrayBuffer,
+) -> Promise(Bool)
+
+@external(javascript, "./crypto_ffi.mjs", "import")
+pub fn import_key(
+  format f: String,
+  key k: ArrayBuffer,
+  algorithm a: KeyAlgorithm,
+  extractable e: Bool,
+  usages ku: Array(String),
+) -> Promise(CryptoKey)
