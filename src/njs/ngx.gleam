@@ -1,3 +1,4 @@
+import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import gleam/json.{type Json}
 import njs/request.{type Request}
@@ -6,6 +7,8 @@ import njs/response.{type Response}
 pub type JsObject {
   JsObject
 }
+
+pub type SharedDict
 
 @external(javascript, "../ngx_ffi.mjs", "object")
 pub fn object() -> JsObject
@@ -46,3 +49,43 @@ pub fn parse_query_string(q: String) -> Json
 
 @external(javascript, "./ngx_ffi.mjs", "make_query_string")
 pub fn make_query_string(q: Json) -> String
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_add")
+pub fn shared_dict_add(
+  key k: BitArray,
+  value v: v,
+  timeout t: Int,
+) -> Result(Bool, Nil)
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_set")
+pub fn shared_dict_set(key k: BitArray, value v: v, timeout t: Int) -> Nil
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_replace")
+pub fn shared_dict_replace(key k: BitArray, value v: v) -> Result(Bool, Nil)
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_clear")
+pub fn shared_dict_clear() -> Nil
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_name")
+pub fn shared_dict_name() -> String
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_delete")
+pub fn shared_dict_delete(key k: BitArray) -> Bool
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_get")
+pub fn shared_dict_get(key k: BitArray) -> Result(BitArray, Nil)
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_has")
+pub fn shared_dict_has(key k: BitArray) -> Bool
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_items")
+pub fn shared_dict_items(max m: Int) -> Array(#(BitArray, BitArray))
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_keys")
+pub fn shared_dict_keys(max m: Int) -> Array(BitArray)
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_pop")
+pub fn shared_dict_pop(key k: BitArray) -> Result(BitArray, Nil)
+
+@external(javascript, "./ngx_ffi.mjs", "shared_dict_size")
+pub fn shared_dict_size() -> Int
