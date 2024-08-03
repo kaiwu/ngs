@@ -128,7 +128,18 @@ export function gbtoa(a) {
 }
 
 export function version() {
-  return njs.version;
+  let v = {
+    njs: njs.version,
+    build: ngx.build,
+    conf_file_path: ngx.conf_file_path,
+    error_log_path: ngx.error_log_path,
+    conf_prefix: ngx.conf_prefix,
+    prefix: ngx.prefix,
+    version: ngx.version,
+    version_number: ngx.version_number,
+    worker_id: ngx.worker_id,
+  };
+  return JSON.stringify(v);
 }
 
 export function dump(a) {
