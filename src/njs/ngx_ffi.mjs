@@ -1,5 +1,28 @@
 import { Ok, Error } from "./gleam.mjs"
 
+export function object() {
+  return {};
+}
+
+export function merge(o, k, v) {
+  return {
+    ...o,
+    [k]: v,
+  };
+}
+
+export function get(o, k) {
+  return k in o ? new Ok(o[k]) : new Error(undefined);
+}
+
+export function name(f) {
+  return f.name;
+}
+
+export function id(a) {
+  return a;
+}
+
 export function to_headers(h) {
   return new Headers(h);
 }
@@ -96,3 +119,26 @@ export function fetch(r, o) {
   return o ? ngx.fetch(r, o) : ngx.fetch(r);
 }
 
+export function gatob(a) {
+  return atob(a);
+}
+
+export function gbtoa(a) {
+  return btoa(a);
+}
+
+export function version() {
+  return njs.version;
+}
+
+export function dump(a) {
+  return njs.dump(a);
+}
+
+export parse_query_string(q) {
+  return require('querystring').parse(q);
+}
+
+export make_query_string(q) {
+  return require('querystring').stringify(q);
+}

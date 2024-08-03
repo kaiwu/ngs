@@ -1,6 +1,27 @@
 import gleam/javascript/promise.{type Promise}
+import gleam/json.{type Json}
 import njs/request.{type Request}
 import njs/response.{type Response}
+
+pub type JsObject {
+  JsObject
+}
+
+@external(javascript, "../ngx_ffi.mjs", "object")
+pub fn object() -> JsObject
+
+@external(javascript, "../ngx_ffi.mjs", "merge")
+pub fn merge(o: JsObject, k: k, v: v) -> JsObject
+
+pub fn export(o: JsObject, f: f) -> JsObject {
+  merge(o, name(f), f)
+}
+
+@external(javascript, "../ngx_ffi.mjs", "get")
+pub fn get(o: JsObject, k: k) -> Result(JsObject, Nil)
+
+@external(javascript, "../ngx_ffi.mjs", "name")
+pub fn name(a: a) -> String
 
 @external(javascript, "./ngx_ffi.mjs", "fetch")
 pub fn fetch_url(resource r: String, options o: o) -> Promise(Response)
@@ -8,8 +29,20 @@ pub fn fetch_url(resource r: String, options o: o) -> Promise(Response)
 @external(javascript, "./ngx_ffi.mjs", "fetch")
 pub fn fetch_request(resource r: Request, options o: o) -> Promise(Response)
 
-@external(javascript, "./ngx_ffi.mjs", "atob")
+@external(javascript, "./ngx_ffi.mjs", "gatob")
 pub fn atob(data d: BitArray) -> BitArray
 
-@external(javascript, "./ngx_ffi.mjs", "btoa")
+@external(javascript, "./ngx_ffi.mjs", "gbtoa")
 pub fn btoa(data d: BitArray) -> BitArray
+
+@external(javascript, "./ngx_ffi.mjs", "version")
+pub fn version() -> String
+
+@external(javascript, "./ngx_ffi.mjs", "dump")
+pub fn pretty(a: a) -> String
+
+@external(javascript, "./ngx_ffi.mjs", "parse_query_string")
+pub fn parse_query_string(q: String) -> Json
+
+@external(javascript, "./ngx_ffi.mjs", "make_query_string")
+pub fn make_query_string(q: Json) -> String
