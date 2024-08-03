@@ -29,17 +29,22 @@ pub fn decode_uri(r: HTTPRequest) -> String {
 }
 
 pub fn join(r: HTTPRequest) -> Promise(Nil) {
-  ["/foo", "/bar"]
-  |> list.map(http.subrequest(r, _, ""))
-  |> promise.await_list
-  |> promise.map(json.array(_, fn(re) {
+  let fs =
+    ["/foo", "/bar"]
+    |> list.map(http.subrequest(r, _, ""))
+    |> promise.await_list
+
+  use rs <- promise.await(fs)
+  rs
+  |> json.array(fn(re) {
     [
       #("uri", re |> http.uri |> json.string),
       #("code", re |> http.status |> json.int),
       #("body", re |> http.response_text |> json.string),
     ]
     |> json.object
-  }))
-  |> promise.map(json.to_string)
-  |> promise.map(http.return_text(r, 200, _))
+  })
+  |> json.to_string
+  |> http.return_text(r, 200, _)
+  |> promise.resolve
 }
