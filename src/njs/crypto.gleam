@@ -67,7 +67,7 @@ pub fn verify(
   data d: ArrayBuffer,
 ) -> Promise(Bool)
 
-@external(javascript, "./crypto_ffi.mjs", "import")
+@external(javascript, "./crypto_ffi.mjs", "import_key")
 pub fn import_key(
   format f: String,
   key k: ArrayBuffer,
