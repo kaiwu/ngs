@@ -66,13 +66,13 @@ fn conf_asset(apps: List(App), watch: Bool) -> List(Asset) {
       True ->
         Asset(
           src <> a.name <> "/nginx.conf",
-          dist <> a.name <> "/nginx/conf/nginx.conf",
+          dist <> a.name <> "/nginx/nginx.conf",
           copy_watch,
         )
       False ->
         Asset(
           src <> a.name <> "/nginx.conf",
-          dist <> a.name <> "/nginx/conf/nginx.conf",
+          dist <> a.name <> "/nginx/nginx.conf",
           copy_build,
         )
     }

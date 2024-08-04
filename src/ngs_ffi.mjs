@@ -1,3 +1,5 @@
+import { es5Plugin } from 'esbuild-plugin-es5';
+import path from 'path';
 import { build, context } from 'esbuild'
 import { Ok, Error } from "./gleam.mjs"
 
@@ -6,13 +8,19 @@ export function bundle_build(entry, out) {
       build({
         entryPoints: [entry],
         bundle: true,
-        minify: true,
+        minify: false,
         footer: {js : "export default app.exports()"},
-        keepNames: true,
+        // keepNames: true,
         format: 'iife',
         globalName: 'app',
         outfile: out,
-        external: ['querystring'],
+        external: ['querystring', 'crypto'],
+        plugins: [es5Plugin()], // # 1. Use esbuild-plugin-es5
+        target: ['es5'], // # 2. Set the target to es5
+        alias: {
+          // # 3. Set the alias to @swc/helpers
+          '@swc/helpers': path.dirname('@swc/helpers/package.json'),
+        }
       }).then(function(r){
         resolve(new Ok(undefined))
       }).catch(function(e){
@@ -41,12 +49,12 @@ export function bundle_watch(entry, out) {
         entryPoints: [entry],
         bundle: true,
         minify: true,
-        footer: "export default app.exports()",
+        footer: {js : "export default app.exports()"},
         keepNames: true,
         format: 'iife',
         globalName: 'app',
         outfile: out,
-        external: ['querystring'],
+        external: ['querystring', 'crypto'],
       }).then(function(ctx){
         ctx.watch()
         console.log(`watching bundle ${entry}...`)
