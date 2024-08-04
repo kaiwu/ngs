@@ -10,29 +10,29 @@ pub type RequestOption(h) {
   EmptyRequestOption(headers: h, method: String)
 }
 
-@external(javascript, "./ngx_ffi.mjs", "to_request")
+@external(javascript, "../ngx_ffi.mjs", "to_request")
 pub fn from_url(url u: String, option o: o) -> Request
 
-@external(javascript, "./ngx_ffi.mjs", "to_request")
+@external(javascript, "../ngx_ffi.mjs", "to_request")
 pub fn from_request(request r: Request, option o: o) -> Request
 
-@external(javascript, "./ngx_ffi.mjs", "request_has_body")
+@external(javascript, "../ngx_ffi.mjs", "request_has_body")
 pub fn has_body(request r: Request) -> Bool
 
-@external(javascript, "./ngx_ffi.mjs", "request_headers")
+@external(javascript, "../ngx_ffi.mjs", "request_headers")
 pub fn headers(request r: Request) -> Headers
 
-@external(javascript, "./ngx_ffi.mjs", "request_method")
+@external(javascript, "../ngx_ffi.mjs", "request_method")
 pub fn method(request r: Request) -> String
 
-@external(javascript, "./ngx_ffi.mjs", "request_url")
+@external(javascript, "../ngx_ffi.mjs", "request_url")
 pub fn url(request r: Request) -> String
 
-@external(javascript, "./ngx_ffi.mjs", "request_body_array_buffer")
+@external(javascript, "../ngx_ffi.mjs", "request_body_array_buffer")
 pub fn array_buffer(request r: Request) -> Promise(ArrayBuffer)
 
-@external(javascript, "./ngx_ffi.mjs", "request_body_json")
+@external(javascript, "../ngx_ffi.mjs", "request_body_json")
 pub fn json(request r: Request) -> Promise(Json)
 
-@external(javascript, "./ngx_ffi.mjs", "request_body_text")
+@external(javascript, "../ngx_ffi.mjs", "request_body_text")
 pub fn text(request r: Request) -> Promise(String)

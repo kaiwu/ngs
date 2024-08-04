@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "write nginx scripts (njs) with gleam",
   "scripts": {
-    "build": "gleam run -m build",
-    "watch": "NJS_BUILD_WATCH=1 gleam run -m build",
+    "build": "gleam run",
+    "watch": "NJS_BUILD_WATCH=1 gleam run",
     "purge": "gleam clean && rm -rf dist/*",
     "clean": "rm -rf dist/*"
   },

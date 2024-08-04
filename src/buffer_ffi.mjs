@@ -11,7 +11,7 @@ import {
   UInt16,
   Int32,
   UInt32,
-} from "./buffer.mjs";
+} from "./njs/buffer.mjs";
 
 function encoding(e) {
   if (e instanceof Hex) {
