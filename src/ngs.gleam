@@ -35,17 +35,48 @@ type Asset {
   Asset(src: String, dist: String, builder: Builder)
 }
 
-const entry = "./build/dev/javascript/ngs/app/misc.mjs"
+type App {
+  App(name: String, entry: String)
+}
 
-const dist = "./dist/nginx/"
+fn apps() -> List(App) {
+  [App("app", "./build/dev/javascript/ngs/app.mjs")]
+}
 
-// const src = "./src/"
+const dist = "./dist/"
 
-fn bundle_asset(watch: Bool) -> List(Asset) {
-  case watch {
-    True -> [Asset(entry, dist <> "njs/app.js", bundle_watch)]
-    False -> [Asset(entry, dist <> "njs/app.js", bundle_build)]
-  }
+const src = "./src/"
+
+fn bundle_asset(apps: List(App), watch: Bool) -> List(Asset) {
+  apps
+  |> list.map(fn(a) {
+    case watch {
+      True ->
+        Asset(a.entry, dist <> a.name <> "/nginx/njs/app.js", bundle_watch)
+      False ->
+        Asset(a.entry, dist <> a.name <> "/nginx/njs/app.js", bundle_build)
+    }
+  })
+}
+
+fn conf_asset(apps: List(App), watch: Bool) -> List(Asset) {
+  apps
+  |> list.map(fn(a) {
+    case watch {
+      True ->
+        Asset(
+          src <> a.name <> "/nginx.conf",
+          dist <> a.name <> "/nginx/conf/nginx.conf",
+          copy_watch,
+        )
+      False ->
+        Asset(
+          src <> a.name <> "/nginx.conf",
+          dist <> a.name <> "/nginx/conf/nginx.conf",
+          copy_build,
+        )
+    }
+  })
 }
 
 fn fold_result(
@@ -75,9 +106,10 @@ pub fn main() {
     envoy.get("NJS_BUILD_WATCH")
     |> result.is_ok
 
-  use r0 <- promise.await(bundle_asset(watch) |> build)
+  use r0 <- promise.await(apps() |> bundle_asset(watch) |> build)
+  use r1 <- promise.await(apps() |> conf_asset(watch) |> build)
 
-  [r0]
+  [r0, r1]
   |> list.fold(Ok(Nil), fold_result)
   |> result.map_error(fn(e) { io.println_error(e) })
   |> promise.resolve
