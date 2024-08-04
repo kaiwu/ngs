@@ -3,8 +3,8 @@ import njs/ngx.{type JsObject}
 
 pub fn exports() -> JsObject {
   ngx.object()
-  |> ngx.export(misc.version)
-  |> ngx.export(misc.decode_uri)
-  |> ngx.export(misc.hello)
-  |> ngx.export(misc.join)
+  |> ngx.merge("version", misc.version)
+  |> ngx.merge("decode_uri", misc.decode_uri)
+  |> ngx.merge("hello", misc.hello)
+  |> ngx.merge("join", misc.join)
 }
