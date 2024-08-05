@@ -6,8 +6,8 @@ import gleam/dynamic
 import gleam/javascript/array
 import gleam/javascript/promise.{type Promise}
 import gleam/json
-import gleam/string
 import gleam/result
+import gleam/string
 import njs/http.{type HTTPRequest}
 import njs/ngx
 
@@ -17,15 +17,17 @@ pub fn version(r: HTTPRequest) -> Nil {
 }
 
 pub fn hello(r: HTTPRequest) -> Nil {
-  let l = [True, False, False]
-          |> ngx.make_array
-          |> array.map(fn(x) {
-            case x {
-              True -> "1"
-              False -> "0"
-            }})
-          |> array.to_list
-          |> string.concat
+  let l =
+    [True, False, False]
+    |> ngx.make_array
+    |> array.map(fn(x) {
+      case x {
+        True -> "1"
+        False -> "0"
+      }
+    })
+    |> array.to_list
+    |> string.concat
   r
   |> http.return_text(200, l)
 }
@@ -61,9 +63,9 @@ pub fn join(r: HTTPRequest) -> Promise(Nil) {
   })
   |> ngx.to_json
   |> fn(b) {
-      http.set_headers_out(r, "Content-Type", "application/json")
-      b
-    }
+    http.set_headers_out(r, "Content-Type", "application/json")
+    b
+  }
   |> json.to_string
   |> http.return_text(r, 200, _)
   |> promise.resolve
