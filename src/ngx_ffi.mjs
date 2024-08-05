@@ -11,6 +11,11 @@ export function merge(o, k, v) {
   };
 }
 
+export function append(ar, a) {
+  ar.push(a);
+  return ar;
+}
+
 export function get(o, k) {
   return k in o ? new Ok(o[k]) : new Error(undefined);
 }

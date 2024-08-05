@@ -1,6 +1,7 @@
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import gleam/json.{type Json}
+import gleam/list
 import njs/request.{type Request}
 import njs/response.{type Response}
 
@@ -18,6 +19,17 @@ pub fn merge(o: JsObject, k: k, v: v) -> JsObject
 
 pub fn export(o: JsObject, f: f) -> JsObject {
   merge(o, name(f), f)
+}
+
+@external(javascript, "../ngx_ffi.mjs", "append")
+pub fn append(ar: Array(a), a: a) -> Array(a)
+
+@external(javascript, "../ngx_ffi.mjs", "id")
+pub fn to_json(a: a) -> Json
+
+pub fn make_array(ls: List(a)) -> Array(a) {
+  ls
+  |> list.fold(array.from_list([]), fn(a, x) { append(a, x) })
 }
 
 @external(javascript, "../ngx_ffi.mjs", "get")
