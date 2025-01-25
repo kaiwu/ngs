@@ -3,6 +3,7 @@
 ////
 
 import gleam/dynamic
+import gleam/dynamic/decode
 import gleam/javascript/array
 import gleam/javascript/promise.{type Promise}
 import gleam/json
@@ -33,10 +34,14 @@ pub fn hello(r: HTTPRequest) -> Nil {
 }
 
 pub fn decode_uri(r: HTTPRequest) -> String {
+  let decoder = {
+    use value <- decode.field("foo", decode.string)
+    decode.success(value)
+  }
   r
   |> http.args
   |> dynamic.from
-  |> dynamic.field("foo", dynamic.string)
+  |> decode.run(decoder)
   |> result.unwrap("")
 }
 
