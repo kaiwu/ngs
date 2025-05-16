@@ -2,7 +2,6 @@
 //// https://github.com/nginx/njs-examples
 ////
 
-import gleam/dynamic
 import gleam/dynamic/decode
 import gleam/javascript/array
 import gleam/javascript/promise.{type Promise}
@@ -40,8 +39,7 @@ pub fn decode_uri(r: HTTPRequest) -> String {
   }
   r
   |> http.args
-  |> dynamic.from
-  |> decode.run(decoder)
+  |> json.parse(decoder)
   |> result.unwrap("")
 }
 

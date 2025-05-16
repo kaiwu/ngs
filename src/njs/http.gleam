@@ -1,6 +1,6 @@
+import gleam/dict.{type Dict}
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
-import gleam/json.{type Json}
 import njs/buffer.{type Buffer}
 
 pub type HTTPRequest
@@ -12,10 +12,10 @@ pub type HTTPResponse =
   HTTPRequest
 
 @external(javascript, "../http_ffi.mjs", "http_args")
-pub fn args(request r: HTTPRequest) -> Json
+pub fn args(request r: HTTPRequest) -> String
 
 @external(javascript, "../http_ffi.mjs", "http_get_variables")
-pub fn get_variables(request r: HTTPRequest) -> Json
+pub fn get_variables(request r: HTTPRequest) -> Dict(String, String)
 
 @external(javascript, "../http_ffi.mjs", "http_get_raw_variables")
 pub fn get_raw_variables(request r: HTTPRequest) -> Buffer
@@ -37,13 +37,13 @@ pub fn error(request r: HTTPRequest, message m: String) -> HTTPRequest
 pub fn finish(request r: HTTPRequest) -> Nil
 
 @external(javascript, "../http_ffi.mjs", "http_headers_in")
-pub fn headers_in(request r: HTTPRequest) -> Json
+pub fn headers_in(request r: HTTPRequest) -> Dict(String, String)
 
 @external(javascript, "../http_ffi.mjs", "http_raw_headers_in")
 pub fn raw_headers_in(request r: HTTPRequest) -> Array(#(String, String))
 
 @external(javascript, "../http_ffi.mjs", "http_get_headers_out")
-pub fn get_headers_out(request r: HTTPRequest) -> Json
+pub fn get_headers_out(request r: HTTPRequest) -> Dict(String, String)
 
 @external(javascript, "../http_ffi.mjs", "http_get_raw_headers_out")
 pub fn get_raw_headers_out(request r: HTTPRequest) -> Array(#(String, String))
