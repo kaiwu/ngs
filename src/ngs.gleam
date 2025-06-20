@@ -12,7 +12,7 @@ pub fn bundle_build(
 
 @external(javascript, "./ngs_ffi.mjs", "copy_build")
 pub fn copy_build(
-  sql f: String,
+  conf f: String,
   outfile o: String,
 ) -> Promise(Result(Nil, String))
 
@@ -24,7 +24,7 @@ pub fn bundle_watch(
 
 @external(javascript, "./ngs_ffi.mjs", "copy_watch")
 pub fn copy_watch(
-  sql f: String,
+  conf f: String,
   outfile o: String,
 ) -> Promise(Result(Nil, String))
 
