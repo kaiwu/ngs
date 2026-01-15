@@ -40,7 +40,7 @@ type App {
 }
 
 fn apps() -> List(App) {
-  [App("misc", "./build/dev/javascript/ngs/apps/misc/misc.mjs")]
+  [App("hello", "./build/dev/javascript/ngs/apps/hello/hello.mjs")]
 }
 
 const dist = "./dist/"
