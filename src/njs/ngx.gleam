@@ -27,6 +27,9 @@ pub fn append(ar: Array(a), a: a) -> Array(a)
 @external(javascript, "../ngx_ffi.mjs", "id")
 pub fn to_json(a: a) -> Json
 
+@external(javascript, "../ngx_ffi.mjs", "make_string")
+pub fn to_string(a: a) -> String
+
 pub fn make_array(ls: List(a)) -> Array(a) {
   ls
   |> list.fold(array.from_list([]), fn(a, x) { append(a, x) })
@@ -49,6 +52,15 @@ pub fn atob(data d: BitArray) -> BitArray
 
 @external(javascript, "../ngx_ffi.mjs", "gbtoa")
 pub fn btoa(data d: BitArray) -> BitArray
+
+pub type LogLevel {
+  Info
+  Warn
+  Err
+}
+
+@external(javascript, "../ngx_ffi.mjs", "ngx_log")
+pub fn ngx_log(level: LogLevel, message: a) -> Nil
 
 @external(javascript, "../ngx_ffi.mjs", "version")
 pub fn version() -> String

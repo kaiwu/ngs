@@ -39,6 +39,7 @@ pub fn decode_uri(r: HTTPRequest) -> String {
   }
   r
   |> http.args
+  |> ngx.to_string
   |> json.parse(decoder)
   |> result.unwrap("")
 }

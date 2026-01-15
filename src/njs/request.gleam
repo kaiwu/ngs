@@ -36,3 +36,12 @@ pub fn json(request r: Request) -> Promise(Json)
 
 @external(javascript, "../ngx_ffi.mjs", "request_body_text")
 pub fn text(request r: Request) -> Promise(String)
+
+@external(javascript, "../ngx_ffi.mjs", "request_cache")
+pub fn cache(request r: Request) -> String
+
+@external(javascript, "../ngx_ffi.mjs", "request_credentials")
+pub fn credentials(request r: Request) -> String
+
+@external(javascript, "../ngx_ffi.mjs", "request_mode")
+pub fn mode(request r: Request) -> String

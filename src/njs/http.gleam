@@ -2,6 +2,7 @@ import gleam/dict.{type Dict}
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import njs/buffer.{type Buffer}
+import njs/ngx.{type JsObject}
 
 pub type HTTPRequest
 
@@ -12,7 +13,7 @@ pub type HTTPResponse =
   HTTPRequest
 
 @external(javascript, "../http_ffi.mjs", "http_args")
-pub fn args(request r: HTTPRequest) -> String
+pub fn args(request r: HTTPRequest) -> JsObject
 
 @external(javascript, "../http_ffi.mjs", "http_get_variables")
 pub fn get_variables(request r: HTTPRequest) -> Dict(String, String)
@@ -113,6 +114,9 @@ pub fn send_buffer(
 
 @external(javascript, "../http_ffi.mjs", "http_send_header")
 pub fn send_header(request r: HTTPRequest) -> HTTPRequest
+
+@external(javascript, "../http_ffi.mjs", "http_set_return_value")
+pub fn set_return_value(request r: HTTPRequest, value v: a) -> Nil
 
 @external(javascript, "../http_ffi.mjs", "http_status")
 pub fn status(request r: HTTPRequest) -> Int

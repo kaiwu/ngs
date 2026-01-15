@@ -47,3 +47,6 @@ pub fn is_ok(response r: Response) -> Bool
 
 @external(javascript, "../ngx_ffi.mjs", "response_is_redirected")
 pub fn is_redirected(response r: Response) -> Bool
+
+@external(javascript, "../ngx_ffi.mjs", "response_type")
+pub fn type_prop(response r: Response) -> String

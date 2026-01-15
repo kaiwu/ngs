@@ -58,6 +58,10 @@ export function alloc(s) {
   return Buffer.alloc(s);
 }
 
+export function alloc_unsafe(s) {
+  return Buffer.allocUnsafe(s);
+}
+
 export function compare(b1, b2) {
   return Buffer.compare(b1, b2);
 }
@@ -80,6 +84,23 @@ export function from_buffer(b) {
 
 export function from_string(s, e) {
   return Buffer.from(s, encoding(e));
+}
+
+export function is_buffer(obj) {
+  return Buffer.isBuffer(obj);
+}
+
+export function is_encoding(e) {
+  if (e instanceof Utf8) {
+    return Buffer.isEncoding('utf8');
+  } else if (e instanceof Hex) {
+    return Buffer.isEncoding('hex');
+  } else if (e instanceof Base64) {
+    return Buffer.isEncoding('base64');
+  } else if (e instanceof Base64Url) {
+    return Buffer.isEncoding('base64url');
+  }
+  return false;
 }
 
 export function get_buffer(b) {
@@ -146,6 +167,191 @@ export function slice(b, o, e) {
 
 export function to_string(b, e, f, t) {
   return b.toString(encoding(e), f, t);
+}
+
+export function to_json(b) {
+  return b.toJSON();
+}
+
+export function subarray(b, s, e) {
+  return b.subarray(s, e);
+}
+
+export function swap16(b) {
+  b.swap16();
+  return b;
+}
+
+export function swap32(b) {
+  b.swap32();
+  return b;
+}
+
+export function swap64(b) {
+  b.swap64();
+  return b;
+}
+
+export function read_int8(b, o) {
+  return b.readInt8(o);
+}
+
+export function read_int16_be(b, o) {
+  return b.readInt16BE(o);
+}
+
+export function read_int16_le(b, o) {
+  return b.readInt16LE(o);
+}
+
+export function read_int32_be(b, o) {
+  return b.readInt32BE(o);
+}
+
+export function read_int32_le(b, o) {
+  return b.readInt32LE(o);
+}
+
+export function read_int_be(b, o, l) {
+  return b.readIntBE(o, l);
+}
+
+export function read_int_le(b, o, l) {
+  return b.readIntLE(o, l);
+}
+
+export function read_uint8(b, o) {
+  return b.readUInt8(o);
+}
+
+export function read_uint16_be(b, o) {
+  return b.readUInt16BE(o);
+}
+
+export function read_uint16_le(b, o) {
+  return b.readUInt16LE(o);
+}
+
+export function read_uint32_be(b, o) {
+  return b.readUInt32BE(o);
+}
+
+export function read_uint32_le(b, o) {
+  return b.readUInt32LE(o);
+}
+
+export function read_uint_be(b, o, l) {
+  return b.readUIntBE(o, l);
+}
+
+export function read_uint_le(b, o, l) {
+  return b.readUIntLE(o, l);
+}
+
+export function read_float_be(b, o) {
+  return b.readFloatBE(o);
+}
+
+export function read_float_le(b, o) {
+  return b.readFloatLE(o);
+}
+
+export function read_double_be(b, o) {
+  return b.readDoubleBE(o);
+}
+
+export function read_double_le(b, o) {
+  return b.readDoubleLE(o);
+}
+
+export function write_int8(b, v, o) {
+  b.writeInt8(v, o);
+  return b;
+}
+
+export function write_int16_be(b, v, o) {
+  b.writeInt16BE(v, o);
+  return b;
+}
+
+export function write_int16_le(b, v, o) {
+  b.writeInt16LE(v, o);
+  return b;
+}
+
+export function write_int32_be(b, v, o) {
+  b.writeInt32BE(v, o);
+  return b;
+}
+
+export function write_int32_le(b, v, o) {
+  b.writeInt32LE(v, o);
+  return b;
+}
+
+export function write_int_be(b, v, o, l) {
+  b.writeIntBE(v, o, l);
+  return b;
+}
+
+export function write_int_le(b, v, o, l) {
+  b.writeIntLE(v, o, l);
+  return b;
+}
+
+export function write_uint8(b, v, o) {
+  b.writeUInt8(v, o);
+  return b;
+}
+
+export function write_uint16_be(b, v, o) {
+  b.writeUInt16BE(v, o);
+  return b;
+}
+
+export function write_uint16_le(b, v, o) {
+  b.writeUInt16LE(v, o);
+  return b;
+}
+
+export function write_uint32_be(b, v, o) {
+  b.writeUInt32BE(v, o);
+  return b;
+}
+
+export function write_uint32_le(b, v, o) {
+  b.writeUInt32LE(v, o);
+  return b;
+}
+
+export function write_uint_be(b, v, o, l) {
+  b.writeUIntBE(v, o, l);
+  return b;
+}
+
+export function write_uint_le(b, v, o, l) {
+  b.writeUIntLE(v, o, l);
+  return b;
+}
+
+export function write_float_be(b, v, o) {
+  b.writeFloatBE(v, o);
+  return b;
+}
+
+export function write_float_le(b, v, o) {
+  b.writeFloatLE(v, o);
+  return b;
+}
+
+export function write_double_be(b, v, o) {
+  b.writeDoubleBE(v, o);
+  return b;
+}
+
+export function write_double_le(b, v, o) {
+  b.writeDoubleLE(v, o);
+  return b;
 }
 
 export function write(b, ba, e, o, l) {

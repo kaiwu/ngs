@@ -1,5 +1,6 @@
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
+import gleam/json.{type Json}
 import njs/buffer.{type ArrayBuffer, type Encoding, type TypedArray}
 
 pub type Hmac
@@ -7,6 +8,13 @@ pub type Hmac
 pub type Hash
 
 pub type CryptoKey
+
+pub type CryptoKeyPair
+
+pub type KeyData {
+  KeyData(d: Json)
+  KeyArrayData(d: ArrayBuffer)
+}
 
 pub type KeyAlgorithm {
   /// RSA-OAEP
@@ -76,11 +84,40 @@ pub fn import_key(
   usages ku: Array(String),
 ) -> Promise(CryptoKey)
 
+@external(javascript, "../crypto_ffi.mjs", "export_key")
+pub fn export_key(format f: String, key k: CryptoKey) -> Promise(KeyData)
+
+@external(javascript, "../crypto_ffi.mjs", "generate_key")
+pub fn generate_key(
+  algorithm a: KeyAlgorithm,
+  extractable e: Bool,
+  usages ku: Array(String),
+) -> Promise(CryptoKeyPair)
+
+@external(javascript, "../crypto_ffi.mjs", "derive_bits")
+pub fn derive_bits(
+  algorithm a: a,
+  base_key k: CryptoKey,
+  length l: Int,
+) -> Promise(ArrayBuffer)
+
+@external(javascript, "../crypto_ffi.mjs", "derive_key")
+pub fn derive_key(
+  algorithm a: a,
+  base_key k: CryptoKey,
+  derived_key_algorithm dka: KeyAlgorithm,
+  extractable e: Bool,
+  key_usages ku: Array(String),
+) -> Promise(CryptoKey)
+
 @external(javascript, "../crypto_ffi.mjs", "create_hash")
 pub fn create_hash(algorithm a: String) -> Hash
 
 @external(javascript, "../crypto_ffi.mjs", "hash_update")
 pub fn hash_update(hash h: Hash, data d: BitArray) -> Hash
+
+@external(javascript, "../crypto_ffi.mjs", "hash_copy")
+pub fn hash_copy(hash h: Hash) -> Hash
 
 @external(javascript, "../crypto_ffi.mjs", "hash_digest")
 pub fn hash_digest(hash h: Hash, encoding e: Encoding) -> String
