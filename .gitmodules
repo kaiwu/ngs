@@ -1,0 +1,6 @@
+[submodule "submodules/njs"]
+	path = submodules/njs
+	url = https://github.com/nginx/njs.git
+[submodule "submodules/nginx"]
+	path = submodules/nginx
+	url = https://github.com/nginx/nginx.git
