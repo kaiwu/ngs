@@ -9,14 +9,14 @@ import gleam/json
 import gleam/result
 import gleam/string
 import njs/http.{type HTTPRequest}
-import njs/ngx
+import njs/ngx.{type JsObject}
 
-pub fn version(r: HTTPRequest) -> Nil {
+fn version(r: HTTPRequest) -> Nil {
   r
   |> http.return_text(200, ngx.version())
 }
 
-pub fn hello(r: HTTPRequest) -> Nil {
+fn hello(r: HTTPRequest) -> Nil {
   let l =
     [True, False, False]
     |> ngx.make_array
@@ -32,7 +32,7 @@ pub fn hello(r: HTTPRequest) -> Nil {
   |> http.return_text(200, l)
 }
 
-pub fn decode_uri(r: HTTPRequest) -> String {
+fn decode_uri(r: HTTPRequest) -> String {
   let decoder = {
     use value <- decode.field("foo", decode.string)
     decode.success(value)
@@ -44,7 +44,7 @@ pub fn decode_uri(r: HTTPRequest) -> String {
   |> result.unwrap("")
 }
 
-pub fn join(r: HTTPRequest) -> Promise(Nil) {
+fn join(r: HTTPRequest) -> Promise(Nil) {
   let fs =
     ["/foo", "/bar"]
     |> ngx.make_array
@@ -73,4 +73,12 @@ pub fn join(r: HTTPRequest) -> Promise(Nil) {
   |> json.to_string
   |> http.return_text(r, 200, _)
   |> promise.resolve
+}
+
+pub fn exports() -> JsObject {
+  ngx.object()
+  |> ngx.merge("version", version)
+  |> ngx.merge("decode_uri", decode_uri)
+  |> ngx.merge("hello", hello)
+  |> ngx.merge("join", join)
 }

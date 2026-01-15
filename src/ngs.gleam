@@ -40,7 +40,7 @@ type App {
 }
 
 fn apps() -> List(App) {
-  [App("app", "./build/dev/javascript/ngs/app.mjs")]
+  [App("misc", "./build/dev/javascript/ngs/apps/misc/misc.mjs")]
 }
 
 const dist = "./dist/"
@@ -51,10 +51,8 @@ fn bundle_asset(apps: List(App), watch: Bool) -> List(Asset) {
   apps
   |> list.map(fn(a) {
     case watch {
-      True ->
-        Asset(a.entry, dist <> a.name <> "/nginx/njs/app.js", bundle_watch)
-      False ->
-        Asset(a.entry, dist <> a.name <> "/nginx/njs/app.js", bundle_build)
+      True -> Asset(a.entry, dist <> a.name <> "/njs/app.js", bundle_watch)
+      False -> Asset(a.entry, dist <> a.name <> "/njs/app.js", bundle_build)
     }
   })
 }
@@ -65,14 +63,14 @@ fn conf_asset(apps: List(App), watch: Bool) -> List(Asset) {
     case watch {
       True ->
         Asset(
-          src <> a.name <> "/nginx.conf",
-          dist <> a.name <> "/nginx/nginx.conf",
+          src <> "apps/" <> a.name <> "/nginx.conf",
+          dist <> a.name <> "/nginx.conf",
           copy_watch,
         )
       False ->
         Asset(
-          src <> a.name <> "/nginx.conf",
-          dist <> a.name <> "/nginx/nginx.conf",
+          src <> "apps/" <> a.name <> "/nginx.conf",
+          dist <> a.name <> "/nginx.conf",
           copy_build,
         )
     }
