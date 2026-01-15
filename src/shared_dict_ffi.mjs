@@ -10,7 +10,7 @@ export function clear(d) {
   d.clear();
 }
 
-export function delete(d, k) {
+export function shared_dict_delete(d, k) {
   return d.delete(k);
 }
 

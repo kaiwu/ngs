@@ -6,7 +6,7 @@ pub type EncodeIntoResult {
   EncodeIntoResult(read: Int, written: Int)
 }
 
-@external(javascript, "../text_encoder_ffi.mjs", "new")
+@external(javascript, "../text_encoder_ffi.mjs", "text_encoder_new")
 pub fn new() -> TextEncoder
 
 @external(javascript, "../text_encoder_ffi.mjs", "encode")

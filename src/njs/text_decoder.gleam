@@ -10,7 +10,7 @@ pub type TextDecodeOptions {
   TextDecodeOptions(stream: Bool)
 }
 
-@external(javascript, "../text_decoder_ffi.mjs", "new")
+@external(javascript, "../text_decoder_ffi.mjs", "text_decoder_new")
 pub fn new(encoding: String, options: o) -> TextDecoder
 
 @external(javascript, "../text_decoder_ffi.mjs", "encoding")

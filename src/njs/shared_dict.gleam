@@ -13,7 +13,7 @@ pub fn capacity(dict: SharedDict) -> Int
 @external(javascript, "../shared_dict_ffi.mjs", "clear")
 pub fn clear(dict: SharedDict) -> Nil
 
-@external(javascript, "../shared_dict_ffi.mjs", "delete")
+@external(javascript, "../shared_dict_ffi.mjs", "shared_dict_delete")
 pub fn delete(dict: SharedDict, key: String) -> Bool
 
 @external(javascript, "../shared_dict_ffi.mjs", "free_space")

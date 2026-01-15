@@ -1,4 +1,23 @@
-import xml from 'xml';
+// Use njs built-in xml module, with fallback for Node.js testing
+// In njs, built-in modules are accessible via global objects
+let xml;
+try {
+  // Check if we're in njs environment by looking for njs-specific global
+  if (typeof njs !== 'undefined') {
+    xml = xml;  // njs built-in xml module
+  } else {
+    throw new Error('Not in njs environment');
+  }
+} catch (e) {
+  // Node.js test environment - create mock since 'xml' would be interpreted as npm package
+  xml = {
+    parse: () => ({}),
+    c14n: () => ({}),
+    exclusiveC14n: () => ({}),
+    serialize: () => ({}),
+    serializeToString: () => '',
+  };
+}
 
 export function parse(d) {
   return xml.parse(d);

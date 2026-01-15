@@ -28,6 +28,10 @@ export function id(a) {
   return a;
 }
 
+export function make_string(a) {
+  return JSON.stringify(a);
+}
+
 export function to_headers(h) {
   return new Headers(h);
 }
@@ -62,6 +66,18 @@ export function request_body_json(r) {
 
 export function request_body_text(r) {
   return r.text();
+}
+
+export function request_cache(r) {
+  return r.cache;
+}
+
+export function request_credentials(r) {
+  return r.credentials;
+}
+
+export function request_mode(r) {
+  return r.mode;
 }
 
 function option(o) {
@@ -120,6 +136,10 @@ export function response_body_text(r) {
   return r.text();
 }
 
+export function response_type(r) {
+  return r.type;
+}
+
 export function fetch(r, o) {
   return o ? ngx.fetch(r, o) : ngx.fetch(r);
 }
@@ -149,6 +169,20 @@ export function version() {
 
 export function dump(a) {
   return njs.dump(a);
+}
+
+export function ngx_log(level, message) {
+  switch (level) {
+    case 0: // Info
+      console.log(message);
+      break;
+    case 1: // Warn
+      console.warn(message);
+      break;
+    case 2: // Err
+      console.error(message);
+      break;
+  }
 }
 
 export function parse_query_string(q) {
@@ -231,3 +265,30 @@ export function shared_dict_size() {
   return ngx.shared.SharedDict.size();
 }
 
+export function headers_append(headers, name, value) {
+  return headers.append(name, value);
+}
+
+export function headers_delete(headers, name) {
+  return headers.delete(name);
+}
+
+export function headers_get(headers, name) {
+  return headers.get(name);
+}
+
+export function headers_get_all(headers, name) {
+  return headers.getAll(name);
+}
+
+export function headers_for_each(headers, callback) {
+  return headers.forEach(callback);
+}
+
+export function headers_has(headers, name) {
+  return headers.has(name);
+}
+
+export function headers_set(headers, name, value) {
+  return headers.set(name, value);
+}

@@ -1,4 +1,4 @@
-export function new(enc, o) {
+export function text_decoder_new(enc, o) {
   return o ? new TextDecoder(enc, o) : new TextDecoder(enc);
 }
 

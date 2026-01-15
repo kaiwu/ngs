@@ -1,4 +1,4 @@
-export function new() {
+export function text_encoder_new() {
   return new TextEncoder();
 }
 

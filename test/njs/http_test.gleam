@@ -1,0 +1,39 @@
+import njs/http
+
+pub fn module_test() {
+  let _ = http.args
+  let _ = http.get_variables
+  let _ = http.get_raw_variables
+  let _ = http.set_variables
+  let _ = http.done
+  let _ = http.error
+  let _ = http.finish
+  let _ = http.headers_in
+  let _ = http.raw_headers_in
+  let _ = http.get_headers_out
+  let _ = http.get_raw_headers_out
+  let _ = http.set_headers_out
+  let _ = http.version
+  let _ = http.is_internal
+  let _ = http.internal_redirect
+  let _ = http.log
+  let _ = http.method
+  let _ = http.parent
+  let _ = http.remote_address
+  let _ = http.request_buffer
+  let _ = http.request_text
+  let _ = http.response_buffer
+  let _ = http.response_text
+  let _ = http.return_text
+  let _ = http.return_buffer
+  let _ = http.return_code
+  let _ = http.send_text
+  let _ = http.send_buffer
+  let _ = http.send_header
+  let _ = http.set_return_value
+  let _ = http.status
+  let _ = http.set_status
+  let _ = http.subrequest
+  let _ = http.uri
+  let _ = http.warn
+}

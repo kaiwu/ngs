@@ -145,4 +145,7 @@ export function http_warn(r, m) {
   return r;
 }
 
+export function http_set_return_value(r, v) {
+  r.setReturnValue(v);
+}
 
