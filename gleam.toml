@@ -9,7 +9,7 @@ description = "Offload weight to nginx, implement HTTP server with gleam binding
 licences = ["Apache-2.0"]
 repository = { type = "github", user = "kaiwu", repo = "ngs" }
 links = [{ title = "njs", href = "http://nginx.org/en/docs/njs/index.html" }]
-gleam = ">= 1.9.0"
+gleam = ">= 1.14.0"
 #
 # For a full reference of all the available options, you can have a look at
 # https://gleam.run/writing-gleam/gleam-toml/.
