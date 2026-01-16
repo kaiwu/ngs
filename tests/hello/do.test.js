@@ -3,7 +3,7 @@ import { startNginx, stopNginx, cleanupRuntime, TEST_URL } from "../harness.js";
 
 const MODULE = "http_hello";
 
-describe("hello module", () => {
+describe("http hello", () => {
   beforeAll(async () => {
     await startNginx(`dist/${MODULE}/nginx.conf`, MODULE);
   });

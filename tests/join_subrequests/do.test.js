@@ -3,7 +3,7 @@ import { startNginx, stopNginx, cleanupRuntime, TEST_URL } from "../harness.js";
 
 const MODULE = "http_join_subrequests";
 
-describe("join subrequests", () => {
+describe("http join subrequests", () => {
     beforeAll(async () => {
         await startNginx(`dist/${MODULE}/nginx.conf`, MODULE);
     });
