@@ -6,25 +6,18 @@ NGS provides Gleam bindings for nginx's njs (JavaScript) runtime. It enables wri
 
 ## CRITICAL: njs Runtime (NOT Node.js!)
 
-**njs uses the QuickJS engine, NOT Node.js.** While APIs look similar, they are NOT the same.
+**njs uses the QuickJS engine, NOT (exactly) njs, NOT (at all) Node.js.** While APIs look similar, they are NOT the same.
 
 - **Official njs Reference**: https://nginx.org/en/docs/njs/reference.html
-- **njs Compatibility**: https://nginx.org/en/docs/njs/compatibility.html
+- **njs Compatibility to js**: https://nginx.org/en/docs/njs/compatibility.html
+- **qjs QuickJS Compatibility to njs**: https://nginx.org/en/docs/njs/engine.html
 
 ### Key Differences from Node.js
 
 1. **No npm packages** - Only built-in njs modules available
-2. **Built-in modules use `require()`**:
-   - `require('crypto')` - Node-style crypto (createHash, createHmac)
-   - `require('fs')` - File system operations
-   - `require('querystring')` - Query string parsing
-   - `require('buffer')` - Buffer operations
-   - `require('xml')` - XML parsing (njs-specific)
-   - `require('zlib')` - Compression
-
-3. **Web Crypto API available**: `crypto.subtle.*` for modern crypto
-4. **Global objects**: `ngx`, `njs`, `console`, `crypto`
-5. **No event loop** - Promises work, but no `setImmediate`, limited `setTimeout`
+2. **Web Crypto API available**: `crypto.subtle.*` for modern crypto
+3. **Global objects**: `ngx`, `njs`, `console`, `crypto`
+4. **No event loop** - Promises work, but no `setImmediate`, limited `setTimeout`
 
 ### njs Crypto APIs
 
@@ -85,6 +78,10 @@ tests/
 - `npm run watch` - Watch mode with live reload
 - Apps are registered in `src/ngs.gleam` in the `apps()` function
 - Output goes to `dist/<app_name>/` with `nginx.conf` and `njs/app.js`
+
+## Gleam test
+
+Run `gleam test` before Integration Test with Bun. If it fails, fix it or stop
 
 ## Test Harness
 

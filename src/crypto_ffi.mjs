@@ -1,8 +1,5 @@
 import { Ok, Error } from "./gleam.mjs"
 
-// njs uses require() for built-in modules, not ES imports
-const crypto = require('crypto');
-
 import {
   Utf8,
   Hex,
