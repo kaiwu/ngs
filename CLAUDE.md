@@ -25,7 +25,6 @@ Two crypto APIs available (both work, choose based on need):
 
 ```javascript
 // Node-style (synchronous, simpler)
-const crypto = require('crypto');
 crypto.createHmac('sha256', secret).update(data).digest('base64url');
 crypto.createHash('sha256').update(data).digest('hex');
 
