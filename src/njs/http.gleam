@@ -43,6 +43,12 @@ pub fn headers_in(request r: HTTPRequest) -> Dict(String, String)
 @external(javascript, "../http_ffi.mjs", "http_raw_headers_in")
 pub fn raw_headers_in(request r: HTTPRequest) -> Array(#(String, String))
 
+@external(javascript, "../http_ffi.mjs", "http_get_header_in")
+pub fn get_header_in(
+  request r: HTTPRequest,
+  name n: String,
+) -> Result(String, Nil)
+
 @external(javascript, "../http_ffi.mjs", "http_get_headers_out")
 pub fn get_headers_out(request r: HTTPRequest) -> Dict(String, String)
 

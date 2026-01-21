@@ -38,6 +38,15 @@ export function http_raw_headers_in(r) {
   return r.rawHeadersIn;
 }
 
+export function http_get_header_in(r, name) {
+  let v = r.headersIn[name];
+  if (v) {
+    return new Ok(v);
+  } else {
+    return new Error(undefined);
+  }
+}
+
 export function http_get_headers_out(r) {
   return r.headersOut;
 }

@@ -53,6 +53,12 @@ pub fn atob(data d: BitArray) -> BitArray
 @external(javascript, "../ngx_ffi.mjs", "gbtoa")
 pub fn btoa(data d: BitArray) -> BitArray
 
+@external(javascript, "../ngx_ffi.mjs", "base64url_decode")
+pub fn base64url_decode(data d: String) -> String
+
+@external(javascript, "../ngx_ffi.mjs", "base64url_encode")
+pub fn base64url_encode(data d: String) -> String
+
 pub type LogLevel {
   Info
   Warn

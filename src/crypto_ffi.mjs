@@ -1,5 +1,27 @@
 import { Ok, Error } from "./gleam.mjs"
-import crypto from 'crypto';
+
+// njs uses require() for built-in modules, not ES imports
+const crypto = require('crypto');
+
+import {
+  Utf8,
+  Hex,
+  Base64,
+  Base64Url,
+} from "./njs/buffer.mjs";
+
+function encoding(e) {
+  if (e instanceof Hex) {
+    return 'hex';
+  }
+  else if (e instanceof Base64) {
+    return 'base64';
+  }
+  else if (e instanceof Base64Url) {
+    return 'base64url';
+  }
+  return 'utf8';
+}
 
 export function get_random_values(a) {
     return crypto.getRandomValues(a);
@@ -79,7 +101,7 @@ export function hash_copy(h) {
 }
 
 export function hash_digest(h, e) {
-    return h.digest(e);
+    return h.digest(encoding(e));
 }
 
 export function create_hmac(a, k) {
@@ -92,6 +114,6 @@ export function hmac_update(h, d) {
 }
 
 export function hmac_digest(h, e) {
-    return h.digest(e);
+    return h.digest(encoding(e));
 }
 

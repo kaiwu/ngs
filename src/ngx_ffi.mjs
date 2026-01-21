@@ -152,6 +152,14 @@ export function gbtoa(a) {
   return btoa(a);
 }
 
+export function base64url_decode(s) {
+  return Buffer.from(s, 'base64url').toString('utf8');
+}
+
+export function base64url_encode(s) {
+  return Buffer.from(s, 'utf8').toString('base64url');
+}
+
 export function version() {
   let v = {
     njs: njs.version,
