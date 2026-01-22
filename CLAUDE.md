@@ -25,7 +25,7 @@ Two crypto APIs available (both work, choose based on need):
 
 ```javascript
 // Node-style (synchronous, simpler)
-crypto.createHmac('sha256', secret).update(data).digest('base64url');
+crypto.createHmac('sha256', secret).update(data).digest('base64');
 crypto.createHash('sha256').update(data).digest('hex');
 
 // Web Crypto API (async, more modern)
@@ -187,6 +187,13 @@ Based on https://github.com/nginx/njs-examples
 All other apps in `src/app/` are stubs with `// TODO: implement`
 
 ## FFI Notes
+
+### App 
+Do not create new FFI bindings when implementing Apps, which means
+do NOT modify exsiting or add new ffi.mjs files. Use the exsiting
+bindings to implement your entire app, STOP if you are not sure how
+to do. Create new bindings effectively fallback to javascript,
+which defeats the purpose of verifying gleam bindings of the project
 
 ### Buffer Encoding
 The buffer FFI maps Gleam encoding types to JS strings:
