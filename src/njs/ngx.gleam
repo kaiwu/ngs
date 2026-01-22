@@ -1,7 +1,7 @@
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import gleam/json.{type Json}
-import gleam/list
+import gleam/string
 import njs/request.{type Request}
 import njs/response.{type Response}
 
@@ -32,8 +32,12 @@ pub fn to_json(a: a) -> Json
 pub fn to_string(a: a) -> String
 
 pub fn make_array(ls: List(a)) -> Array(a) {
-  ls
-  |> list.fold(array.from_list([]), fn(a, x) { append(a, x) })
+  array.from_list(ls)
+}
+
+pub fn trim(s: String) -> String {
+  let l = string.length(s)
+  string.slice(s, 1, l - 2)
 }
 
 @external(javascript, "../ngx_ffi.mjs", "get")
@@ -49,10 +53,10 @@ pub fn fetch_url(resource r: String, options o: o) -> Promise(Response)
 pub fn fetch_request(resource r: Request, options o: o) -> Promise(Response)
 
 @external(javascript, "../ngx_ffi.mjs", "gatob")
-pub fn atob(data d: BitArray) -> BitArray
+pub fn atob(data d: String) -> String
 
 @external(javascript, "../ngx_ffi.mjs", "gbtoa")
-pub fn btoa(data d: BitArray) -> BitArray
+pub fn btoa(data d: String) -> String
 
 @external(javascript, "../ngx_ffi.mjs", "base64url_decode")
 pub fn base64url_decode(data d: String) -> String
@@ -67,7 +71,7 @@ pub const warn = 1
 pub const error = 2
 
 @external(javascript, "../ngx_ffi.mjs", "ngx_log")
-pub fn ngx_log(level: Int, message: a) -> Nil
+pub fn log(level: Int, message: a) -> Nil
 
 @external(javascript, "../ngx_ffi.mjs", "version")
 pub fn version() -> String

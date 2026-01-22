@@ -8,11 +8,19 @@ pub type DictItem {
   ItemNumber(n: Float)
 }
 
-@external(javascript, "../ngx_ffi.mjs", "get_shared_dict")
+@external(javascript, "../shared_dict_ffi.mjs", "get_shared_dict")
 pub fn get_shared_dict(name: String) -> Result(SharedDict, Nil)
 
 @external(javascript, "../shared_dict_ffi.mjs", "add")
-pub fn add(dict: SharedDict, key: String, value: DictItem, timeout: Int) -> Bool
+fn do_add(dict: SharedDict, key: String, value: a, timeout: Int) -> Bool
+
+pub fn add(dict: SharedDict, key: String, value: DictItem, timeout: Int) -> Bool {
+  case value {
+    ItemString(s) -> do_add(dict, key, s, timeout)
+    ItemNumber(n) -> do_add(dict, key, n, timeout)
+    ItemInt(i) -> do_add(dict, key, i, timeout)
+  }
+}
 
 @external(javascript, "../shared_dict_ffi.mjs", "capacity")
 pub fn capacity(dict: SharedDict) -> Int
@@ -57,12 +65,20 @@ pub fn pop(dict: SharedDict, key: String) -> Result(DictItem, Nil)
 pub fn replace(dict: SharedDict, key: String, value: DictItem) -> Bool
 
 @external(javascript, "../shared_dict_ffi.mjs", "set")
+fn do_set(dict: SharedDict, key: String, value: a, timeout: Int) -> SharedDict
+
 pub fn set(
   dict: SharedDict,
   key: String,
   value: DictItem,
   timeout: Int,
-) -> SharedDict
+) -> SharedDict {
+  case value {
+    ItemString(s) -> do_set(dict, key, s, timeout)
+    ItemNumber(n) -> do_set(dict, key, n, timeout)
+    ItemInt(i) -> do_set(dict, key, i, timeout)
+  }
+}
 
 @external(javascript, "../shared_dict_ffi.mjs", "size")
 pub fn size(dict: SharedDict) -> Int

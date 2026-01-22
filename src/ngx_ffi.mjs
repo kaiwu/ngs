@@ -205,15 +205,6 @@ export function make_query_string(q) {
     return require('querystring').stringify(q);
 }
 
-export function get_shared_dict(name) {
-    let dict = ngx.shared[name];
-    if (dict) {
-        return new Ok(dict);
-    } else {
-        return new Error(undefined);
-    }
-}
-
 export function headers_append(headers, name, value) {
     return headers.append(name, value);
 }

@@ -1,4 +1,14 @@
 import { Ok, Error } from "./gleam.mjs"
+import { ItemString, ItemInt, ItemNumber } from "./njs/shared_dict.mjs"
+
+export function get_shared_dict(name) {
+    let dict = ngx.shared[name];
+    if (dict) {
+        return new Ok(dict);
+    } else {
+        return new Error(undefined);
+    }
+}
 
 export function add(d, k, v, t) {
     return t ? d.add(k, v, t) : d.add(k, v);
@@ -21,7 +31,13 @@ export function free_space(d) {
 }
 
 export function get(d, k) {
-    return d.get(k);
+    let r = d.get(k);
+    switch (typeof r) {
+        case "string":
+            return new ItemString(r)
+        case "number":
+            return Number.isInteger(r) ? new ItemInt(r) : new ItemNumber(r)
+    }
 }
 
 export function has(d, k) {

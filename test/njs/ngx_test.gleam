@@ -14,7 +14,7 @@ pub fn module_test() {
   let _ = ngx.fetch_request
   let _ = ngx.atob
   let _ = ngx.btoa
-  let _ = ngx.ngx_log
+  let _ = ngx.log
   let _ = ngx.version
   let _ = ngx.pretty
   let _ = ngx.parse_query_string

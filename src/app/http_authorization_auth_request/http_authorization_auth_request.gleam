@@ -5,8 +5,6 @@
 //// of URI + query args. If valid, proxies to backend. Otherwise returns 401.
 //// Note: Uses js_content directly since auth_request module not available.
 
-import gleam/string
-
 import njs/buffer
 import njs/crypto
 import njs/http.{type HTTPRequest}
@@ -32,18 +30,11 @@ fn authorize(r: HTTPRequest) -> Nil {
   }
 }
 
-fn fix(o: JsObject) -> String {
-  let s = ngx.to_string(o)
-  let l = string.length(s)
-  string.slice(s, 1, l - 2)
-}
-
 fn verify_get_signature(r: HTTPRequest, signature: String) -> Nil {
   let data = case http.get_variables(r) |> ngx.get("args") {
-    Ok(o) -> http.uri(r) <> fix(o)
+    Ok(o) -> http.uri(r) <> ngx.trim(ngx.to_string(o))
     Error(_) -> http.uri(r)
   }
-  let _ = ngx.ngx_log(ngx.info, data)
 
   let computed_sig =
     crypto.create_hmac("sha1", secret_key)

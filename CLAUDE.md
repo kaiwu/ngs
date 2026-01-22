@@ -19,6 +19,11 @@ NGS provides Gleam bindings for nginx's njs (JavaScript) runtime. It enables wri
 3. **Global objects**: `ngx`, `njs`, `console`, `crypto`
 4. **No event loop** - Promises work, but no `setImmediate`, limited `setTimeout`
 
+### Request variable
+There is an issue with request variable, suppose r.variables.foo = bar,
+instead of getting 'bar' for `foo`, one gets '"bar"', with extra double quotes
+Use `ngx.trim` to remove them
+
 ### njs Crypto APIs
 
 Two crypto APIs available (both work, choose based on need):
