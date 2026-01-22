@@ -16,7 +16,7 @@ pub type HTTPResponse =
 pub fn args(request r: HTTPRequest) -> JsObject
 
 @external(javascript, "../http_ffi.mjs", "http_get_variables")
-pub fn get_variables(request r: HTTPRequest) -> Dict(String, String)
+pub fn get_variables(request r: HTTPRequest) -> JsObject
 
 @external(javascript, "../http_ffi.mjs", "http_get_raw_variables")
 pub fn get_raw_variables(request r: HTTPRequest) -> Buffer

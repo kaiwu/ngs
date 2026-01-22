@@ -60,7 +60,9 @@ pub fn base64url_decode(data d: String) -> String
 pub fn base64url_encode(data d: String) -> String
 
 pub const info = 0
+
 pub const warn = 1
+
 pub const error = 2
 
 @external(javascript, "../ngx_ffi.mjs", "ngx_log")
