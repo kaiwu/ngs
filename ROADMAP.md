@@ -16,8 +16,8 @@
 
 - ✅ `http_authorization_gen_hs_jwt` - Generate HS256 JWT tokens using HMAC crypto
 - ✅ `http_authorization_request_body` - Validate request body content
-- ⬚ `http_authorization_auth_request` - Auth request pattern for subrequest-based auth
-- ⬚ `http_authorization_secure_link_hash` - Secure link with HMAC hash verification
+- ✅ `http_authorization_auth_request` - Auth request pattern for subrequest-based auth
+- ✅ `http_authorization_secure_link_hash` - Secure link with MD5 hash verification
 
 ## Medium Priority
 
@@ -28,7 +28,7 @@
 - ⬚ `http_certs_x509_test` - X.509 certificate testing (empty directory, needs creation)
 
 ### Logging & Rate Limiting
-- ⬚ `http_logging_num_requests` - Request counting with shared dict
+- ✅ `http_logging_num_requests` - Request counting with shared dict
 - ⬚ `http_rate_limit_simple` - Simple rate limiting with shared dict
 
 ### Response Modification

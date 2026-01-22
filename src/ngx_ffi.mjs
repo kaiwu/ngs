@@ -273,6 +273,19 @@ export function shared_dict_size() {
     return ngx.shared.SharedDict.size();
 }
 
+export function get_shared_dict(name) {
+    let dict = ngx.shared[name];
+    if (dict) {
+        return new Ok(dict);
+    } else {
+        return new Error(undefined);
+    }
+}
+
+export function shared_dict_incr(k, delta, init) {
+    return ngx.shared.SharedDict.incr(k, delta, init);
+}
+
 export function headers_append(headers, name, value) {
     return headers.append(name, value);
 }

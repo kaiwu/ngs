@@ -4,12 +4,11 @@ import gleam/json.{type Json}
 import gleam/list
 import njs/request.{type Request}
 import njs/response.{type Response}
+import njs/shared_dict.{type SharedDict}
 
 pub type JsObject {
   JsObject
 }
-
-pub type SharedDict
 
 @external(javascript, "../ngx_ffi.mjs", "object")
 pub fn object() -> JsObject
@@ -119,3 +118,9 @@ pub fn shared_dict_pop(key k: BitArray) -> Result(BitArray, Nil)
 
 @external(javascript, "../ngx_ffi.mjs", "shared_dict_size")
 pub fn shared_dict_size() -> Int
+
+@external(javascript, "../ngx_ffi.mjs", "get_shared_dict")
+pub fn get_shared_dict(name: String) -> Result(SharedDict, Nil)
+
+@external(javascript, "../ngx_ffi.mjs", "shared_dict_incr")
+pub fn shared_dict_incr(key k: String, delta d: Int, init i: Int) -> Int

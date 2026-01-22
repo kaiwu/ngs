@@ -1,5 +1,15 @@
 import { Ok, Error } from "./gleam.mjs"
 
+export function extract_cookie_value(header, prefix) {
+  const cookies = header.split(';').map(c => c.trim());
+  for (const cookie of cookies) {
+    if (cookie.startsWith(prefix)) {
+      return new Ok(cookie.slice(prefix.length));
+    }
+  }
+  return new Error(undefined);
+}
+
 export function http_args(r) {
   return r.args;
 }
@@ -156,5 +166,41 @@ export function http_warn(r, m) {
 
 export function http_set_return_value(r, v) {
   r.setReturnValue(v);
+}
+
+export function get_variable(r, name) {
+  return r.variables[name] || "";
+}
+
+export function get_variable_or(r, name, def) {
+  return r.variables[name] || def;
+}
+
+export function get_variable_int(r, name, def) {
+  const val = r.variables[name];
+  if (val === undefined) return def;
+  const n = Number(val);
+  return isNaN(n) ? def : n;
+}
+
+export function now_ms() {
+  return Date.now();
+}
+
+export function is_undefined(val) {
+  return val === undefined || val === null || val.length === 0;
+}
+
+export function parse_rate_data(data) {
+  try {
+    const str = typeof data === 'string' ? data : String(data);
+    const obj = JSON.parse(str);
+    if (typeof obj.timestamp === 'number' && typeof obj.count === 'number') {
+      return new Ok([obj.timestamp, obj.count]);
+    }
+    return new Error(undefined);
+  } catch (e) {
+    return new Error(undefined);
+  }
 }
 
