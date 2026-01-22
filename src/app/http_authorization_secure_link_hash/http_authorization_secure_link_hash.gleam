@@ -4,6 +4,8 @@
 //// Creates secure links using MD5(uri + secret) and verifies them via cookie.
 //// Note: Uses pure njs since secure_link module not available.
 
+import gleam/list
+import gleam/string
 import njs/buffer
 import njs/crypto
 import njs/http.{type HTTPRequest}
@@ -42,16 +44,24 @@ fn redirect_with_cookie(r: HTTPRequest) -> Nil {
   let hash = create_secure_link(r)
   let cookie = "secure_link=" <> hash <> "; Max-Age=60; Path=/"
   let _ = http.set_headers_out(r, "Set-Cookie", cookie)
-  // For 302 redirects, r.return(302, url) sets Location header automatically
   http.return_text(r, 302, http.uri(r))
 }
 
 fn extract_cookie(header: String, name: String) -> Result(String, Nil) {
-  do_extract_cookie(header, name <> "=")
+  let prefix = name <> "="
+  header
+  |> string.split(";")
+  |> list.map(string.trim)
+  |> list.find(fn(cookie) { string.starts_with(cookie, prefix) })
+  |> result_map(fn(cookie) { string.drop_start(cookie, string.length(prefix)) })
 }
 
-@external(javascript, "../../http_ffi.mjs", "extract_cookie_value")
-fn do_extract_cookie(header: String, prefix: String) -> Result(String, Nil)
+fn result_map(result: Result(a, e), f: fn(a) -> b) -> Result(b, e) {
+  case result {
+    Ok(value) -> Ok(f(value))
+    Error(e) -> Error(e)
+  }
+}
 
 pub fn exports() -> JsObject {
   ngx.object()

@@ -1,15 +1,5 @@
 import { Ok, Error } from "./gleam.mjs"
 
-export function extract_cookie_value(header, prefix) {
-  const cookies = header.split(';').map(c => c.trim());
-  for (const cookie of cookies) {
-    if (cookie.startsWith(prefix)) {
-      return new Ok(cookie.slice(prefix.length));
-    }
-  }
-  return new Error(undefined);
-}
-
 export function http_args(r) {
   return r.args;
 }
