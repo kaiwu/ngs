@@ -16,7 +16,7 @@ export function bundle_build(entry, out) {
         // keepNames: true,
         format: 'esm',
         outfile: out,
-        external: ['querystring', 'crypto'],
+        external: ['querystring', 'crypto', 'fs', 'xml', 'zlib'],
         plugins: [],
         target: ['es2020'],
       }).then(function(r){
@@ -52,7 +52,7 @@ export function bundle_watch(entry, out) {
         // keepNames: true,
         format: 'esm',
         outfile: out,
-        external: ['querystring', 'crypto'],
+        external: ['querystring', 'crypto', 'fs', 'xml', 'zlib'],
         plugins: [],
         target: ['es2020'],
       }).then(function(ctx){

@@ -65,7 +65,7 @@ pub fn from(
 pub fn from_buffer(buffer bf: Buffer) -> Buffer
 
 @external(javascript, "../buffer_ffi.mjs", "from_string")
-pub fn from_string(bitarray ba: BitArray, encoding e: Encoding) -> Buffer
+pub fn from_string(string ba: String, encoding e: Encoding) -> Buffer
 
 @external(javascript, "../buffer_ffi.mjs", "is_buffer")
 pub fn is_buffer(obj: a) -> Bool
@@ -103,7 +103,7 @@ pub fn index_of(buffer bf: Buffer, value v: v, offset o: Int) -> Int
 @external(javascript, "../buffer_ffi.mjs", "index_of_string")
 pub fn index_of_string(
   buffer bf: Buffer,
-  value v: BitArray,
+  value v: String,
   offset o: Int,
   encoding e: Encoding,
 ) -> Int
@@ -119,7 +119,7 @@ pub fn last_index_of(
 @external(javascript, "../buffer_ffi.mjs", "last_index_of_string")
 pub fn last_index_of_string(
   buffer bf: Buffer,
-  value v: BitArray,
+  value v: String,
   offset o: Int,
   encoding e: Encoding,
 ) -> Int
@@ -130,7 +130,7 @@ pub fn includes(buffer bf: Buffer, value v: v, offset o: Int) -> Bool
 @external(javascript, "../buffer_ffi.mjs", "includes_string")
 pub fn includes_string(
   buffer bf: Buffer,
-  value v: BitArray,
+  value v: String,
   offset o: Int,
   encoding e: Encoding,
 ) -> Bool
@@ -309,7 +309,7 @@ pub fn write_double_le(
 @external(javascript, "../buffer_ffi.mjs", "write")
 pub fn write(
   buffer bf: Buffer,
-  bitarray ba: BitArray,
+  string ba: String,
   encoding e: Encoding,
   offset o: Int,
   length l: Int,

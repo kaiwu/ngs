@@ -1,4 +1,5 @@
 import { Ok, Error } from "./gleam.mjs"
+import {default as Crypto} from 'crypto'
 
 import {
   Utf8,
@@ -85,7 +86,7 @@ export function derive_key(a, k, dka, e, ku) {
 }
 
 export function create_hash(a) {
-    return crypto.createHash(a);
+    return Crypto.createHash(a);
 }
 
 export function hash_update(h, d) {
@@ -102,7 +103,7 @@ export function hash_digest(h, e) {
 }
 
 export function create_hmac(a, k) {
-    return crypto.createHmac(a, k);
+    return Crypto.createHmac(a, k);
 }
 
 export function hmac_update(h, d) {

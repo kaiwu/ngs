@@ -1,92 +1,92 @@
-import fs from 'fs';
+import {default as Fs } from 'fs';
 
 export function access_sync(p, m) {
-  fs.accessSync(p, m);
+  Fs.accessSync(p, m);
 }
 
 export function append_file_sync(fn, d, o) {
-  fs.appendFileSync(fn, d, o);
+  Fs.appendFileSync(fn, d, o);
 }
 
 export function close_sync(fd) {
-  fs.closeSync(fd);
+  Fs.closeSync(fd);
 }
 
 export function exists_sync(p) {
-  return fs.existsSync(p);
+  return Fs.existsSync(p);
 }
 
 export function fstat_sync(fd) {
-  return fs.fstatSync(fd);
+  return Fs.FstatSync(fd);
 }
 
 export function lstat_sync(p, o) {
-  return o ? fs.lstatSync(p, o) : fs.lstatSync(p);
+  return o ? Fs.lstatSync(p, o) : Fs.lstatSync(p);
 }
 
 export function mkdir_sync(p, o) {
-  fs.mkdirSync(p, o);
+  Fs.mkdirSync(p, o);
 }
 
 export function open_sync(p, f, m) {
-  return fs.openSync(p, f, m);
+  return Fs.openSync(p, f, m);
 }
 
 export function read_dir_sync(p, o) {
-  return o ? fs.readdirSync(p, o) : fs.readdirSync(p);
+  return o ? Fs.readdirSync(p, o) : Fs.readdirSync(p);
 }
 
 export function read_file_sync(fn, o) {
-  return o ? fs.readFileSync(fn, o) : fs.readFileSync(fn);
+  return o ? Fs.readFileSync(fn, o) : Fs.readFileSync(fn);
 }
 
 export function read_link_sync(p, e) {
-  return fs.readlinkSync(p, e);
+  return Fs.readlinkSync(p, e);
 }
 
 export function read_sync(fd, b, o, l, p) {
-  return fs.readSync(fd, b, o, l, p);
+  return Fs.readSync(fd, b, o, l, p);
 }
 
 export function real_path_sync(p, e) {
-  return fs.realpathSync(p, e);
+  return Fs.realpathSync(p, e);
 }
 
 export function rename_sync(op, np) {
-  fs.renameSync(op, np);
+  Fs.renameSync(op, np);
 }
 
 export function rmdir_sync(p) {
-  fs.rmdirSync(p);
+  Fs.rmdirSync(p);
 }
 
 export function stat_sync(p, o) {
-  return o ? fs.statSync(p, o) : fs.statSync(p);
+  return o ? Fs.statSync(p, o) : Fs.statSync(p);
 }
 
 export function symlink_sync(t, p) {
-  fs.symlinkSync(t, p);
+  Fs.symlinkSync(t, p);
 }
 
 export function unlink_sync(p) {
-  fs.unlinkSync(p);
+  Fs.unlinkSync(p);
 }
 
 export function write_file_sync(fn, d, o) {
-  fs.writeFileSync(fn, d, o);
+  Fs.writeFileSync(fn, d, o);
 }
 
 export function write_sync_buffer(fd, b, o, l, p) {
-  return fs.writeSync(fd, b, o, l, p);
+  return Fs.writeSync(fd, b, o, l, p);
 }
 
 export function write_sync_string(fd, s, p, e) {
-  return fs.writeSync(fd, s, p, e);
+  return Fs.writeSync(fd, s, p, e);
 }
 
 export function promises_open(p, f, m) {
   return new Promise(resolve => {
-    fs.promises.open(p, f, m).then(h => resolve(h))
+    Fs.promises.open(p, f, m).then(h => resolve(h))
   })
 }
 
@@ -253,17 +253,17 @@ export function stats_birthtime(s) {
 }
 
 export function constants_f_ok() {
-  return fs.constants.F_OK;
+  return Fs.constants.F_OK;
 }
 
 export function constants_r_ok() {
-  return fs.constants.R_OK;
+  return Fs.constants.R_OK;
 }
 
 export function constants_w_ok() {
-  return fs.constants.W_OK;
+  return Fs.constants.W_OK;
 }
 
 export function constants_x_ok() {
-  return fs.constants.X_OK;
+  return Fs.constants.X_OK;
 }

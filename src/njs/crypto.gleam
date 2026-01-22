@@ -1,7 +1,7 @@
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import gleam/json.{type Json}
-import njs/buffer.{type ArrayBuffer, type Encoding, type TypedArray}
+import njs/buffer.{type ArrayBuffer, type Buffer, type Encoding, type TypedArray}
 
 pub type Hmac
 
@@ -114,7 +114,7 @@ pub fn derive_key(
 pub fn create_hash(algorithm a: String) -> Hash
 
 @external(javascript, "../crypto_ffi.mjs", "hash_update")
-pub fn hash_update(hash h: Hash, data d: BitArray) -> Hash
+pub fn hash_update(hash h: Hash, data d: Buffer) -> Hash
 
 @external(javascript, "../crypto_ffi.mjs", "hash_copy")
 pub fn hash_copy(hash h: Hash) -> Hash
@@ -126,7 +126,7 @@ pub fn hash_digest(hash h: Hash, encoding e: Encoding) -> String
 pub fn create_hmac(algorithm a: String, secret k: String) -> Hmac
 
 @external(javascript, "../crypto_ffi.mjs", "hmac_update")
-pub fn hmac_update(hmac h: Hmac, data d: BitArray) -> Hmac
+pub fn hmac_update(hmac h: Hmac, data d: Buffer) -> Hmac
 
 @external(javascript, "../crypto_ffi.mjs", "hmac_digest")
 pub fn hmac_digest(hmac h: Hmac, encoding e: Encoding) -> String

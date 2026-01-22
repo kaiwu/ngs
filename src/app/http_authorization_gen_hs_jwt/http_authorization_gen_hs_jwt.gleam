@@ -24,10 +24,11 @@ fn make_jwt_payload(sub: String, iss: String) -> String {
 }
 
 fn sign_jwt(header_b64: String, payload_b64: String, secret: String) -> String {
-  let signing_input = header_b64 <> "." <> payload_b64
+  let signing_input =
+    { header_b64 <> "." <> payload_b64 } |> buffer.from_string(buffer.Utf8)
 
   crypto.create_hmac("sha256", secret)
-  |> crypto.hmac_update(<<signing_input:utf8>>)
+  |> crypto.hmac_update(signing_input)
   |> crypto.hmac_digest(buffer.Base64Url)
 }
 

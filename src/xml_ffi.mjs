@@ -1,6 +1,7 @@
 // Use njs built-in xml module, with fallback for Node.js testing
 // In njs, built-in modules are accessible via global objects
-let xml;
+// import {default as Xml} from 'xml';
+let xml
 try {
   // Check if we're in njs environment by looking for njs-specific global
   if (typeof njs !== 'undefined') {
