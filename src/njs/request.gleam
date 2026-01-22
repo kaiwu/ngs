@@ -1,12 +1,12 @@
 import gleam/javascript/promise.{type Promise}
 import gleam/json.{type Json}
-import njs/buffer.{type ArrayBuffer}
+import njs/buffer.{type ArrayBuffer, type Buffer}
 import njs/headers.{type Headers}
 
 pub type Request
 
 pub type RequestOption(h) {
-  RequestOption(body: BitArray, headers: h, method: String)
+  RequestOption(body: Buffer, headers: h, method: String)
   EmptyRequestOption(headers: h, method: String)
 }
 

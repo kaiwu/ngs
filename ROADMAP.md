@@ -29,7 +29,7 @@
 
 ### Logging & Rate Limiting
 - ✅ `http_logging_num_requests` - Request counting with shared dict
-- ⬚ `http_rate_limit_simple` - Simple rate limiting with shared dict
+- ✅ `http_rate_limit_simple` - Simple rate limiting with shared dict
 
 ### Response Modification
 - ⬚ `http_response_to_lower_case` - Convert response body to lowercase
@@ -57,8 +57,8 @@
 ## Technical Notes
 
 ### Bitarray
-Some bindings are wrong, specifially with gleam Bitarray, fixing is on the way
-as we are building apps, do stop and question if a binding requires Bitarray type
+Some bindings are wrong, specificly with gleam BitArray, fixing is on the way
+as we are building apps, do stop and question if a binding requires BitArray type
 
 ### FFI Fix Applied
 Added `get_header_in(r, name)` function to `http_ffi.mjs` and `http.gleam` because:
