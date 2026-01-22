@@ -7,3 +7,6 @@
 [submodule "submodules/quickjs"]
 	path = submodules/quickjs
 	url = https://github.com/bellard/quickjs
+[submodule "submodules/njs-examples"]
+	path = submodules/njs-examples
+	url = https://github.com/nginx/njs-examples.git

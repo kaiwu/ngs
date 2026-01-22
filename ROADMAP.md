@@ -14,8 +14,8 @@
 
 ## High Priority
 
-- ⬚ `http_authorization_gen_hs_jwt` - Generate HS256 JWT tokens using HMAC crypto
-- ⬚ `http_authorization_request_body` - Validate request body content
+- ✅ `http_authorization_gen_hs_jwt` - Generate HS256 JWT tokens using HMAC crypto
+- ✅ `http_authorization_request_body` - Validate request body content
 - ⬚ `http_authorization_auth_request` - Auth request pattern for subrequest-based auth
 - ⬚ `http_authorization_secure_link_hash` - Secure link with HMAC hash verification
 
