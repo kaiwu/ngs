@@ -56,6 +56,10 @@
 
 ## Technical Notes
 
+### Bitarray
+Some bindings are wrong, specifially with gleam Bitarray, fixing is on the way
+as we are building apps, do stop and question if a binding requires Bitarray type
+
 ### FFI Fix Applied
 Added `get_header_in(r, name)` function to `http_ffi.mjs` and `http.gleam` because:
 - `http.headers_in(r)` returns njs's `HeadersIn` proxy object, not a Gleam Dict
