@@ -11,6 +11,10 @@ export function merge(o, k, v) {
     };
 }
 
+export function now() {
+    return Date.now()
+}
+
 export function append(ar, a) {
     ar.push(a);
     return ar;
@@ -201,78 +205,6 @@ export function make_query_string(q) {
     return require('querystring').stringify(q);
 }
 
-export function shared_dict_add(k, v, t) {
-    try {
-        let r = t ? ngx.shared.SharedDict.add(k, v, t)
-            : ngx.shared.SharedDict.add(k, v);
-        return new Ok(r);
-    } catch (e) {
-        return new Error(undefined);
-    }
-}
-
-export function shared_dict_set(k, v, t) {
-    t ? ngx.shared.SharedDict.set(k, v, t)
-        : ngx.shared.SharedDict.set(k, v);
-}
-
-export function shared_dict_replace(k, v) {
-    try {
-        let r = ngx.shared.SharedDict.replace(k, v);
-        return new Ok(r);
-    } catch (e) {
-        return new Error(undefined);
-    }
-}
-
-export function shared_dict_clear() {
-    ngx.shared.SharedDict.clear();
-}
-
-export function shared_dict_name() {
-    return ngx.shared.SharedDict.name;
-}
-
-export function shared_dict_delete(k) {
-    return ngx.shared.SharedDict.delete(k);
-}
-
-export function shared_dict_has(k) {
-    return ngx.shared.SharedDict.has(k);
-}
-
-export function shared_dict_get(k) {
-    let r = ngx.shared.SharedDict.get(k);
-    if (r) {
-        return new Ok(r);
-    }
-    else {
-        return new Error(undefined);
-    }
-}
-
-export function shared_dict_items(m) {
-    return ngx.shared.SharedDict.items(m);
-}
-
-export function shared_dict_keys(m) {
-    return ngx.shared.SharedDict.keys(m);
-}
-
-export function shared_dict_pop(k) {
-    let r = ngx.shared.SharedDict.pop(k);
-    if (r) {
-        return new Ok(r);
-    }
-    else {
-        return new Error(undefined);
-    }
-}
-
-export function shared_dict_size() {
-    return ngx.shared.SharedDict.size();
-}
-
 export function get_shared_dict(name) {
     let dict = ngx.shared[name];
     if (dict) {
@@ -280,10 +212,6 @@ export function get_shared_dict(name) {
     } else {
         return new Error(undefined);
     }
-}
-
-export function shared_dict_incr(k, delta, init) {
-    return ngx.shared.SharedDict.incr(k, delta, init);
 }
 
 export function headers_append(headers, name, value) {

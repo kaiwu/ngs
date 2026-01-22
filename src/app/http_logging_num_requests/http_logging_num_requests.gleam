@@ -11,7 +11,7 @@ import njs/shared_dict
 
 fn num_requests(r: HTTPRequest) -> String {
   let ip = http.remote_address(r)
-  case ngx.get_shared_dict("requests") {
+  case shared_dict.get_shared_dict("requests") {
     Error(_) -> "0"
     Ok(dict) -> {
       let count = shared_dict.incr(dict, ip, 1, 0, 0)

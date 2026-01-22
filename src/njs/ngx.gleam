@@ -4,7 +4,6 @@ import gleam/json.{type Json}
 import gleam/list
 import njs/request.{type Request}
 import njs/response.{type Response}
-import njs/shared_dict.{type SharedDict}
 
 pub type JsObject {
   JsObject
@@ -19,6 +18,9 @@ pub fn merge(o: JsObject, k: k, v: v) -> JsObject
 pub fn export(o: JsObject, f: f) -> JsObject {
   merge(o, name(f), f)
 }
+
+@external(javascript, "../ngx_ffi.mjs", "now")
+pub fn now() -> Int
 
 @external(javascript, "../ngx_ffi.mjs", "append")
 pub fn append(ar: Array(a), a: a) -> Array(a)
@@ -78,49 +80,3 @@ pub fn parse_query_string(q: String) -> Json
 
 @external(javascript, "../ngx_ffi.mjs", "make_query_string")
 pub fn make_query_string(q: Json) -> String
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_add")
-pub fn shared_dict_add(
-  key k: BitArray,
-  value v: v,
-  timeout t: Int,
-) -> Result(Bool, Nil)
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_set")
-pub fn shared_dict_set(key k: BitArray, value v: v, timeout t: Int) -> Nil
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_replace")
-pub fn shared_dict_replace(key k: BitArray, value v: v) -> Result(Bool, Nil)
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_clear")
-pub fn shared_dict_clear() -> Nil
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_name")
-pub fn shared_dict_name() -> String
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_delete")
-pub fn shared_dict_delete(key k: BitArray) -> Bool
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_get")
-pub fn shared_dict_get(key k: BitArray) -> Result(BitArray, Nil)
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_has")
-pub fn shared_dict_has(key k: BitArray) -> Bool
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_items")
-pub fn shared_dict_items(max m: Int) -> Array(#(BitArray, BitArray))
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_keys")
-pub fn shared_dict_keys(max m: Int) -> Array(BitArray)
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_pop")
-pub fn shared_dict_pop(key k: BitArray) -> Result(BitArray, Nil)
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_size")
-pub fn shared_dict_size() -> Int
-
-@external(javascript, "../ngx_ffi.mjs", "get_shared_dict")
-pub fn get_shared_dict(name: String) -> Result(SharedDict, Nil)
-
-@external(javascript, "../ngx_ffi.mjs", "shared_dict_incr")
-pub fn shared_dict_incr(key k: String, delta d: Int, init i: Int) -> Int
