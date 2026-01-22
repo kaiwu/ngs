@@ -59,14 +59,12 @@ pub fn base64url_decode(data d: String) -> String
 @external(javascript, "../ngx_ffi.mjs", "base64url_encode")
 pub fn base64url_encode(data d: String) -> String
 
-pub type LogLevel {
-  Info
-  Warn
-  Err
-}
+pub const info = 0
+pub const warn = 1
+pub const error = 2
 
 @external(javascript, "../ngx_ffi.mjs", "ngx_log")
-pub fn ngx_log(level: LogLevel, message: a) -> Nil
+pub fn ngx_log(level: Int, message: a) -> Nil
 
 @external(javascript, "../ngx_ffi.mjs", "version")
 pub fn version() -> String

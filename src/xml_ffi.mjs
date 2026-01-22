@@ -5,7 +5,7 @@ let xml
 try {
   // Check if we're in njs environment by looking for njs-specific global
   if (typeof njs !== 'undefined') {
-    xml = xml;  // njs built-in xml module
+    xml = require('xml');  // njs built-in xml module
   } else {
     throw new Error('Not in njs environment');
   }
