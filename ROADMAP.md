@@ -32,14 +32,14 @@
 - ✅ `http_rate_limit_simple` - Simple rate limiting with shared dict
 
 ### Response Modification
-- ⬚ `http_response_to_lower_case` - Convert response body to lowercase
-- ⬚ `http_response_modify_set_cookie` - Modify Set-Cookie headers
+- ✅ `http_response_to_lower_case` - Convert response body to lowercase
+- ✅ `http_response_modify_set_cookie` - Modify Set-Cookie headers
 
 ### API & Async
-- ⬚ `http_api_set_keyval` - Key-value API with shared dict
-- ⬚ `http_async_var_auth_request` - Async auth request variable
-- ⬚ `http_async_var_js_header_filter` - Async header filter
-
+- ✅ `http_api_set_keyval` - Key-value API with shared dict
+- ⬚  `http_async_var_auth_request` - Async auth request variable
+- ⬚  `http_async_var_js_header_filter` - Async header filter
+     
 ### Subrequests & Redirects
 - ⬚ `http_complex_redirects` - Complex redirect logic
 - ⬚ `http_subrequests_chaining` - Chain subrequests sequentially

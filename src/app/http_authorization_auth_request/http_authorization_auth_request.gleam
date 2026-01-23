@@ -32,7 +32,7 @@ fn authorize(r: HTTPRequest) -> Nil {
 
 fn verify_get_signature(r: HTTPRequest, signature: String) -> Nil {
   let data = case http.get_variables(r) |> ngx.get("args") {
-    Ok(o) -> http.uri(r) <> ngx.trim(ngx.to_string(o))
+    Ok(o) -> http.uri(r) <> ngx.to_string(o)
     Error(_) -> http.uri(r)
   }
 

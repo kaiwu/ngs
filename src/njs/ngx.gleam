@@ -1,7 +1,6 @@
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import gleam/json.{type Json}
-import gleam/string
 import njs/request.{type Request}
 import njs/response.{type Response}
 
@@ -33,11 +32,6 @@ pub fn to_string(a: a) -> String
 
 pub fn make_array(ls: List(a)) -> Array(a) {
   array.from_list(ls)
-}
-
-pub fn trim(s: String) -> String {
-  let l = string.length(s)
-  string.slice(s, 1, l - 2)
 }
 
 @external(javascript, "../ngx_ffi.mjs", "get")

@@ -33,7 +33,12 @@ export function id(a) {
 }
 
 export function make_string(a) {
-    return JSON.stringify(a);
+    var str = JSON.stringify(a);
+    if ((str.startsWith('"') && str.endsWith('"')) ||
+        (str.startsWith("'") && str.endsWith("'"))) {
+        return str.slice(1, -1);
+    }
+    return str;
 }
 
 export function to_headers(h) {

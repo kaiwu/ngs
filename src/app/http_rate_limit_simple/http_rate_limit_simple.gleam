@@ -103,7 +103,7 @@ fn decode_data(raw: String) -> Result(#(Int, Int), Nil) {
 fn get_var_string(vars: JsObject, key: String) -> String {
   case ngx.get(vars, key) {
     Error(_) -> ""
-    Ok(val) -> ngx.trim(ngx.to_string(val))
+    Ok(val) -> ngx.to_string(val)
   }
 }
 
@@ -111,7 +111,7 @@ fn get_var_int(vars: JsObject, key: String, default: Int) -> Int {
   case ngx.get(vars, key) {
     Error(_) -> default
     Ok(val) -> {
-      case int.parse(ngx.trim(ngx.to_string(val))) {
+      case int.parse(ngx.to_string(val)) {
         Error(_) -> default
         Ok(n) -> n
       }

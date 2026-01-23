@@ -10,7 +10,7 @@ fn cookies_filter(r: HTTPRequest) -> Nil {
   let min_len = case ngx.get(args, "len") {
     Error(_) -> 0
     Ok(val) -> {
-      case int.parse(ngx.trim(ngx.to_string(val))) {
+      case int.parse(ngx.to_string(val)) {
         Error(_) -> 0
         Ok(n) -> n
       }
