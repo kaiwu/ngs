@@ -37,8 +37,8 @@
 
 ### API & Async
 - ✅ `http_api_set_keyval` - Key-value API with shared dict
-- ⬚  `http_async_var_auth_request` - Async auth request variable
-- ⬚  `http_async_var_js_header_filter` - Async header filter
+- ⬚ `http_async_var_auth_request` - Async auth request variable
+- ⬚ `http_async_var_js_header_filter` - Async header filter
      
 ### Subrequests & Redirects
 - ⬚ `http_complex_redirects` - Complex redirect logic
@@ -51,7 +51,7 @@
 
 ## Low Priority
 
-- ⬚ `misc_file_io` - File I/O operations (read/write files)
+- ✅`misc_file_io` - File I/O operations (read/write files)
 - ⬚ `misc_aes_gcm` - AES-GCM encryption/decryption example
 
 ## Technical Notes

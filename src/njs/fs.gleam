@@ -8,117 +8,160 @@ pub type Dirent
 
 pub type FileHandle
 
-pub type Encoding {
-  Utf8
-  Buffer
-  Hex
-  Base64
-  Base64Url
+pub const utf8 = "utf8"
+
+pub const buf = "buffer"
+
+pub const hex = "hex"
+
+pub const base64 = "base64"
+
+pub const base64url = "base64url"
+
+pub const flag_a = "a"
+
+pub const flag_ax = "ax"
+
+pub const flag_aplus = "a+"
+
+pub const flag_axplus = "ax+"
+
+pub const flag_as = "as"
+
+pub const flag_asplus = "as+"
+
+pub const flag_r = "r"
+
+pub const flag_rs = "rs"
+
+pub const flag_rplus = "r+"
+
+pub const flag_rsplus = "rs+"
+
+pub const flag_w = "w"
+
+pub const flag_wx = "wx"
+
+pub const flag_wplus = "w+"
+
+pub const flag_wxplus = "wx+"
+
+pub type FileOption {
+  ReadFileOption(encoding: String, flag: String)
+  WriteFileOption(mode: Int, flag: String)
 }
 
-pub type Flag {
-  A
-  Ax
-  Aplus
-  Axplus
-  As
-  Asx
-  Asplus
-  Asxplus
-  R
-  Rs
-  Rplus
-  Rsplus
-  Rx
-  Rsx
-  Rxplus
-  Rsxplus
-  W
-  Ws
-  Wx
-  Wsx
-  Wplus
-  Wsplus
-  Wxplus
-  Wsxplus
+pub type FileReadResult {
+  FileReadResult(bytes_read: Int, buffer: Buffer)
 }
 
-pub type ReadOptions {
-  ReadOptions(encoding: Encoding)
-}
+@external(javascript, "../fs_ffi.mjs", "constants_f_ok")
+pub fn constants_f_ok() -> Int
 
-pub type ReadFileOptions {
-  ReadFileOptions(encoding: Encoding, flag: Flag)
-}
+@external(javascript, "../fs_ffi.mjs", "constants_r_ok")
+pub fn constants_r_ok() -> Int
 
-pub type ReaddirOptions {
-  ReaddirOptions(encoding: Encoding, with_file_types: Bool)
-}
+@external(javascript, "../fs_ffi.mjs", "constants_w_ok")
+pub fn constants_w_ok() -> Int
 
-pub type MkdirOptions {
-  MkdirOptions(mode: Int)
-}
-
-pub type OpenOptions {
-  OpenOptions(mode: Int)
-}
-
-pub type StatOptions {
-  StatOptions(throw_if_no_entry: Bool)
-}
-
-pub type WriteFileOptions {
-  WriteFileOptions(mode: Int, flag: Flag)
-}
-
-pub type FileHandleReadResult {
-  FileHandleReadResult(bytes_read: Int, buffer: Buffer)
-}
+@external(javascript, "../fs_ffi.mjs", "constants_x_ok")
+pub fn constants_x_ok() -> Int
 
 @external(javascript, "../fs_ffi.mjs", "access_sync")
-pub fn access_sync(path: String, mode: Int) -> Nil
+pub fn access_sync(path: String, mode: Int) -> Result(Bool, Nil)
+
+@external(javascript, "../fs_ffi.mjs", "access_async")
+pub fn access(path: String, mode: Int) -> Promise(Result(Bool, Nil))
 
 @external(javascript, "../fs_ffi.mjs", "append_file_sync")
-pub fn append_file_sync(filename: String, data: a, options: o) -> Nil
+pub fn append_file_sync(
+  filename f: String,
+  data d: a,
+  option o: FileOption,
+) -> Nil
+
+@external(javascript, "../fs_ffi.mjs", "append_file_async")
+pub fn append_file(
+  filename f: String,
+  data d: a,
+  option o: FileOption,
+) -> Promise(Nil)
 
 @external(javascript, "../fs_ffi.mjs", "close_sync")
 pub fn close_sync(fd: Int) -> Nil
 
+@external(javascript, "../fs_ffi.mjs", "close_async")
+pub fn close(fd: Int) -> Promise(Nil)
+
 @external(javascript, "../fs_ffi.mjs", "exists_sync")
 pub fn exists_sync(path: String) -> Bool
+
+@external(javascript, "../fs_ffi.mjs", "exists_async")
+pub fn exists(path: String) -> Promise(Bool)
 
 @external(javascript, "../fs_ffi.mjs", "fstat_sync")
 pub fn fstat_sync(fd: Int) -> Stats
 
+@external(javascript, "../fs_ffi.mjs", "fstat_async")
+pub fn fstat(fd: Int) -> Promise(Stats)
+
 @external(javascript, "../fs_ffi.mjs", "lstat_sync")
-pub fn lstat_sync(path: String, options: o) -> Stats
+pub fn lstat_sync(path: String) -> Result(Stats, Nil)
+
+@external(javascript, "../fs_ffi.mjs", "lstat_async")
+pub fn lstat(path: String) -> Promise(Result(Stats, Nil))
 
 @external(javascript, "../fs_ffi.mjs", "mkdir_sync")
-pub fn mkdir_sync(path: String, options: o) -> Nil
+pub fn mkdir_sync(path: String, mode: Int) -> Nil
+
+@external(javascript, "../fs_ffi.mjs", "mkdir_async")
+pub fn mkdir(path: String, mode: Int) -> Promise(Nil)
 
 @external(javascript, "../fs_ffi.mjs", "open_sync")
 pub fn open_sync(path: String, flags: String, mode: Int) -> Int
 
+@external(javascript, "../fs_ffi.mjs", "open_async")
+pub fn open(path: String, flags: String, mode: Int) -> Promise(FileHandle)
+
 @external(javascript, "../fs_ffi.mjs", "read_dir_sync")
-pub fn read_dir_sync(path: String, options: o) -> Array(a)
+pub fn read_dir_sync(path p: String, encoding e: String) -> Array(Dirent)
+
+@external(javascript, "../fs_ffi.mjs", "read_dir_async")
+pub fn read_dir(path p: String, encoding e: String) -> Promise(Array(Dirent))
 
 @external(javascript, "../fs_ffi.mjs", "read_file_sync")
-pub fn read_file_sync(filename: String, options: o) -> a
+pub fn read_file_sync(filename f: String, option o: FileOption) -> String
+
+@external(javascript, "../fs_ffi.mjs", "read_file_async")
+pub fn read_file(filename f: String, option o: FileOption) -> Promise(String)
 
 @external(javascript, "../fs_ffi.mjs", "read_link_sync")
 pub fn read_link_sync(path: String, encoding: String) -> a
 
+@external(javascript, "../fs_ffi.mjs", "read_link_async")
+pub fn read_link(path: String, encoding: String) -> Promise(a)
+
 @external(javascript, "../fs_ffi.mjs", "read_sync")
 pub fn read_sync(
-  fd: Int,
-  buffer: Buffer,
-  offset: Int,
-  length: Int,
-  position: a,
-) -> Int
+  fd d: Int,
+  offset o: Int,
+  length l: Int,
+  position p: Int,
+) -> FileReadResult
+
+@external(javascript, "../fs_ffi.mjs", "read_async")
+pub fn read(
+  fd d: Int,
+  offset o: Int,
+  length l: Int,
+  position p: Int,
+) -> Promise(FileReadResult)
 
 @external(javascript, "../fs_ffi.mjs", "real_path_sync")
 pub fn real_path_sync(path: String, encoding: String) -> String
+
+@external(javascript, "../fs_ffi.mjs", "real_path_async")
+pub fn real_path(path: String, encoding: String) -> Promise(String)
 
 @external(javascript, "../fs_ffi.mjs", "rename_sync")
 pub fn rename_sync(old_path: String, new_path: String) -> Nil
@@ -136,7 +179,7 @@ pub fn symlink_sync(target: String, path: String) -> Nil
 pub fn unlink_sync(path: String) -> Nil
 
 @external(javascript, "../fs_ffi.mjs", "write_file_sync")
-pub fn write_file_sync(filename: String, data: a, options: o) -> Nil
+pub fn write_file_sync(filename: String, data: a, option o: FileOption) -> Nil
 
 @external(javascript, "../fs_ffi.mjs", "write_sync_buffer")
 pub fn write_sync_buffer(
@@ -175,7 +218,7 @@ pub fn file_handle_read(
   offset: Int,
   length: Int,
   position: a,
-) -> Promise(FileHandleReadResult)
+) -> Promise(FileReadResult)
 
 @external(javascript, "../fs_ffi.mjs", "file_handle_stat")
 pub fn file_handle_stat(handle: FileHandle) -> Promise(Stats)
@@ -187,7 +230,7 @@ pub fn file_handle_write_buffer(
   offset: Int,
   length: Int,
   position: a,
-) -> Promise(FileHandleReadResult)
+) -> Promise(FileReadResult)
 
 @external(javascript, "../fs_ffi.mjs", "file_handle_write_string")
 pub fn file_handle_write_string(
@@ -195,7 +238,7 @@ pub fn file_handle_write_string(
   string: String,
   position: a,
   encoding: String,
-) -> Promise(FileHandleReadResult)
+) -> Promise(FileReadResult)
 
 @external(javascript, "../fs_ffi.mjs", "dirent_is_block_device")
 pub fn dirent_is_block_device(dirent: Dirent) -> Bool
@@ -292,15 +335,3 @@ pub fn stats_ctime(stats: Stats) -> String
 
 @external(javascript, "../fs_ffi.mjs", "stats_birthtime")
 pub fn stats_birthtime(stats: Stats) -> String
-
-@external(javascript, "../fs_ffi.mjs", "constants_f_ok")
-pub fn constants_f_ok() -> Int
-
-@external(javascript, "../fs_ffi.mjs", "constants_r_ok")
-pub fn constants_r_ok() -> Int
-
-@external(javascript, "../fs_ffi.mjs", "constants_w_ok")
-pub fn constants_w_ok() -> Int
-
-@external(javascript, "../fs_ffi.mjs", "constants_x_ok")
-pub fn constants_x_ok() -> Int
