@@ -6,6 +6,10 @@ import njs/ngx.{type JsObject}
 
 pub type HTTPRequest
 
+pub type BufferOption {
+  BufferOption(last: Bool, flush: Bool)
+}
+
 pub type HTTPHandler =
   fn(HTTPRequest) -> Nil
 

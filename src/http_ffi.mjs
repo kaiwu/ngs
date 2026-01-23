@@ -119,7 +119,7 @@ export function http_send_text(r, d) {
 }
 
 export function http_send_buffer(r, d, o) {
-  o ? r.send(d, o) : r.send(d);
+  o ? r.sendBuffer(d, o) : r.sendBuffer(d);
   return r;
 }
 
