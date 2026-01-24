@@ -146,18 +146,18 @@ export function read_link_async(p, e) {
     })
 }
 
-export function read_sync(fd, o, l, p) {
+export function read_sync(fd, l, p) {
     const length = l > 1024 ? l : 1024;
     const b = Buffer.alloc(length)
-    var i = Fs.readSync(fd, b, o, l, p);
+    var i = Fs.readSync(fd, b, 0, l, p);
     return new FileReadResult(i, b)
 }
 
-export function read_async(fd, o, l, p) {
+export function read_async(fd, l, p) {
     return new Promise(resolve => {
         const length = l > 1024 ? l : 1024;
         const b = Buffer.alloc(length)
-        Fs.promises.read(fd, b, o, l, p).then((i) = resolve(new FileReadResult(i, b)))
+        Fs.promises.read(fd, b, 0, l, p).then((i) = resolve(new FileReadResult(i, b)))
     })
 }
 
@@ -175,37 +175,76 @@ export function rename_sync(op, np) {
     Fs.renameSync(op, np);
 }
 
+export function rename_async(op, np) {
+    return new Promise(resolve => {
+        Fs.promises.rename(op, np).then(() => resolve(undefined));
+    })
+}
+
 export function rmdir_sync(p) {
     Fs.rmdirSync(p);
 }
 
-export function stat_sync(p, o) {
-    return o ? Fs.statSync(p, o) : Fs.statSync(p);
+export function rmdir_async(p) {
+    return new Promise(resolve => {
+        Fs.promises.rmdir(p).then(() => resolve(undefined));
+    })
+}
+
+export function stat_sync(p) {
+    try {
+        var s = Fs.statSync(p, { throwIfNoEntry: true })
+        return new Ok(s)
+    } catch (e) {
+        return new Error(undefined)
+    }
+}
+
+export function stat_async(p) {
+    return new Promise(resolve => {
+        Fs.promises.stat(p, { throwIfNoEntry: true })
+            .then((s) => resolve(new Ok(s)))
+            .catch((_) => resolve(new Error(undefined)))
+    })
 }
 
 export function symlink_sync(t, p) {
     Fs.symlinkSync(t, p);
 }
 
+export function symlink_async(t, p) {
+    return new Promise(resolve => {
+        Fs.promises.symlink(t, p).then(() => resolve(undefined))
+    })
+}
+
 export function unlink_sync(p) {
     Fs.unlinkSync(p);
+}
+
+export function unlink_async(p) {
+    return new Promise(resolve => {
+        Fs.promises.unlinkSync(p).then(() => resolve(undefined))
+    })
 }
 
 export function write_file_sync(fn, d, o) {
     Fs.writeFileSync(fn, d, o);
 }
 
-export function write_sync_buffer(fd, b, o, l, p) {
+export function write_file_async(fn, d, o) {
+    return new Promise(resolve => {
+        Fs.promises.writeFile(fn, d, o).then(() => resolve(undefined))
+    })
+}
+
+export function write_sync(fd, b, o, l, p) {
     return Fs.writeSync(fd, b, o, l, p);
 }
 
-export function write_sync_string(fd, s, p, e) {
-    return Fs.writeSync(fd, s, p, e);
-}
-
-export function promises_open(p, f, m) {
+export function write_async(fd, b, o, l, p) {
     return new Promise(resolve => {
-        Fs.promises.open(p, f, m).then(h => resolve(h))
+        Fs.promises.write(fd, b, o, l, p).then((i) => resolve(i));
     })
 }
 
@@ -219,9 +258,11 @@ export function file_handle_fd(h) {
     return h.fd;
 }
 
-export function file_handle_read(h, b, o, l, p) {
+export function file_handle_read(h, l, p) {
     return new Promise(resolve => {
-        h.read(b, o, l, p).then(r => resolve(r))
+        const length = l > 1024 ? l : 1024;
+        const b = Buffer.alloc(length)
+        h.read(b, 0, l, p).then((i) => resolve(new FileReadResult(i, b)))
     })
 }
 
@@ -231,15 +272,9 @@ export function file_handle_stat(h) {
     })
 }
 
-export function file_handle_write_buffer(h, b, o, l, p) {
+export function file_handle_write(h, b, o, l, p) {
     return new Promise(resolve => {
-        h.write(b, o, l, p).then(r => resolve(r))
-    })
-}
-
-export function file_handle_write_string(h, s, p, e) {
-    return new Promise(resolve => {
-        h.write(s, p, e).then(r => resolve(r))
+        h.write(b, o, l, p).then((i, b0) => resolve(new FileReadResult(i, b0)))
     })
 }
 
@@ -370,5 +405,3 @@ export function stats_ctime(s) {
 export function stats_birthtime(s) {
     return s.birthtime;
 }
-
-

@@ -142,17 +142,11 @@ pub fn read_link_sync(path: String, encoding: String) -> a
 pub fn read_link(path: String, encoding: String) -> Promise(a)
 
 @external(javascript, "../fs_ffi.mjs", "read_sync")
-pub fn read_sync(
-  fd d: Int,
-  offset o: Int,
-  length l: Int,
-  position p: Int,
-) -> FileReadResult
+pub fn read_sync(fd d: Int, length l: Int, position p: Int) -> FileReadResult
 
 @external(javascript, "../fs_ffi.mjs", "read_async")
 pub fn read(
   fd d: Int,
-  offset o: Int,
   length l: Int,
   position p: Int,
 ) -> Promise(FileReadResult)
@@ -166,44 +160,64 @@ pub fn real_path(path: String, encoding: String) -> Promise(String)
 @external(javascript, "../fs_ffi.mjs", "rename_sync")
 pub fn rename_sync(old_path: String, new_path: String) -> Nil
 
+@external(javascript, "../fs_ffi.mjs", "rename_async")
+pub fn rename(old_path: String, new_path: String) -> Promise(Nil)
+
 @external(javascript, "../fs_ffi.mjs", "rmdir_sync")
 pub fn rmdir_sync(path: String) -> Nil
 
+@external(javascript, "../fs_ffi.mjs", "rmdir_async")
+pub fn rmdir(path: String) -> Promise(Nil)
+
 @external(javascript, "../fs_ffi.mjs", "stat_sync")
-pub fn stat_sync(path: String, options: o) -> Stats
+pub fn stat_sync(path: String) -> Result(Stats, Nil)
+
+@external(javascript, "../fs_ffi.mjs", "stat_async")
+pub fn stat(path: String) -> Promise(Result(Stats, Nil))
 
 @external(javascript, "../fs_ffi.mjs", "symlink_sync")
 pub fn symlink_sync(target: String, path: String) -> Nil
 
+@external(javascript, "../fs_ffi.mjs", "symlink_async")
+pub fn symlink(target: String, path: String) -> Promise(Nil)
+
 @external(javascript, "../fs_ffi.mjs", "unlink_sync")
 pub fn unlink_sync(path: String) -> Nil
 
-@external(javascript, "../fs_ffi.mjs", "write_file_sync")
-pub fn write_file_sync(filename: String, data: a, option o: FileOption) -> Nil
+@external(javascript, "../fs_ffi.mjs", "unlink_async")
+pub fn unlink(path: String) -> Promise(Nil)
 
-@external(javascript, "../fs_ffi.mjs", "write_sync_buffer")
-pub fn write_sync_buffer(
+@external(javascript, "../fs_ffi.mjs", "write_file_sync")
+pub fn write_file_sync(
+  filename f: String,
+  data d: a,
+  option o: FileOption,
+) -> Nil
+
+@external(javascript, "../fs_ffi.mjs", "write_file_async")
+pub fn write_file(
+  filename f: String,
+  data d: a,
+  option o: FileOption,
+) -> Promise(Nil)
+
+@external(javascript, "../fs_ffi.mjs", "write_sync")
+pub fn write_sync(
   fd: Int,
   buffer: Buffer,
   offset: Int,
   length: Int,
-  position: a,
+  position: Int,
 ) -> Int
 
-@external(javascript, "../fs_ffi.mjs", "write_sync_string")
-pub fn write_sync_string(
+@external(javascript, "../fs_ffi.mjs", "write_async")
+pub fn write(
   fd: Int,
-  string: String,
-  position: a,
-  encoding: String,
-) -> Int
-
-@external(javascript, "../fs_ffi.mjs", "promises_open")
-pub fn promises_open(
-  path: String,
-  flags: String,
-  mode: Int,
-) -> Promise(FileHandle)
+  buffer: Buffer,
+  offset: Int,
+  length: Int,
+  position: Int,
+) -> Promise(Int)
 
 @external(javascript, "../fs_ffi.mjs", "file_handle_close")
 pub fn file_handle_close(handle: FileHandle) -> Promise(Nil)
@@ -214,30 +228,20 @@ pub fn file_handle_fd(handle: FileHandle) -> Int
 @external(javascript, "../fs_ffi.mjs", "file_handle_read")
 pub fn file_handle_read(
   handle: FileHandle,
-  buffer: Buffer,
-  offset: Int,
   length: Int,
-  position: a,
+  position: Int,
 ) -> Promise(FileReadResult)
 
 @external(javascript, "../fs_ffi.mjs", "file_handle_stat")
 pub fn file_handle_stat(handle: FileHandle) -> Promise(Stats)
 
-@external(javascript, "../fs_ffi.mjs", "file_handle_write_buffer")
-pub fn file_handle_write_buffer(
+@external(javascript, "../fs_ffi.mjs", "file_handle_write")
+pub fn file_handle_write(
   handle: FileHandle,
   buffer: Buffer,
   offset: Int,
   length: Int,
-  position: a,
-) -> Promise(FileReadResult)
-
-@external(javascript, "../fs_ffi.mjs", "file_handle_write_string")
-pub fn file_handle_write_string(
-  handle: FileHandle,
-  string: String,
-  position: a,
-  encoding: String,
+  position: Int,
 ) -> Promise(FileReadResult)
 
 @external(javascript, "../fs_ffi.mjs", "dirent_is_block_device")
