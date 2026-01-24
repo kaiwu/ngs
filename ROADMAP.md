@@ -88,12 +88,6 @@ KEEP_LOGS=1 bun test ...             # Keep runtime logs for debugging
 ```
 
 ### Current Issue
-I’m blocked on misc_aes_gcm due to missing ArrayBuffer helpers in the buffer bindings;
-crypto.encrypt/decrypt need ArrayBuffer, but we only have buffer.from (array buffer → buffer)
-with offset/length and buffer.get_buffer (buffer → array buffer). I need the intended way to
-wrap an ArrayBuffer into a Buffer (offset/length values) and to determine length. Without that,
-I can’t correctly encode/decode. Please advise the correct ArrayBuffer↔Buffer conversion using existing functions.
-
 http_complex_redirects tests fail because the 302 responses don’t carry a Location header—res.headers.get("location")
 is null. The handler sets the header but then calls http.return_code, which doesn’t emit it.
 We need to set the header and finalize the response with a return that preserves headers (e.g., http.return_text(r, 302, "")
