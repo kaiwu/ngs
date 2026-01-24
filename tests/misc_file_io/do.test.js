@@ -45,4 +45,30 @@ describe("misc_file_io", () => {
     expect(readAfterFlush.status).toBe(200);
     expect(readAfterFlush.text).toBe("");
   });
+
+  test("async flush, append, read, flush", async () => {
+    const flush1 = await req(`/flush_async`, { method: "POST" });
+    expect(flush1.status).toBe(200);
+
+    const readEmpty = await req(`/read_async`);
+    expect(readEmpty.status).toBe(200);
+    expect(readEmpty.text).toBe("");
+
+    const pushA = await req(`/push_async`, { method: "POST", body: "AAA" });
+    expect(pushA.status).toBe(200);
+
+    const pushB = await req(`/push_async`, { method: "POST", body: "BBB" });
+    expect(pushB.status).toBe(200);
+
+    const readData = await req(`/read_async`);
+    expect(readData.status).toBe(200);
+    expect(readData.text).toBe("AAABBB");
+
+    const flush2 = await req(`/flush_async`, { method: "POST" });
+    expect(flush2.status).toBe(200);
+
+    const readAfterFlush = await req(`/read_async`);
+    expect(readAfterFlush.status).toBe(200);
+    expect(readAfterFlush.text).toBe("");
+  });
 });
