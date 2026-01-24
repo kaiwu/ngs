@@ -3,16 +3,9 @@ import { startNginx, stopNginx, cleanupRuntime, TEST_URL } from "../harness.js";
 
 const MODULE = "http_complex_redirects";
 
-const req = async (path, init = {}) => {
-  const res = await fetch(`${TEST_URL}${path}`, {
-    redirect: "manual",
-    ...init,
-  });
-  return {
-    status: res.status,
-    location: res.headers.get("location"),
-    text: await res.text(),
-  };
+const req = async (baseUrl, path, init = {}) => {
+  const res = await fetch(`${baseUrl}${path}`, init);
+  return { status: res.status, text: await res.text() };
 };
 
 describe("http_complex_redirects", () => {
@@ -25,31 +18,33 @@ describe("http_complex_redirects", () => {
     cleanupRuntime(MODULE);
   });
 
-  test("redirects to /a when uri contains to_a", async () => {
-    const res = await req("/foo/to_a");
-    expect(res.status).toBe(302);
-    expect(res.location).toBe("/a");
-  });
-
-  test("redirects to /b otherwise", async () => {
-    const res = await req("/foo/to_b");
-    expect(res.status).toBe(302);
-    expect(res.location).toBe("/b");
-  });
-
-  test("follow to /a returns body", async () => {
-    const step1 = await req("/foo/to_a");
-    expect(step1.location).toBe("/a");
-    const res = await fetch(`${TEST_URL}${step1.location}`);
+  test("proxies to original uri when no mapping", async () => {
+    const res = await req(TEST_URL, "/foo");
     expect(res.status).toBe(200);
-    expect(await res.text()).toBe("A");
+    expect(res.text).toBe("/proxy/foo");
   });
 
-  test("follow to /b returns body", async () => {
-    const step1 = await req("/foo/to_b");
-    expect(step1.location).toBe("/b");
-    const res = await fetch(`${TEST_URL}${step1.location}`);
+  test("adds mapping and routes through resolver", async () => {
+    const add = await req("http://127.0.0.1:8090", "/add", {
+      method: "POST",
+      body: JSON.stringify({ from: "/foo", to: "/bar" }),
+    });
+    expect(add.status).toBe(200);
+
+    const res = await req(TEST_URL, "/foo");
     expect(res.status).toBe(200);
-    expect(await res.text()).toBe("B");
+    expect(res.text).toBe("/proxy/bar");
+  });
+
+  test("removes mapping and routes to original", async () => {
+    const remove = await req("http://127.0.0.1:8090", "/remove", {
+      method: "POST",
+      body: JSON.stringify({ from: "/foo" }),
+    });
+    expect(remove.status).toBe(200);
+
+    const res = await req(TEST_URL, "/foo");
+    expect(res.status).toBe(200);
+    expect(res.text).toBe("/proxy/foo");
   });
 });

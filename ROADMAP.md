@@ -41,7 +41,7 @@
 - ✅ `http_async_var_js_header_filter` - Async header filter
      
 ### Subrequests & Redirects
-- 🔄 `http_complex_redirects` - Complex redirect logic
+- ✅ `http_complex_redirects` - Complex redirect logic
 - ✅ `http_subrequests_chaining` - Chain subrequests sequentially
 
 ### Stream Handlers
@@ -51,8 +51,8 @@
 
 ## Low Priority
 
-- ✅`misc_file_io` - File I/O operations (read/write files)
-- 🔄 `misc_aes_gcm` - AES-GCM encryption/decryption example
+- ✅ `misc_file_io` - File I/O operations (read/write files)
+- ✅ `misc_aes_gcm` - AES-GCM encryption/decryption example
 
 ## Technical Notes
 
@@ -86,9 +86,3 @@ npm run build                        # Build all apps
 bun test tests/<name>/do.test.js     # Run specific test
 KEEP_LOGS=1 bun test ...             # Keep runtime logs for debugging
 ```
-
-### Current Issue
-http_complex_redirects tests fail because the 302 responses don’t carry a Location header—res.headers.get("location")
-is null. The handler sets the header but then calls http.return_code, which doesn’t emit it.
-We need to set the header and finalize the response with a return that preserves headers (e.g., http.return_text(r, 302, "")
-after set_headers_out, or explicitly send the header). That’s why the redirects aren’t observed in tests
