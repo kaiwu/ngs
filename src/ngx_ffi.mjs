@@ -184,10 +184,6 @@ export function version() {
     return JSON.stringify(v);
 }
 
-export function dump(a) {
-    return njs.dump(a);
-}
-
 export function ngx_log(level, message) {
     switch (level) {
         case 0: // Info

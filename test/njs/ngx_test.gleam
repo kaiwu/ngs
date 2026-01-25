@@ -16,7 +16,6 @@ pub fn module_test() {
   let _ = ngx.btoa
   let _ = ngx.log
   let _ = ngx.version
-  let _ = ngx.pretty
   let _ = ngx.parse_query_string
   let _ = ngx.make_query_string
 }

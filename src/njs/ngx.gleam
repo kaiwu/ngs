@@ -70,9 +70,6 @@ pub fn log(level: Int, message: a) -> Nil
 @external(javascript, "../ngx_ffi.mjs", "version")
 pub fn version() -> String
 
-@external(javascript, "../ngx_ffi.mjs", "dump")
-pub fn pretty(a: a) -> String
-
 @external(javascript, "../ngx_ffi.mjs", "parse_query_string")
 pub fn parse_query_string(q: String) -> Json
 

@@ -1,5 +1,5 @@
 import gleam/string
-import njs/ngx.{type JsObject, merge, object, pretty, to_string}
+import njs/ngx.{type JsObject, merge, object, to_string}
 import njs/shared_dict
 import njs/stream.{type StreamSession}
 
@@ -24,7 +24,6 @@ fn detect_http(s: StreamSession) -> Nil {
   stream.on(s, "upload", fn(data) {
     let text = to_string(data)
     stream.log(s, "stream_detect_http raw=" <> text)
-    stream.log(s, "stream_detect_http pretty=" <> pretty(data))
     let first_line = case string.split(text, "\r\n") {
       [head, ..] -> head
       _ -> text
