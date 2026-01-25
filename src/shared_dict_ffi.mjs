@@ -72,7 +72,7 @@ export function replace(d, k, v) {
 }
 
 export function set(d, k, v, t) {
-    return t ? d.set(k, v, t) : d.set(k, v);
+    return d.set(k, v, t)
 }
 
 export function size(d) {
