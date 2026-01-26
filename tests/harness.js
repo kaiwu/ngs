@@ -41,7 +41,11 @@ export async function startNginx(configPath, moduleName) {
     cwd: process.cwd(),
   });
   
-  await waitForPort(TEST_PORT);
+  if (moduleName?.startsWith("stream_")) {
+    await waitForTCPPort(TEST_PORT);
+  } else {
+    await waitForPort(TEST_PORT);
+  }
   return runtimeDir;
 }
 

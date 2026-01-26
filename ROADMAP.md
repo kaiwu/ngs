@@ -45,7 +45,7 @@
 - ✅ `http_subrequests_chaining` - Chain subrequests sequentially
 
 ### Stream Handlers
-- ⬚ `stream_auth_request` - Stream authentication
+- ✅ `stream_auth_request` - Stream authentication
 - ✅ `stream_detect_http` - HTTP detection in TCP streams
 - ✅ `stream_inject_header` - Inject headers into streams
 
