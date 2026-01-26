@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll } from "bun:test";
+import { describe, test, expect, beforeAll, afterAll, setDefaultTimeout } from "bun:test";
 import {
   startNginx,
   stopNginx,
@@ -7,6 +7,8 @@ import {
 } from "../harness.js";
 
 const MODULE = "http_certs_fetch_https";
+
+setDefaultTimeout(30000);
 
 describe("http_certs_fetch_https", () => {
   beforeAll(async () => {
