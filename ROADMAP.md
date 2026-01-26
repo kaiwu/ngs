@@ -46,8 +46,8 @@
 
 ### Stream Handlers
 - ⬚ `stream_auth_request` - Stream authentication
-- ⬚ `stream_detect_http` - HTTP detection in TCP streams
-- ⬚ `stream_inject_header` - Inject headers into streams
+- ✅ `stream_detect_http` - HTTP detection in TCP streams
+- ✅ `stream_inject_header` - Inject headers into streams
 
 ## Low Priority
 
