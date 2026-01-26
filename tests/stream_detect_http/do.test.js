@@ -9,17 +9,33 @@ import {
 
 const MODULE = "stream_detect_http";
 
-const connectAndSend = async (port, payload) =>
+const connectAndSend = async (port, payload, timeoutMs = 2000) =>
   new Promise((resolve, reject) => {
     const client = net.createConnection({ port, host: "127.0.0.1" }, () => {
       client.write(payload);
     });
     let data = "";
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve(data);
+    };
     client.on("data", (chunk) => {
       data += chunk.toString();
+      if (data.length > 0) {
+        client.end();
+      }
     });
-    client.on("end", () => resolve(data));
-    client.on("error", reject);
+    client.on("end", finish);
+    client.on("close", finish);
+    client.on("timeout", finish);
+    client.on("error", (err) => {
+      if (settled) return;
+      settled = true;
+      reject(err);
+    });
+    client.setTimeout(timeoutMs);
   });
 
 describe("stream_detect_http", () => {
@@ -36,7 +52,7 @@ describe("stream_detect_http", () => {
   test("routes HTTP traffic to httpback", async () => {
     const response = await connectAndSend(
       8888,
-      "GET / HTTP/1.1\r\nHost: example\r\n\r\n",
+      "GET / HTTP/1.1\r\nHost: example\r\nConnection: close\r\n\r\n",
     );
     expect(response).toContain("HTTPBACK");
   });
