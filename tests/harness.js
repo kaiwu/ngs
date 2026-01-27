@@ -41,7 +41,13 @@ export async function startNginx(configPath, moduleName) {
     cwd: process.cwd(),
   });
   
-  if (moduleName?.startsWith("stream_")) {
+  const tcpOnlyModules = [
+    "http_certs_fetch_https",
+    "stream_detect_http",
+    "stream_inject_header",
+    "stream_auth_request",
+  ];
+  if (tcpOnlyModules.includes(moduleName)) {
     await waitForTCPPort(TEST_PORT);
   } else {
     await waitForPort(TEST_PORT);
