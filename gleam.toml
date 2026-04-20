@@ -15,7 +15,7 @@ gleam = ">= 1.14.0"
 # https://gleam.run/writing-gleam/gleam-toml/.
 
 [dependencies]
-gleam_stdlib = ">= 0.39.0 and < 1.0.0"
+gleam_stdlib = ">= 0.39.0 and < 2.0.0"
 gleam_javascript = ">= 0.11.0 and < 2.0.0"
 gleam_json = ">= 3.0.0 and < 4.0.0"
 envoy = ">= 1.0.1 and < 2.0.0"
