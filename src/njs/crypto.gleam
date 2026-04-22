@@ -3,10 +3,6 @@ import gleam/javascript/promise.{type Promise}
 import gleam/json.{type Json}
 import njs/buffer.{type ArrayBuffer, type Buffer, type Encoding, type TypedArray}
 
-pub type Hmac
-
-pub type Hash
-
 pub type CryptoKey
 
 pub type CryptoKeyPair
@@ -21,8 +17,10 @@ pub type KeyAlgorithm {
   RsaOaepKey(name: String, hash: String)
   /// HMAC
   HMACKey(name: String, hash: String, length: Int)
-  /// AES-CTR AES-CBC ASE-GCM
+  /// AES-CTR AES-CBC AES-GCM AES-KW
   AesKey(name: String)
+  /// Ed25519, X25519
+  OKPKey(name: String)
 }
 
 pub type EncryptAlgorithm {
@@ -42,6 +40,10 @@ pub type DecryptAlgorithm =
 
 @external(javascript, "../crypto_ffi.mjs", "get_random_values")
 pub fn get_random_values(typedarray a: TypedArray) -> TypedArray
+
+/// Generate a random UUID v4 string. Added in njs 0.9.7.
+@external(javascript, "../crypto_ffi.mjs", "random_uuid")
+pub fn random_uuid() -> String
 
 @external(javascript, "../crypto_ffi.mjs", "encrypt")
 pub fn encrypt(
@@ -110,23 +112,45 @@ pub fn derive_key(
   key_usages ku: Array(String),
 ) -> Promise(CryptoKey)
 
-@external(javascript, "../crypto_ffi.mjs", "create_hash")
-pub fn create_hash(algorithm a: String) -> Hash
+/// Wrap a CryptoKey using a wrapping key. Added in njs 0.9.7.
+@external(javascript, "../crypto_ffi.mjs", "wrap_key")
+pub fn wrap_key(
+  format f: String,
+  key k: CryptoKey,
+  wrapping_key wk: CryptoKey,
+  algorithm a: a,
+) -> Promise(ArrayBuffer)
 
-@external(javascript, "../crypto_ffi.mjs", "hash_update")
-pub fn hash_update(hash h: Hash, data d: Buffer) -> Hash
+/// Unwrap an encrypted key. Added in njs 0.9.7.
+@external(javascript, "../crypto_ffi.mjs", "unwrap_key")
+pub fn unwrap_key(
+  format f: String,
+  wrapped_key wk: ArrayBuffer,
+  unwrapping_key uk: CryptoKey,
+  unwrap_algorithm ua: a,
+  unwrapped_key_algorithm uka: KeyAlgorithm,
+  extractable e: Bool,
+  key_usages ku: Array(String),
+) -> Promise(CryptoKey)
 
-@external(javascript, "../crypto_ffi.mjs", "hash_copy")
-pub fn hash_copy(hash h: Hash) -> Hash
+/// Hash data and return the result as an encoded string.
+/// algorithm: Node.js-style name ("sha256", "sha1", "md5", etc.)
+/// Replaces the removed createHash/update/digest chain from njs 0.9.7.
+@external(javascript, "../crypto_ffi.mjs", "compute_hash")
+pub fn compute_hash(
+  algorithm a: String,
+  data d: Buffer,
+  encoding e: Encoding,
+) -> Promise(String)
 
-@external(javascript, "../crypto_ffi.mjs", "hash_digest")
-pub fn hash_digest(hash h: Hash, encoding e: Encoding) -> String
-
-@external(javascript, "../crypto_ffi.mjs", "create_hmac")
-pub fn create_hmac(algorithm a: String, secret k: String) -> Hmac
-
-@external(javascript, "../crypto_ffi.mjs", "hmac_update")
-pub fn hmac_update(hmac h: Hmac, data d: Buffer) -> Hmac
-
-@external(javascript, "../crypto_ffi.mjs", "hmac_digest")
-pub fn hmac_digest(hmac h: Hmac, encoding e: Encoding) -> String
+/// Compute an HMAC and return it as an encoded string.
+/// algorithm: hash algorithm ("sha256", "sha1", etc.)
+/// key: raw key bytes as a Buffer
+/// Replaces the removed createHmac/update/digest chain from njs 0.9.7.
+@external(javascript, "../crypto_ffi.mjs", "compute_hmac")
+pub fn compute_hmac(
+  algorithm a: String,
+  key k: Buffer,
+  data d: Buffer,
+  encoding e: Encoding,
+) -> Promise(String)

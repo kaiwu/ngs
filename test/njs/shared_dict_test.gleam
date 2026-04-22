@@ -17,4 +17,5 @@ pub fn module_test() {
   let _ = shared_dict.set
   let _ = shared_dict.size
   let _ = shared_dict.dict_type
+  let _ = shared_dict.ttl
 }

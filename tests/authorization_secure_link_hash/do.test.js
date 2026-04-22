@@ -6,7 +6,7 @@ const MODULE = "http_authorization_secure_link_hash";
 const SECRET_KEY = "my_secure_secret";
 
 function generateSecureLink(uri) {
-  return crypto.createHash("md5").update(uri + SECRET_KEY).digest("base64url");
+  return crypto.createHash("sha256").update(uri + SECRET_KEY).digest("base64url");
 }
 
 describe("http authorization secure_link_hash", () => {

@@ -82,3 +82,8 @@ export function size(d) {
 export function dict_type(d) {
     return d.type;
 }
+
+export function ttl(d, k) {
+    const ms = d.ttl(k);
+    return ms !== undefined ? new Ok(Math.round(ms)) : new Error(undefined);
+}

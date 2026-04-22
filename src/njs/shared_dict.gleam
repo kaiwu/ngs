@@ -85,3 +85,9 @@ pub fn size(dict: SharedDict) -> Int
 
 @external(javascript, "../shared_dict_ffi.mjs", "dict_type")
 pub fn dict_type(dict: SharedDict) -> String
+
+/// Returns the remaining TTL in milliseconds for a key, or Error if the key
+/// doesn't exist or has already expired. Requires the dict to be declared
+/// with a timeout. Added in njs 0.9.7.
+@external(javascript, "../shared_dict_ffi.mjs", "ttl")
+pub fn ttl(dict: SharedDict, key: String) -> Result(Int, Nil)

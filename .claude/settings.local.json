@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git submodule *)",
+      "Bash(/home/kaiwu/Documents/cgit/ngs/submodules/nginx/objs/nginx -V)",
+      "Bash(ar t *)",
+      "Bash(gleam test *)",
+      "Bash(npm run *)",
+      "Bash(bun test *)",
+      "Bash(KEEP_LOGS=1 bun test tests/authorization_gen_hs_jwt/do.test.js)",
+      "Bash(grep -v \"^$\")",
+      "Bash(grep -v \".o$\\\\|.c$\\\\|.h$\")",
+      "Bash(KEEP_LOGS=1 bun test tests/authorization_secure_link_hash/do.test.js)"
+    ]
+  }
+}

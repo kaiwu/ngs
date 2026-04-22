@@ -1,6 +1,7 @@
 //// Generate HS256 JWT tokens
 //// Reference: https://github.com/nginx/njs-examples/blob/master/njs/http/authorization/gen_hs_jwt.js
 
+import gleam/javascript/promise.{type Promise}
 import gleam/json
 
 import njs/buffer
@@ -23,26 +24,29 @@ fn make_jwt_payload(sub: String, iss: String) -> String {
   |> ngx.base64url_encode
 }
 
-fn sign_jwt(header_b64: String, payload_b64: String, secret: String) -> String {
-  let signing_input =
-    { header_b64 <> "." <> payload_b64 } |> buffer.from_string(buffer.Utf8)
-
-  crypto.create_hmac("sha256", secret)
-  |> crypto.hmac_update(signing_input)
-  |> crypto.hmac_digest(buffer.Base64Url)
+fn sign_jwt(
+  header_b64: String,
+  payload_b64: String,
+  secret: String,
+) -> Promise(String) {
+  let signing_input = header_b64 <> "." <> payload_b64
+  crypto.compute_hmac(
+    "sha256",
+    buffer.from_string(secret, buffer.Utf8),
+    buffer.from_string(signing_input, buffer.Utf8),
+    buffer.Base64Url,
+  )
 }
 
-fn generate_jwt(sub: String, iss: String) -> String {
+fn generate_jwt(sub: String, iss: String) -> Promise(String) {
   let header_b64 = make_jwt_header()
   let payload_b64 = make_jwt_payload(sub, iss)
-  let signature = sign_jwt(header_b64, payload_b64, jwt_secret)
-
-  header_b64 <> "." <> payload_b64 <> "." <> signature
+  use signature <- promise.await(sign_jwt(header_b64, payload_b64, jwt_secret))
+  promise.resolve(header_b64 <> "." <> payload_b64 <> "." <> signature)
 }
 
 /// js_set variable function - generates a JWT for the request
-fn jwt(r: HTTPRequest) -> String {
-  // Get sub from query param or use default
+fn jwt(r: HTTPRequest) -> Promise(String) {
   let sub = case http.get_header_in(r, "X-Subject") {
     Ok(s) -> s
     Error(_) -> "user"

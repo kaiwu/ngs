@@ -1,8 +1,4 @@
-import { Ok, Error } from "./gleam.mjs"
-import {default as Crypto} from 'crypto'
-
 import {
-  Utf8,
   Hex,
   Base64,
   Base64Url,
@@ -21,8 +17,24 @@ function encoding(e) {
   return 'utf8';
 }
 
+// Normalize Node.js-style algorithm names to WebCrypto names
+function algo_name(a) {
+  switch (a.toLowerCase()) {
+    case 'md5':    return 'MD5';
+    case 'sha1':   return 'SHA-1';
+    case 'sha256': return 'SHA-256';
+    case 'sha384': return 'SHA-384';
+    case 'sha512': return 'SHA-512';
+    default:       return a;
+  }
+}
+
 export function get_random_values(a) {
     return crypto.getRandomValues(a);
+}
+
+export function random_uuid() {
+    return crypto.randomUUID();
 }
 
 export function encrypt(a, k, d) {
@@ -85,33 +97,41 @@ export function derive_key(a, k, dka, e, ku) {
     })
 }
 
-export function create_hash(a) {
-    return Crypto.createHash(a);
+export function wrap_key(f, k, wk, wa) {
+    return new Promise(resolve => {
+        crypto.subtle.wrapKey(f, k, wk, wa).then(v => resolve(v))
+    })
 }
 
-export function hash_update(h, d) {
-    h.update(d);
-    return h;
+export function unwrap_key(f, wk, uk, ua, uka, e, ku) {
+    return new Promise(resolve => {
+        crypto.subtle.unwrapKey(f, wk, uk, ua, uka, e, ku).then(v => resolve(v))
+    })
 }
 
-export function hash_copy(h) {
-    return h.copy();
+// Compute a hash digest and return it encoded as a string.
+// algorithm: Node.js-style name ("sha256", "md5", etc.)
+// data: Buffer (njs Buffer / Uint8Array)
+// enc: Gleam Encoding
+export async function compute_hash(algorithm, data, enc) {
+    const hash_buf = await crypto.subtle.digest(algo_name(algorithm), data);
+    return Buffer.from(hash_buf).toString(encoding(enc));
 }
 
-export function hash_digest(h, e) {
-    return h.digest(encoding(e));
+// Compute an HMAC and return it encoded as a string.
+// algorithm: hash algorithm name ("sha256", "sha1", etc.)
+// key_data: Buffer containing the raw HMAC key bytes
+// data: Buffer containing the message bytes
+// enc: Gleam Encoding
+export async function compute_hmac(algorithm, key_data, data, enc) {
+    const name = algo_name(algorithm);
+    const key = await crypto.subtle.importKey(
+        "raw",
+        key_data,
+        { name: "HMAC", hash: name },
+        false,
+        ["sign"]
+    );
+    const sig = await crypto.subtle.sign("HMAC", key, data);
+    return Buffer.from(sig).toString(encoding(enc));
 }
-
-export function create_hmac(a, k) {
-    return Crypto.createHmac(a, k);
-}
-
-export function hmac_update(h, d) {
-    h.update(d);
-    return h;
-}
-
-export function hmac_digest(h, e) {
-    return h.digest(encoding(e));
-}
-
