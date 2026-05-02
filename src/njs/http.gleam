@@ -67,10 +67,16 @@ pub fn set_headers_out(
 ) -> HTTPRequest
 
 @external(javascript, "../http_ffi.mjs", "http_get_variable")
-pub fn get_variable(request r: HTTPRequest, name n: String) -> Result(String, Nil)
+pub fn get_variable(
+  request r: HTTPRequest,
+  name n: String,
+) -> Result(String, Nil)
 
 @external(javascript, "../http_ffi.mjs", "http_get_raw_variable")
-pub fn get_raw_variable(request r: HTTPRequest, name n: String) -> Result(Buffer, Nil)
+pub fn get_raw_variable(
+  request r: HTTPRequest,
+  name n: String,
+) -> Result(Buffer, Nil)
 
 @external(javascript, "../http_ffi.mjs", "http_version")
 pub fn version(request r: HTTPRequest) -> String

@@ -14,7 +14,12 @@ pub fn get_shared_dict(name: String) -> Result(SharedDict, Nil)
 @external(javascript, "../shared_dict_ffi.mjs", "add")
 fn do_add(dict: SharedDict, key: String, value: a, timeout: Int) -> Bool
 
-pub fn add(dict: SharedDict, key: String, value: DictItem, timeout: Int) -> Bool {
+pub fn add(
+  dict: SharedDict,
+  key: String,
+  value: DictItem,
+  timeout: Int,
+) -> Bool {
   case value {
     ItemString(s) -> do_add(dict, key, s, timeout)
     ItemNumber(n) -> do_add(dict, key, n, timeout)
