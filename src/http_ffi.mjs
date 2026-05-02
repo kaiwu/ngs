@@ -17,6 +17,16 @@ export function http_get_raw_variables(r) {
   return r.rawVariables;
 }
 
+export function http_get_variable(r, name) {
+  const v = r.variables[name];
+  return v === undefined ? new Error(undefined) : new Ok(v);
+}
+
+export function http_get_raw_variable(r, name) {
+  const v = r.rawVariables[name];
+  return v === undefined ? new Error(undefined) : new Ok(v);
+}
+
 export function http_done(r) {
   r.done();
 }

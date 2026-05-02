@@ -4,6 +4,8 @@ pub fn module_test() {
   let _ = http.args
   let _ = http.get_variables
   let _ = http.get_raw_variables
+  let _ = http.get_variable
+  let _ = http.get_raw_variable
   let _ = http.set_variables
   let _ = http.done
   let _ = http.error

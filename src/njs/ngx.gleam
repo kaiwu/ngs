@@ -34,6 +34,7 @@ pub fn make_array(ls: List(a)) -> Array(a) {
   array.from_list(ls)
 }
 
+/// safe for normal JS objects, not for r.variables
 @external(javascript, "../ngx_ffi.mjs", "get")
 pub fn get(o: JsObject, k: k) -> Result(JsObject, Nil)
 
