@@ -1,150 +1,79 @@
-# NGS Development Notes
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-NGS provides Gleam bindings for nginx's njs (JavaScript) runtime. It enables writing type-safe, functional nginx handlers in Gleam.
+NGS provides Gleam bindings for nginx's njs (JavaScript) runtime. It enables writing type-safe, functional nginx handlers in Gleam. The compiled JavaScript targets ES2020 and requires the QuickJS engine (`js_engine qjs` in nginx.conf).
 
-## CRITICAL: njs Runtime (NOT Node.js!)
+## Commands
 
-**njs uses the QuickJS engine, NOT (exactly) njs, NOT (at all) Node.js.** While APIs look similar, they are NOT the same.
-
-- **Official njs Reference**: https://nginx.org/en/docs/njs/reference.html
-- **njs Compatibility to js**: https://nginx.org/en/docs/njs/compatibility.html
-- **qjs QuickJS Compatibility to njs**: https://nginx.org/en/docs/njs/engine.html
-
-### Key Differences from Node.js
-
-1. **No npm packages** - Only built-in njs modules available
-2. **Web Crypto API available**: `crypto.subtle.*` for modern crypto
-3. **Global objects**: `ngx`, `njs`, `console`, `crypto`
-4. **No event loop** - Promises work, but no `setImmediate`, limited `setTimeout`
-
-### njs Crypto APIs
-
-Two crypto APIs available (both work, choose based on need):
-
-```javascript
-// Node-style (synchronous, simpler)
-crypto.createHmac('sha256', secret).update(data).digest('base64');
-crypto.createHash('sha256').update(data).digest('hex');
-
-// Web Crypto API (async, more modern)
-await crypto.subtle.digest('SHA-256', data);
-await crypto.subtle.sign('HMAC', key, data);
-```
-
-### njs-specific Objects
-
-```javascript
-// ngx global object
-ngx.log(ngx.INFO, "message");     // Log levels: ngx.INFO, ngx.WARN, ngx.ERR
-ngx.fetch(url);                    // Fetch API
-ngx.shared.SharedDict             // Shared memory dictionaries
-
-// njs global object
-njs.version                        // njs version string
-njs.dump(obj)                      // Pretty-print object (debugging)
+```bash
+gleam test                          # Unit tests — run before bun test; fix failures before continuing
+npm run build                       # Compile Gleam → JS, bundle with esbuild into dist/
+npm run watch                       # Watch mode with live reload
+bun test                            # All integration tests (starts real nginx per suite)
+bun test tests/<name>/do.test.js    # Single integration test suite
+KEEP_LOGS=1 bun test ...            # Preserve dist/<app>/runtime/logs/ after failure
+npm run clean                       # Remove dist/ (keeps Gleam build cache)
+npm run purge                       # Full clean including Gleam build cache
+bun run scripts/audit_njs_apis.ts  # API coverage audit against njs C source
 ```
 
 ## Architecture
 
 ```
 src/
-├── njs/           # Core njs API bindings (18 modules)
-│   ├── http.gleam      # HTTP request/response handling
-│   ├── stream.gleam    # TCP/UDP stream handling  
-│   ├── crypto.gleam    # WebCrypto + node crypto APIs
-│   ├── buffer.gleam    # Binary data manipulation
-│   ├── fs.gleam        # File system operations
-│   ├── ngx.gleam       # Core nginx utilities, shared dict
-│   └── ...
-├── app/           # Example applications (25+)
-│   └── <name>/
-│       ├── <name>.gleam   # Handler implementation
-│       └── nginx.conf     # nginx configuration
-└── ngs.gleam      # Build system
+├── njs/            # Gleam bindings — one .gleam file + one _ffi.mjs file per API domain
+├── app/<name>/     # Example nginx handlers
+│   ├── <name>.gleam    # Handler implementation (only uses src/njs/* bindings)
+│   └── nginx.conf      # nginx configuration for this app
+├── *_ffi.mjs       # FFI shims (JS files that call njs APIs directly)
+└── ngs.gleam       # Build system: registers every app in apps()
 
 tests/
-├── harness.js     # Test infrastructure (nginx process management)
-├── mocks/         # Mock servers (redis, postgres, consul, etc.)
-└── <name>/
-    └── do.test.js # Integration tests using bun:test
+├── harness.js      # Spawns nginx, manages runtime dirs, exposes TEST_URL
+├── preload.js      # Runs npm run build once before the whole test run
+├── mocks/          # Long-lived mock servers started by harness (Redis 16379, Postgres 15432,
+│                   #   Consul 18500, OIDC 19000, ACME 14000, HTTP 19001-19003)
+└── <name>/do.test.js
 ```
 
-## Build System
+The build pipeline (`src/ngs.gleam` → `src/ngs_ffi.mjs`) runs Gleam compilation then esbuild, writing `dist/<app>/njs/app.js` + `dist/<app>/nginx.conf` for each registered app.
 
-- `npm run build` - Compiles Gleam → JS, bundles with esbuild
-- `npm run watch` - Watch mode with live reload
-- Apps are registered in `src/ngs.gleam` in the `apps()` function
-- Output goes to `dist/<app_name>/` with `nginx.conf` and `njs/app.js`
+## CRITICAL: njs Runtime
 
-## Gleam test
+**njs uses QuickJS, not Node.js.** While APIs look similar they are not the same.
 
-Run `gleam test` before Integration Test with Bun. If it fails, fix it or stop
+- No npm packages — only built-in njs modules
+- Globals: `ngx`, `njs`, `console`, `crypto` (Web Crypto)
+- Promises work; no event loop, no `setImmediate`, limited `setTimeout`
+- Log levels in njs C source are `ngx.ERR`, `ngx.WARN`, `ngx.INFO` (not `ERROR`)
 
-## Test Harness
+Official references: [njs reference](https://nginx.org/en/docs/njs/reference.html) · [compatibility](https://nginx.org/en/docs/njs/compatibility.html) · [QuickJS engine notes](https://nginx.org/en/docs/njs/engine.html)
 
-Tests use Bun and require the nginx binary at `./submodules/nginx/objs/nginx`.
+## FFI Rules
 
-```javascript
-import { startNginx, stopNginx, cleanupRuntime, TEST_URL } from "../harness.js";
+**Never add or modify `*_ffi.mjs` files when implementing apps.** Apps must be built entirely from the existing `src/njs/*.gleam` bindings. Creating new FFI is a last resort for binding gaps, not for app logic — it defeats the purpose of verifying the Gleam binding layer.
 
-beforeAll(async () => {
-  await startNginx(`dist/${MODULE}/nginx.conf`, MODULE);
-});
+## Key Binding Conventions
 
-afterAll(async () => {
-  await stopNginx();
-  cleanupRuntime(MODULE);
-});
-```
-
-- Default test port: 8888
-- Mock servers available on ports 16379 (Redis), 15432 (Postgres), etc.
-
-## nginx.conf Template
-
-```nginx
-daemon off;
-error_log logs/error.log debug;
-pid logs/nginx.pid;
-
-events {
-    worker_connections 64;
-}
-
-http {
-    js_engine qjs;
-    js_path "njs/";
-    js_import main from app.js;
-
-    server {
-        listen 8888;
-        location / {
-            js_content main.handler;
-        }
-    }
-}
-```
-
-## Key njs APIs
-
-### HTTP Handler Pattern
+### Logging
 ```gleam
-import njs/http.{type HTTPRequest}
-import njs/ngx.{type JsObject}
+import njs/ngx
+ngx.log(ngx.info, "message")   // ngx.info = 0, ngx.warn = 1, ngx.error = 2
+```
 
-fn handler(r: HTTPRequest) -> Nil {
-  r |> http.return_text(200, "Hello")
-}
-
+### HTTP handler exports
+Every app must export a `JsObject` that maps string names to handler functions:
+```gleam
 pub fn exports() -> JsObject {
   ngx.object()
   |> ngx.merge("handler", handler)
 }
 ```
 
-### Async Handler Pattern
+### Async handlers
 ```gleam
 fn async_handler(r: HTTPRequest) -> Promise(Nil) {
   use response <- promise.await(http.subrequest(r, "/backend", ""))
@@ -153,102 +82,111 @@ fn async_handler(r: HTTPRequest) -> Promise(Nil) {
 }
 ```
 
-### js_set Variable Pattern
+### js_set variable handlers (sync only — cannot return Promise)
 ```gleam
-fn get_value(r: HTTPRequest) -> String {
-  // Return value used as nginx variable
-  "some_value"
-}
+fn get_value(r: HTTPRequest) -> String { "some_value" }
 ```
-
 ```nginx
 js_set $my_var main.get_value;
-location / { return 200 "$my_var"; }
 ```
 
-## Reference Implementation
-
-Based on https://github.com/nginx/njs-examples
-
-**Important**: Some njs-examples use nginx Plus modules (e.g., `js_periodic`, advanced key-value stores). These are NOT available in open-source nginx. Implementations should:
-
-1. Focus on proving the Gleam bindings work correctly
-2. Use equivalent open-source nginx features where possible
-3. Simplify examples when nginx Plus features are required
-
-## Implementation Status
-
-### Complete (with tests)
-- `http_hello` - Basic handler
-- `http_decode_uri` - JSON parsing from query args
-- `http_join_subrequests` - Parallel subrequests with Promise.all
-
-### Stub (TODO)
-All other apps in `src/app/` are stubs with `// TODO: implement`
-
-## FFI Notes
-
-### App 
-Do not create new FFI bindings when implementing Apps, which means
-do NOT modify exsiting or add new ffi.mjs files. Use the exsiting
-bindings to implement your entire app, STOP if you are not sure how
-to do. Create new bindings effectively fallback to javascript,
-which defeats the purpose of verifying gleam bindings of the project
-
-### Buffer Encoding
-The buffer FFI maps Gleam encoding types to JS strings:
-- `buffer.Utf8` → `'utf8'`
-- `buffer.Hex` → `'hex'`
-- `buffer.Base64` → `'base64'`
-- `buffer.Base64Url` → `'base64url'`
-
-### BitArray Handling
-Gleam BitArrays are passed to JS FFI. When working with strings:
-- Use `<<string:utf8>>` to create BitArray from string literal
-- Buffer FFI expects BitArray for `from_string`
-
-### Headers Access
-
-**IMPORTANT**: `http.headers_in(r)` returns njs's native HeadersIn object, NOT a Gleam Dict.
-Use `http.get_header_in(r, "Header-Name")` to access individual headers:
-
+### Headers access
+`http.headers_in(r)` returns the njs native `HeadersIn` proxy, not a Gleam Dict. Always use:
 ```gleam
 case http.get_header_in(r, "Authorization") {
-  Ok(value) -> // header exists
-  Error(_) -> // header missing
+  Ok(value) -> ...
+  Error(_) -> ...
+}
+```
+Header names are case-insensitive in njs but use canonical casing (e.g. `"Authorization"`).
+
+### Crypto (async Web Crypto — the Gleam API)
+```gleam
+// Hash
+let hash_str <- promise.await(crypto.compute_hash("sha256", data_buf, buffer.Hex))
+
+// HMAC
+let hmac_str <- promise.await(crypto.compute_hmac("sha256", key_buf, data_buf, buffer.Base64))
+```
+The node-style synchronous `createHash`/`createHmac` chain is intentionally not exposed — the async Web Crypto path covers all practical handler use cases. The only unsupported case is computing a hash inside a `js_set` handler (which cannot return a Promise).
+
+### Shared Dict
+```gleam
+import njs/shared_dict
+case shared_dict.get_shared_dict("dict_name") {
+  Ok(dict) -> shared_dict.get(dict, "key")
+  Error(_) -> ...
 }
 ```
 
-Note: Header names in njs are case-insensitive but typically use proper case (e.g., "Authorization" not "authorization").
-
-## Common Patterns
-
-### JWT Parsing (without verification)
+### Buffer encodings
 ```gleam
-fn jwt_parse(token: String) -> Result(#(String, String), Nil) {
-  case string.split(token, ".") {
-    [header, payload, _sig] -> Ok(#(header, payload))
-    _ -> Error(Nil)
-  }
+buffer.Utf8 | buffer.Hex | buffer.Base64 | buffer.Base64Url
+```
+
+### Stream callbacks
+`StreamData` carries three fields — both flags from the njs `option` object are exposed:
+```gleam
+case event {
+  StreamString(data, last, from_upstream) -> ...
+  StreamBuffer(buf,  last, from_upstream) -> ...
 }
 ```
 
-### Shared Dict (request counting, rate limiting)
-```gleam
-ngx.shared_dict_set("key", value, timeout_ms)
-ngx.shared_dict_get("key")
+## Adding a New App
+
+1. Create `src/app/<name>/<name>.gleam` and `src/app/<name>/nginx.conf`
+2. Register in `src/ngs.gleam` inside `apps()`:
+   ```gleam
+   App("<name>", "./build/dev/javascript/ngs/app/<name>/<name>.mjs"),
+   ```
+3. Create `tests/<name>/do.test.js` using the harness pattern below
+4. Run `gleam test && npm run build && bun test tests/<name>/do.test.js`
+
+### Test file template
+```javascript
+import { describe, test, expect, beforeAll, afterAll } from "bun:test";
+import { startNginx, stopNginx, cleanupRuntime, TEST_URL } from "../harness.js";
+
+const MODULE = "<name>";
+
+describe("<name>", () => {
+  beforeAll(async () => { await startNginx(`dist/${MODULE}/nginx.conf`, MODULE); });
+  afterAll(async () => { await stopNginx(); cleanupRuntime(MODULE); });
+
+  test("...", async () => {
+    const res = await fetch(`${TEST_URL}/`);
+    expect(res.status).toBe(200);
+  });
+});
 ```
 
-### Crypto HMAC
-```gleam
-crypto.create_hmac("sha256", secret)
-|> crypto.hmac_update(<<data:utf8>>)
-|> crypto.hmac_digest(buffer.Base64)
+## nginx.conf Minimum Template
+
+```nginx
+daemon off;
+error_log logs/error.log debug;
+pid logs/nginx.pid;
+events { worker_connections 64; }
+
+http {
+    js_engine qjs;
+    js_path "njs/";
+    js_import main from app.js;
+    server {
+        listen 8888;
+        location / { js_content main.handler; }
+    }
+}
 ```
 
 ## Debugging
 
-1. Check nginx error logs: `dist/<app>/runtime/logs/error.log`
-2. Set `KEEP_LOGS=1` to preserve runtime dir after test failure
-3. Use `http.log(r, "message")` for request-scoped logging
-4. Use `ngx.ngx_log(ngx.Info, "message")` for global logging
+- nginx error logs: `dist/<app>/runtime/logs/error.log`
+- Request-scoped: `http.log(r, "message")` or `http.warn(r, "message")`
+- Global: `ngx.log(ngx.info, "message")`
+- `KEEP_LOGS=1 bun test ...` prevents the runtime directory from being cleaned up on failure
+
+## nginx Plus Limitations
+
+Some njs-examples reference nginx Plus features unavailable in open-source nginx: `js_periodic`, advanced key-value stores, some certificate management directives. Implementations use open-source equivalents where possible; see ROADMAP.md for deferred items.
