@@ -10,7 +10,9 @@
       "Bash(KEEP_LOGS=1 bun test tests/authorization_gen_hs_jwt/do.test.js)",
       "Bash(grep -v \"^$\")",
       "Bash(grep -v \".o$\\\\|.c$\\\\|.h$\")",
-      "Bash(KEEP_LOGS=1 bun test tests/authorization_secure_link_hash/do.test.js)"
+      "Bash(KEEP_LOGS=1 bun test tests/authorization_secure_link_hash/do.test.js)",
+      "Bash(bun run *)",
+      "Bash(gleam build *)"
     ]
   }
 }

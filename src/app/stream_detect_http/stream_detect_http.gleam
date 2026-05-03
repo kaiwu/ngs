@@ -35,7 +35,7 @@ fn is_http_request(data: String) -> Bool {
 fn detect_http(s: StreamSession) -> Nil {
   stream.on(s, UpStringEvent, fn(d: StreamData) {
     case d {
-      StreamString(data, last) -> {
+      StreamString(data, last, _from_upstream) -> {
         let _ = stream.log(s, "stream data is: " <> data)
         case is_http_request(data), string.length(data) > 0 || last {
           True, True -> {

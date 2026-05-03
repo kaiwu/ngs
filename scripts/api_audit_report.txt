@@ -1,0 +1,523 @@
+================================================================================
+  NJS API Coverage Audit Report
+  Generated: 2026-05-03T04:11:22.140Z
+================================================================================
+
+  Legend:
+    ✓  = Covered (FFI + Gleam binding)
+    ◐  = FFI exists but no Gleam wrapper
+    ✗  = Missing (no FFI binding at all)
+
+── Buffer static (buffer) ──
+  ✗ constants                        property       → Buffer.constants
+  ── 0/1 covered (0%) ──
+
+── Buffer static (buffer) ──
+  ✓ alloc                            method(3)      → Buffer.alloc
+  ✓ allocUnsafe                      method(3)      → Buffer.allocUnsafe
+  ✓ byteLength                       method(2)      → Buffer.byteLength
+  ✓ compare                          method(6)      → Buffer.compare
+  ✓ concat                           method(2)      → Buffer.concat
+  ✓ from                             method(3)      → Buffer.from
+  ✓ isBuffer                         method(1)      → Buffer.isBuffer
+  ✓ isEncoding                       method(1)      → Buffer.isEncoding
+  ── 8/8 covered (100%) ──
+
+── Buffer.constants (buffer) ──
+  ✗ MAX_LENGTH                       constant       → MAX_LENGTH
+  ✗ MAX_STRING_LENGTH                constant       → MAX_STRING_LENGTH
+  ── 0/2 covered (0%) ──
+
+── Buffer.prototype (buffer) ──
+  ✓ compare                          method(5)      → compare
+  ✓ copy                             method(5)      → copy
+  ✓ equals                           method(1)      → equals
+  ✓ fill                             method(4)      → fill
+  ✓ includes                         method(3)      → includes
+  ✓ indexOf                          method(3)      → indexOf
+  ✓ lastIndexOf                      method(3)      → lastIndexOf
+  ✓ readFloatLE                      method(1)      → readFloatLE
+  ✓ readFloatBE                      method(1)      → readFloatBE
+  ✓ readDoubleLE                     method(1)      → readDoubleLE
+  ✓ readDoubleBE                     method(1)      → readDoubleBE
+  ✓ readInt8                         method(1)      → readInt8
+  ✓ readUInt8                        method(1)      → readUInt8
+  ✓ readInt16LE                      method(1)      → readInt16LE
+  ✓ readUInt16LE                     method(1)      → readUInt16LE
+  ✓ readInt16BE                      method(1)      → readInt16BE
+  ✓ readUInt16BE                     method(1)      → readUInt16BE
+  ✓ readInt32LE                      method(1)      → readInt32LE
+  ✓ readUInt32LE                     method(1)      → readUInt32LE
+  ✓ readInt32BE                      method(1)      → readInt32BE
+  ✓ readUInt32BE                     method(1)      → readUInt32BE
+  ✓ readIntLE                        method(2)      → readIntLE
+  ✓ readUIntLE                       method(2)      → readUIntLE
+  ✓ readIntBE                        method(2)      → readIntBE
+  ✓ readUIntBE                       method(2)      → readUIntBE
+  ✓ swap16                           method(0)      → swap16
+  ✓ swap32                           method(0)      → swap32
+  ✓ swap64                           method(0)      → swap64
+  ✓ toJSON                           method(0)      → toJSON
+  ✓ toString                         method(1)      → toString
+  ✓ write                            method(4)      → write
+  ✓ writeInt8                        method(1)      → writeInt8
+  ✓ writeUInt8                       method(1)      → writeUInt8
+  ✓ writeInt16LE                     method(1)      → writeInt16LE
+  ✓ writeUInt16LE                    method(1)      → writeUInt16LE
+  ✓ writeInt16BE                     method(1)      → writeInt16BE
+  ✓ writeUInt16BE                    method(1)      → writeUInt16BE
+  ✓ writeInt32LE                     method(1)      → writeInt32LE
+  ✓ writeUInt32LE                    method(1)      → writeUInt32LE
+  ✓ writeInt32BE                     method(1)      → writeInt32BE
+  ✓ writeUInt32BE                    method(1)      → writeUInt32BE
+  ✓ writeIntLE                       method(2)      → writeIntLE
+  ✓ writeUIntLE                      method(2)      → writeUIntLE
+  ✓ writeIntBE                       method(2)      → writeIntBE
+  ✓ writeUIntBE                      method(2)      → writeUIntBE
+  ✓ writeFloatLE                     method(2)      → writeFloatLE
+  ✓ writeFloatBE                     method(2)      → writeFloatBE
+  ✓ writeDoubleLE                    method(2)      → writeDoubleLE
+  ✓ writeDoubleBE                    method(2)      → writeDoubleBE
+  ── 49/49 covered (100%) ──
+
+── fs static+sync (fs) ──
+  ✗ constants                        property       → constants
+  ✗ promises                         property       → promises
+  ✓ access                           method(3)      → access
+  ✓ accessSync                       method(2)      → accessSync
+  ✓ appendFile                       method(4)      → appendFile
+  ✓ appendFileSync                   method(3)      → appendFileSync
+  ✓ closeSync                        method(1)      → closeSync
+  ✓ existsSync                       method(1)      → existsSync
+  ✓ fstatSync                        method(2)      → fstatSync
+  ✓ lstat                            method(3)      → lstat
+  ✓ lstatSync                        method(2)      → lstatSync
+  ✓ mkdir                            method(3)      → mkdir
+  ✓ mkdirSync                        method(2)      → mkdirSync
+  ✓ openSync                         method(3)      → openSync
+  ✓ readSync                         method(5)      → readSync
+  ✓ readFile                         method(3)      → readFile
+  ✓ readFileSync                     method(2)      → readFileSync
+  ✓ realpath                         method(3)      → realpath
+  ✓ realpathSync                     method(2)      → realpathSync
+  ✓ readdir                          method(3)      → readdir
+  ✓ readdirSync                      method(2)      → readdirSync
+  ✓ readlink                         method(3)      → readlink
+  ✓ readlinkSync                     method(2)      → readlinkSync
+  ✓ rename                           method(3)      → rename
+  ✓ renameSync                       method(2)      → renameSync
+  ✓ rmdir                            method(3)      → rmdir
+  ✓ rmdirSync                        method(2)      → rmdirSync
+  ✓ stat                             method(3)      → stat
+  ✓ statSync                         method(2)      → statSync
+  ✓ symlink                          method(4)      → symlink
+  ✓ symlinkSync                      method(3)      → symlinkSync
+  ✓ writeSync                        method(5)      → writeSync
+  ✓ writeFile                        method(4)      → writeFile
+  ✓ writeFileSync                    method(3)      → writeFileSync
+  ✓ unlink                           method(2)      → unlink
+  ✓ unlinkSync                       method(1)      → unlinkSync
+  ── 34/36 covered (94%) ──
+
+── fs.constants (fs) ──
+  ✓ F_OK                             constant       → F_OK
+  ✓ R_OK                             constant       → R_OK
+  ✓ W_OK                             constant       → W_OK
+  ✓ X_OK                             constant       → X_OK
+  ── 4/4 covered (100%) ──
+
+── fs.Dirent (fs) ──
+  ✓ isBlockDevice                    method(0)      → isBlockDevice
+  ✓ isCharacterDevice                method(0)      → isCharacterDevice
+  ✓ isDirectory                      method(0)      → isDirectory
+  ✓ isFIFO                           method(0)      → isFIFO
+  ✓ isFile                           method(0)      → isFile
+  ✓ isSocket                         method(0)      → isSocket
+  ✓ isSymbolicLink                   method(0)      → isSymbolicLink
+  ── 7/7 covered (100%) ──
+
+── fs.FileHandle (fs) ──
+  ✓ close                            method(0)      → close
+  ✓ fd                               getter         → fd
+  ✓ stat                             method(4)      → stat
+  ✓ read                             method(4)      → read
+  ✗ valueOf                          method(0)      → valueOf
+  ✓ write                            method(4)      → write
+  ── 5/6 covered (83%) ──
+
+── fs.promises (fs) ──
+  ✓ access                           method(2)      → access
+  ✓ appendFile                       method(3)      → appendFile
+  ✓ fstat                            method(2)      → fstat
+  ✓ lstat                            method(2)      → lstat
+  ✓ mkdir                            method(2)      → mkdir
+  ✓ open                             method(3)      → open
+  ✓ readFile                         method(2)      → readFile
+  ✓ realpath                         method(2)      → realpath
+  ✓ readdir                          method(2)      → readdir
+  ✓ readlink                         method(2)      → readlink
+  ✓ rename                           method(2)      → rename
+  ✓ rmdir                            method(2)      → rmdir
+  ✓ stat                             method(2)      → stat
+  ✓ symlink                          method(3)      → symlink
+  ✓ writeFile                        method(3)      → writeFile
+  ✓ unlink                           method(1)      → unlink
+  ── 16/16 covered (100%) ──
+
+── fs.Stats (fs) ──
+  ✓ isBlockDevice                    method(0)      → isBlockDevice
+  ✓ isCharacterDevice                method(0)      → isCharacterDevice
+  ✓ isDirectory                      method(0)      → isDirectory
+  ✓ isFIFO                           method(0)      → isFIFO
+  ✓ isFile                           method(0)      → isFile
+  ✓ isSocket                         method(0)      → isSocket
+  ✓ isSymbolicLink                   method(0)      → isSymbolicLink
+  ── 7/7 covered (100%) ──
+
+── querystring (querystring) ──
+  ✓ decode                           method(4)      → qs.decode
+  ✓ encode                           method(4)      → qs.encode
+  ✓ escape                           method(1)      → qs.escape
+  ✓ parse                            method(4)      → qs.parse
+  ✓ stringify                        method(4)      → qs.stringify
+  ✓ unescape                         method(1)      → qs.unescape
+  ── 6/6 covered (100%) ──
+
+── crypto global (crypto) ──
+  ✓ getRandomValues                  method(1)      → crypto.getRandomValues
+  ✓ randomUUID                       method(0)      → crypto.randomUUID
+  ✗ subtle                           property       → crypto.subtle
+  ── 2/3 covered (67%) ──
+
+── crypto.subtle (crypto) ──
+  ✓ importKey                        method(5)      → crypto.subtle.importKey
+  ✓ decrypt                          method(4)      → crypto.subtle.decrypt
+  ✓ deriveBits                       method(4)      → crypto.subtle.deriveBits
+  ✓ deriveKey                        method(5)      → crypto.subtle.deriveKey
+  ✓ digest                           method(3)      → crypto.subtle.digest
+  ✓ encrypt                          method(4)      → crypto.subtle.encrypt
+  ✓ exportKey                        method(3)      → crypto.subtle.exportKey
+  ✓ generateKey                      method(3)      → crypto.subtle.generateKey
+  ✓ sign                             method(4)      → crypto.subtle.sign
+  ✓ unwrapKey                        method(7)      → crypto.subtle.unwrapKey
+  ✓ verify                           method(4)      → crypto.subtle.verify
+  ✓ wrapKey                          method(4)      → crypto.subtle.wrapKey
+  ── 12/12 covered (100%) ──
+
+── CryptoKey (crypto) ──
+  ✗ algorithm                        getter         → algorithm
+  ✗ extractable                      getter         → extractable
+  ✗ type                             getter         → type
+  ✗ usages                           getter         → usages
+  ── 0/4 covered (0%) ──
+
+── crypto module (crypto_module) ──
+  ✓ createHash                       method(1)      → createHash
+  ✓ createHmac                       method(2)      → createHmac
+  ── 2/2 covered (100%) ──
+
+── Hash (crypto_module) ──
+  ✗ update                           method(2)      → update
+  ✓ digest                           method(1)      → digest
+  ✗ copy                             method(0)      → copy
+  ✗ constructor                      method(1)      → constructor
+  ── 1/4 covered (25%) ──
+
+── Hmac (crypto_module) ──
+  ✗ update                           method(2)      → update
+  ✓ digest                           method(1)      → digest
+  ✗ constructor                      method(2)      → constructor
+  ── 1/3 covered (33%) ──
+
+── ngx (ngx) ──
+  ◐ build                            getter         → ngx.build
+  ◐ conf_prefix                      getter         → ngx.conf_prefix
+  ◐ conf_file_path                   getter         → ngx.conf_file_path
+  ◐ ERR                              getter         → ngx.ERR
+  ◐ error_log_path                   getter         → ngx.error_log_path
+  ✓ fetch                            method(2)      → ngx.fetch
+  ◐ INFO                             getter         → ngx.INFO
+  ◐ log                              method(1)      → ngx.log
+  ◐ prefix                           getter         → ngx.prefix
+  ✓ version                          constant       → ngx.version
+  ◐ version_number                   constant       → ngx.version_number
+  ◐ WARN                             getter         → ngx.WARN
+  ✓ engine_id                        getter         → ngx.engine_id
+  ◐ worker_id                        getter         → ngx.worker_id
+  ── 3/14 covered (21%) ──
+
+── console (console) ──
+  ✓ error                            method(1)      → error
+  ✓ info                             method(1)      → info
+  ✓ log                              method(1)      → log
+  ✓ time                             method(1)      → time
+  ✓ timeEnd                          method(1)      → timeEnd
+  ✓ warn                             method(1)      → warn
+  ── 6/6 covered (100%) ──
+
+── global (global) ──
+  ◐ process                          getter         → global.process
+  ✓ setTimeout                       method(1)      → global.setTimeout
+  ✗ setImmediate                     method(1)      → global.setImmediate
+  ✓ clearTimeout                     method(1)      → global.clearTimeout
+  ── 2/4 covered (50%) ──
+
+── njs (intrinsics) ──
+  ✓ version                          constant       → njs.version
+  ◐ version_number                   constant       → njs.version_number
+  ◐ engine                           constant       → njs.engine
+  ◐ on                               method(2)      → njs.on
+  ── 1/4 covered (25%) ──
+
+── process (intrinsics) ──
+  ✓ env                              getter         → env
+  ✓ kill                             method(2)      → kill
+  ✓ pid                              getter         → pid
+  ✓ ppid                             getter         → ppid
+  ── 4/4 covered (100%) ──
+
+── TextDecoder (intrinsics) ──
+  ✓ decode                           method(1)      → decode
+  ✓ encoding                         getter         → encoding
+  ✓ fatal                            getter         → fatal
+  ✓ ignoreBOM                        getter         → ignoreBOM
+  ── 4/4 covered (100%) ──
+
+── TextEncoder (intrinsics) ──
+  ✓ encode                           method(1)      → encode
+  ✓ encodeInto                       method(1)      → encodeInto
+  ✓ encoding                         getter         → encoding
+  ── 3/3 covered (100%) ──
+
+── HTTP Periodic (http) ──
+  ✓ rawVariables                     property       → rawVariables
+  ✓ variables                        property       → variables
+  ── 2/2 covered (100%) ──
+
+── r (HTTPRequest) (http) ──
+  ✓ args                             getter         → args
+  ✓ done                             method(0)      → done
+  ✓ error                            method(1)      → error
+  ✓ finish                           method(0)      → finish
+  ✓ headersIn                        getter         → headersIn
+  ✓ headersOut                       getter         → headersOut
+  ✓ httpVersion                      getter         → httpVersion
+  ✓ internal                         getter         → internal
+  ✓ internalRedirect                 method(1)      → internalRedirect
+  ✓ log                              method(1)      → log
+  ✓ method                           getter         → method
+  ✓ parent                           getter         → parent
+  ✓ rawHeadersIn                     getter         → rawHeadersIn
+  ✓ rawHeadersOut                    getter         → rawHeadersOut
+  ✓ rawVariables                     property       → rawVariables
+  ✓ remoteAddress                    getter         → remoteAddress
+  ✓ requestBuffer                    getter         → requestBuffer
+  ✓ requestLine                      getter         → requestLine
+  ✓ requestText                      getter         → requestText
+  ✓ responseBuffer                   getter         → responseBuffer
+  ✓ responseText                     getter         → responseText
+  ✓ return                           method(2)      → return
+  ✓ send                             method(1)      → send
+  ✓ sendBuffer                       method(2)      → sendBuffer
+  ✓ sendHeader                       method(0)      → sendHeader
+  ✓ setReturnValue                   method(1)      → setReturnValue
+  ✓ status                           property       → status
+  ✓ subrequest                       method(3)      → subrequest
+  ✓ uri                              getter         → uri
+  ✓ variables                        property       → variables
+  ✓ warn                             method(1)      → warn
+  ── 31/31 covered (100%) ──
+
+── s (StreamSession) (stream) ──
+  ✓ allow                            method(1)      → allow
+  ✓ decline                          method(1)      → decline
+  ✓ deny                             method(1)      → deny
+  ✓ done                             method(1)      → done
+  ✓ error                            method(1)      → error
+  ✓ log                              method(1)      → log
+  ✓ on                               method(2)      → on
+  ✓ off                              method(1)      → off
+  ✓ rawVariables                     property       → rawVariables
+  ✓ remoteAddress                    getter         → remoteAddress
+  ✓ send                             method(2)      → send
+  ✓ sendDownstream                   method(1)      → sendDownstream
+  ✓ sendUpstream                     method(1)      → sendUpstream
+  ✓ setReturnValue                   method(1)      → setReturnValue
+  ✓ status                           getter         → status
+  ✓ variables                        property       → variables
+  ✓ warn                             method(1)      → warn
+  ── 17/17 covered (100%) ──
+
+── Stream Flags (stream) ──
+  ✓ from_upstream                    getter         → from_upstream
+  ✓ last                             getter         → last
+  ── 2/2 covered (100%) ──
+
+── Stream Periodic (stream) ──
+  ✓ rawVariables                     property       → rawVariables
+  ✓ variables                        property       → variables
+  ── 2/2 covered (100%) ──
+
+── SharedDict (shared_dict) ──
+  ✓ add                              method(3)      → add
+  ✓ capacity                         getter         → capacity
+  ✓ clear                            method(0)      → clear
+  ✓ delete                           method(1)      → delete
+  ✓ freeSpace                        method(0)      → freeSpace
+  ✓ get                              method(1)      → get
+  ✓ has                              method(1)      → has
+  ✓ incr                             method(3)      → incr
+  ✓ items                            method(0)      → items
+  ✓ keys                             method(0)      → keys
+  ✓ name                             getter         → name
+  ✓ pop                              method(1)      → pop
+  ✓ replace                          method(3)      → replace
+  ✓ set                              method(3)      → set
+  ✓ size                             method(0)      → size
+  ✓ ttl                              method(1)      → ttl
+  ✓ type                             getter         → type
+  ── 17/17 covered (100%) ──
+
+── SharedMemoryError (shared_dict) ──
+  ✓ name                             constant       → name
+  ✗ message                          constant       → message
+  ── 1/2 covered (50%) ──
+
+── Headers (fetch) ──
+  ✓ append                           method(2)      → append
+  ✓ delete                           method(1)      → delete
+  ✓ forEach                          method(1)      → forEach
+  ✓ get                              method(1)      → get
+  ✓ getAll                           method(1)      → getAll
+  ✓ has                              method(1)      → has
+  ✓ set                              method(2)      → set
+  ── 7/7 covered (100%) ──
+
+── Request (fetch) ──
+  ✓ arrayBuffer                      method(0)      → arrayBuffer
+  ✓ bodyUsed                         getter         → bodyUsed
+  ✓ cache                            getter         → cache
+  ✓ credentials                      getter         → credentials
+  ✓ json                             method(0)      → json
+  ✓ headers                          getter         → headers
+  ✓ method                           getter         → method
+  ✓ mode                             getter         → mode
+  ✓ text                             method(0)      → text
+  ✓ url                              getter         → url
+  ── 10/10 covered (100%) ──
+
+── Response (fetch) ──
+  ✓ arrayBuffer                      method(0)      → arrayBuffer
+  ✓ bodyUsed                         getter         → bodyUsed
+  ✓ headers                          getter         → headers
+  ✓ json                             method(0)      → json
+  ✓ ok                               getter         → ok
+  ✓ redirected                       getter         → redirected
+  ✓ status                           getter         → status
+  ✓ statusText                       getter         → statusText
+  ✓ text                             method(0)      → text
+  ✓ type                             getter         → type
+  ✓ url                              getter         → url
+  ── 11/11 covered (100%) ──
+
+── xml static (xml) ──
+  ✓ parse                            method(2)      → parse
+  ✓ c14n                             method(4)      → c14n
+  ✓ exclusiveC14n                    method(4)      → exclusiveC14n
+  ✓ serialize                        method(4)      → serialize
+  ✓ serializeToString                method(4)      → serializeToString
+  ── 5/5 covered (100%) ──
+
+── XMLNode (xml) ──
+  ✓ addChild                         method(1)      → addChild
+  ✓ removeChildren                   method(1)      → removeChildren
+  ✓ setAttribute                     method(2)      → setAttribute
+  ✓ removeAttribute                  method(1)      → removeAttribute
+  ✓ removeAllAttributes              method(0)      → removeAllAttributes
+  ✓ setText                          method(1)      → setText
+  ✓ removeText                       method(0)      → removeText
+  ── 7/7 covered (100%) ──
+
+── zlib static (zlib) ──
+  ✓ deflateRawSync                   method(2)      → deflateRawSync
+  ✓ deflateSync                      method(2)      → deflateSync
+  ✓ inflateRawSync                   method(2)      → inflateRawSync
+  ✓ inflateSync                      method(2)      → inflateSync
+  ✗ constants                        property       → constants
+  ── 4/5 covered (80%) ──
+
+── zlib.constants (zlib) ──
+  ✗ Z_NO_COMPRESSION                 constant       → Z_NO_COMPRESSION
+  ✗ Z_BEST_SPEED                     constant       → Z_BEST_SPEED
+  ✗ Z_BEST_COMPRESSION               constant       → Z_BEST_COMPRESSION
+  ✗ Z_FILTERED                       constant       → Z_FILTERED
+  ✗ Z_HUFFMAN_ONLY                   constant       → Z_HUFFMAN_ONLY
+  ✗ Z_RLE                            constant       → Z_RLE
+  ✗ Z_FIXED                          constant       → Z_FIXED
+  ✗ Z_DEFAULT_STRATEGY               constant       → Z_DEFAULT_STRATEGY
+  ── 0/8 covered (0%) ──
+
+================================================================================
+  SUMMARY
+================================================================================
+  Total njs APIs:            335
+  Covered (FFI+Gleam):       293
+  FFI only (no Gleam):       15
+  Missing (no FFI):          27
+  ──────────────────────────
+  Coverage rate:             87.5%
+
+================================================================================
+  MISSING APIs
+================================================================================
+
+  Buffer static:
+    - constants (property)
+
+  Buffer.constants:
+    - MAX_LENGTH (constant)
+    - MAX_STRING_LENGTH (constant)
+
+  fs static+sync:
+    - constants (property)
+    - promises (property)
+
+  fs.FileHandle:
+    - valueOf (method)
+
+  crypto global:
+    - subtle (property)
+
+  CryptoKey:
+    - algorithm (getter)
+    - extractable (getter)
+    - type (getter)
+    - usages (getter)
+
+  Hash:
+    - update (method)
+    - copy (method)
+    - constructor (method)
+
+  Hmac:
+    - update (method)
+    - constructor (method)
+
+  global:
+    - setImmediate (method)
+
+  SharedMemoryError:
+    - message (constant)
+
+  zlib static:
+    - constants (property)
+
+  zlib.constants:
+    - Z_NO_COMPRESSION (constant)
+    - Z_BEST_SPEED (constant)
+    - Z_BEST_COMPRESSION (constant)
+    - Z_FILTERED (constant)
+    - Z_HUFFMAN_ONLY (constant)
+    - Z_RLE (constant)
+    - Z_FIXED (constant)
+    - Z_DEFAULT_STRATEGY (constant)

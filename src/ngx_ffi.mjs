@@ -193,9 +193,25 @@ export function ngx_log(level, message) {
             ngx.log(ngx.WARN, message);
             break;
         case 2: // Err
-            ngx.log(ngx.ERROR, message);
+            ngx.log(ngx.ERR, message);
             break;
     }
+}
+
+export function engine_id() {
+    return ngx.engine_id;
+}
+
+export function njs_version_number() {
+    return njs.version_number;
+}
+
+export function njs_engine() {
+    return njs.engine;
+}
+
+export function njs_on(event, cb) {
+    njs.on(event, cb);
 }
 
 export function parse_query_string(q) {

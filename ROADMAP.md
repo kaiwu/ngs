@@ -86,3 +86,36 @@ npm run build                        # Build all apps
 bun test tests/<name>/do.test.js     # Run specific test
 KEEP_LOGS=1 bun test ...             # Keep runtime logs for debugging
 ```
+
+---
+
+## API Binding Audit
+
+`scripts/audit_njs_apis.ts` scans the njs C source against Gleam `@external` declarations and reports coverage. Run with:
+
+```bash
+bun run scripts/audit_njs_apis.ts > /tmp/api_audit_report.txt
+```
+
+**Coverage: 87.5%** (293/335 njs APIs covered as of last audit pass).
+
+The script was overhauled to fix systematic false negatives: it now scans private `fn` externals, applies independent prefix stripping (avoiding the chained-stripping bug), strips `_async`/`_sync` suffixes, and maintains a semantic-alias table for names that can't be derived algorithmically.
+
+### Fixed (this iteration)
+
+- ✅ **`ngx.ERR` bug** — `ngx_ffi.mjs` was using `ngx.ERROR` (undefined); corrected to `ngx.ERR`. Error-level logging was silently broken.
+- ✅ **`r.requestLine`** — HTTP request first line added to `http.gleam` / `http_ffi.mjs`.
+- ✅ **`ngx.engine_id`** — Engine identifier getter added to `ngx.gleam` / `ngx_ffi.mjs`.
+- ✅ **`njs.version_number`** — Integer version constant exposed via `ngx.njs_version_number()`.
+- ✅ **`njs.engine`** — Engine name string (`"QuickJS"`) exposed via `ngx.njs_engine()`.
+- ✅ **`njs.on`** — Lifecycle event hook (e.g. `"exit"`) exposed via `ngx.njs_on(event, callback)`.
+- ✅ **`TextEncoder.encoding`** — Property getter added to `text_encoder.gleam`.
+- ✅ **Stream `from_upstream` flag** — `StreamData` variants now carry `from_upstream: Bool` alongside `last: Bool`; existing stream apps updated accordingly.
+
+### Remaining Known Gaps
+
+**HTTP Periodic context** (`src/njs/http.gleam`)
+The `js_periodic` directive provides a periodic handler context with `rawVariables` and `variables`. No Gleam bindings exist. Deferred — `js_periodic` is nginx Plus only and cannot be tested with open-source nginx.
+
+**Node-style synchronous crypto chain** (intentional design choice)
+`createHash`/`createHmac` (sync) are still in the njs C source but deliberately not exposed. The `compute_hash`/`compute_hmac` functions via `crypto.subtle` are the preferred async equivalent and cover all practical handler use cases. The only scenario where sync is required is a `js_set` variable handler that cannot return a Promise — add if that use case arises.

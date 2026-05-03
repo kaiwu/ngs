@@ -68,6 +68,20 @@ pub const error = 2
 @external(javascript, "../ngx_ffi.mjs", "ngx_log")
 pub fn log(level: Int, message: a) -> Nil
 
+@external(javascript, "../ngx_ffi.mjs", "engine_id")
+pub fn engine_id() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "njs_version_number")
+pub fn njs_version_number() -> Int
+
+@external(javascript, "../ngx_ffi.mjs", "njs_engine")
+pub fn njs_engine() -> String
+
+/// Register a lifecycle event callback. The only currently defined event
+/// is `"exit"`, called when a worker process shuts down cleanly.
+@external(javascript, "../ngx_ffi.mjs", "njs_on")
+pub fn njs_on(event: String, callback: fn() -> Nil) -> Nil
+
 @external(javascript, "../ngx_ffi.mjs", "version")
 pub fn version() -> String
 

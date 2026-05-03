@@ -15,7 +15,7 @@ fn preread_verify(s: StreamSession) -> Nil {
   stream.on(s, UpStringEvent, fn(d: StreamData) {
     let _ = {
       case d {
-        StreamString(data, _last) -> {
+        StreamString(data, _last, _from_upstream) -> {
           let _ = stream.log(s, "auth_request data: " <> data)
           case string.length(data) == 0 {
             True -> promise.resolve(Nil)

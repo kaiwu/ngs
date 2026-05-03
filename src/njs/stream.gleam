@@ -5,8 +5,8 @@ import njs/ngx.{type JsObject}
 pub type StreamSession
 
 pub type StreamData {
-  StreamString(s: String, last: Bool)
-  StreamBuffer(b: Buffer, last: Bool)
+  StreamString(s: String, last: Bool, from_upstream: Bool)
+  StreamBuffer(b: Buffer, last: Bool, from_upstream: Bool)
 }
 
 pub type SendOption {

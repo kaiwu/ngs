@@ -99,6 +99,10 @@ export function http_remote_address(r) {
   return r.remoteAddress;
 }
 
+export function http_request_line(r) {
+  return r.requestLine;
+}
+
 export function http_request_buffer(r) {
   return r.requestBuffer;
 }

@@ -55,8 +55,8 @@ export function on(s, en) {
         var e = event(en)
         s.on(e, function(data, option) {
             resolve(e == 'upload' || e == 'download' ?
-                new StreamString(data, option.last) :
-                new StreamBuffer(data, option.last))
+                new StreamString(data, option.last, option.from_upstream) :
+                new StreamBuffer(data, option.last, option.from_upstream))
         });
     })
 }
@@ -65,9 +65,9 @@ export function on_callback(s, en, cb) {
     var e = event(en)
     s.on(e, function(data, option) {
         if (e == 'upload' || e == 'download') {
-            cb(new StreamString(data, option.last))
+            cb(new StreamString(data, option.last, option.from_upstream))
         } else {
-            cb(new StreamBuffer(data, option.last))
+            cb(new StreamBuffer(data, option.last, option.from_upstream))
         }
     })
 }

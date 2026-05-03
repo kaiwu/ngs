@@ -18,3 +18,6 @@ pub fn encode_into(
   string: String,
   destination: TypedArray,
 ) -> EncodeIntoResult
+
+@external(javascript, "../text_encoder_ffi.mjs", "encoding")
+pub fn encoding(encoder: TextEncoder) -> String

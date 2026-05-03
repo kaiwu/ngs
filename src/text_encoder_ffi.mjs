@@ -9,3 +9,7 @@ export function encode(e, s) {
 export function encode_into(e, s, d) {
   return e.encodeInto(s, d);
 }
+
+export function encoding(e) {
+  return e.encoding;
+}

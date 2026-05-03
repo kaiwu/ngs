@@ -99,6 +99,9 @@ pub fn parent(request r: HTTPRequest) -> HTTPRequest
 @external(javascript, "../http_ffi.mjs", "http_remote_address")
 pub fn remote_address(request r: HTTPRequest) -> String
 
+@external(javascript, "../http_ffi.mjs", "http_request_line")
+pub fn request_line(request r: HTTPRequest) -> String
+
 @external(javascript, "../http_ffi.mjs", "http_request_buffer")
 pub fn request_buffer(request r: HTTPRequest) -> Buffer
 

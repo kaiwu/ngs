@@ -55,7 +55,7 @@ fn inject_foo_header(s: StreamSession) -> Nil {
 fn inject_header(s: StreamSession, header: String) -> Nil {
   stream.on(s, UpStringEvent, fn(d: StreamData) {
     case d {
-      StreamString(data, last) -> {
+      StreamString(data, last, _from_upstream) -> {
         let req = get_buffer(s) <> data
         case string.split_once(req, "\n") {
           Ok(#(first_line, rest)) -> {
