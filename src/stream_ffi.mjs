@@ -105,3 +105,11 @@ export function variables(s) {
 export function raw_variables(s) {
     return s.rawVariables;
 }
+
+export function js_var_names(s) {
+    return s.jsVarNames();
+}
+
+export function js_var_names_prefix(s, prefix) {
+    return s.jsVarNames(prefix);
+}

@@ -1,4 +1,5 @@
 import { Ok, Error } from "./gleam.mjs"
+import { FormText, FormFile } from "./njs/http.mjs"
 
 export function http_args(r) {
   return r.args;
@@ -170,4 +171,57 @@ export function http_warn(r, m) {
 
 export function http_set_return_value(r, v) {
   r.setReturnValue(v);
+}
+
+export function http_js_var_names(r) {
+  return r.jsVarNames();
+}
+
+export function http_js_var_names_prefix(r, prefix) {
+  return r.jsVarNames(prefix);
+}
+
+export function http_decline(r) {
+  r.decline();
+}
+
+export async function http_read_request_text(r) {
+  return await r.readRequestText();
+}
+
+export async function http_read_request_array_buffer(r) {
+  return await r.readRequestArrayBuffer();
+}
+
+export async function http_read_request_json(r) {
+  return await r.readRequestJSON();
+}
+
+export async function http_read_request_form(r) {
+  return await r.readRequestForm();
+}
+
+export async function http_read_request_form_max_keys(r, maxKeys) {
+  return await r.readRequestForm({ maxKeys });
+}
+
+function to_form_value(v) {
+  return typeof v === "string" ? new FormText(v) : new FormFile(v.name);
+}
+
+export function http_form_get(form, name) {
+  const v = form.get(name);
+  return v === null || v === undefined ? new Error(undefined) : new Ok(to_form_value(v));
+}
+
+export function http_form_get_all(form, name) {
+  return form.getAll(name).map(to_form_value);
+}
+
+export function http_form_has(form, name) {
+  return form.has(name);
+}
+
+export function http_form_has_files(form) {
+  return form.hasFiles();
 }

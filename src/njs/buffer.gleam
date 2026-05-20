@@ -33,6 +33,9 @@ pub type Encoding {
 @external(javascript, "../buffer_ffi.mjs", "byte_length")
 pub fn byte_length(value v: v, encoding e: Encoding) -> Int
 
+@external(javascript, "../buffer_ffi.mjs", "array_buffer_byte_length")
+pub fn array_buffer_byte_length(ab: ArrayBuffer) -> Int
+
 @external(javascript, "../buffer_ffi.mjs", "new_array_buffer")
 pub fn new_array_buffer(size s: Int) -> ArrayBuffer
 

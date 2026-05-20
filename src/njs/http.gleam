@@ -1,7 +1,7 @@
 import gleam/dict.{type Dict}
 import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
-import njs/buffer.{type Buffer}
+import njs/buffer.{type ArrayBuffer, type Buffer}
 import njs/ngx.{type JsObject}
 
 pub type HTTPRequest
@@ -15,6 +15,13 @@ pub type HTTPHandler =
 
 pub type HTTPResponse =
   HTTPRequest
+
+pub type RequestForm
+
+pub type FormValue {
+  FormText(String)
+  FormFile(filename: String)
+}
 
 @external(javascript, "../http_ffi.mjs", "http_args")
 pub fn args(request r: HTTPRequest) -> JsObject
@@ -161,3 +168,45 @@ pub fn uri(request r: HTTPRequest) -> String
 
 @external(javascript, "../http_ffi.mjs", "http_warn")
 pub fn warn(request r: HTTPRequest, message m: String) -> HTTPRequest
+
+@external(javascript, "../http_ffi.mjs", "http_js_var_names")
+pub fn js_var_names(request r: HTTPRequest) -> Array(String)
+
+@external(javascript, "../http_ffi.mjs", "http_js_var_names_prefix")
+pub fn js_var_names_with_prefix(
+  request r: HTTPRequest,
+  prefix p: String,
+) -> Array(String)
+
+@external(javascript, "../http_ffi.mjs", "http_decline")
+pub fn decline(request r: HTTPRequest) -> Nil
+
+@external(javascript, "../http_ffi.mjs", "http_read_request_text")
+pub fn read_request_text(request r: HTTPRequest) -> Promise(String)
+
+@external(javascript, "../http_ffi.mjs", "http_read_request_array_buffer")
+pub fn read_request_array_buffer(request r: HTTPRequest) -> Promise(ArrayBuffer)
+
+@external(javascript, "../http_ffi.mjs", "http_read_request_json")
+pub fn read_request_json(request r: HTTPRequest) -> Promise(JsObject)
+
+@external(javascript, "../http_ffi.mjs", "http_read_request_form")
+pub fn read_request_form(request r: HTTPRequest) -> Promise(RequestForm)
+
+@external(javascript, "../http_ffi.mjs", "http_read_request_form_max_keys")
+pub fn read_request_form_with_max_keys(
+  request r: HTTPRequest,
+  max_keys k: Int,
+) -> Promise(RequestForm)
+
+@external(javascript, "../http_ffi.mjs", "http_form_get")
+pub fn form_get(form f: RequestForm, name n: String) -> Result(FormValue, Nil)
+
+@external(javascript, "../http_ffi.mjs", "http_form_get_all")
+pub fn form_get_all(form f: RequestForm, name n: String) -> Array(FormValue)
+
+@external(javascript, "../http_ffi.mjs", "http_form_has")
+pub fn form_has(form f: RequestForm, name n: String) -> Bool
+
+@external(javascript, "../http_ffi.mjs", "http_form_has_files")
+pub fn form_has_files(form f: RequestForm) -> Bool

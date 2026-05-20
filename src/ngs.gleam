@@ -141,6 +141,18 @@ fn apps() -> List(App) {
       "misc_aes_gcm",
       "./build/dev/javascript/ngs/app/misc_aes_gcm/misc_aes_gcm.mjs",
     ),
+    App(
+      "http_js_var_names",
+      "./build/dev/javascript/ngs/app/http_js_var_names/http_js_var_names.mjs",
+    ),
+    App(
+      "http_read_request_body",
+      "./build/dev/javascript/ngs/app/http_read_request_body/http_read_request_body.mjs",
+    ),
+    App(
+      "http_read_request_form",
+      "./build/dev/javascript/ngs/app/http_read_request_form/http_read_request_form.mjs",
+    ),
   ]
 }
 

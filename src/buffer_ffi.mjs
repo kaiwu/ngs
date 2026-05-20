@@ -30,6 +30,10 @@ export function byte_length(v, e) {
   return Buffer.byteLength(v, encoding(e))
 }
 
+export function array_buffer_byte_length(ab) {
+  return ab.byteLength;
+}
+
 export function new_array_buffer(s) {
   return new ArrayBuffer(s);
 }

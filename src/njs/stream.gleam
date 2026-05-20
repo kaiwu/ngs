@@ -1,3 +1,4 @@
+import gleam/javascript/array.{type Array}
 import gleam/javascript/promise.{type Promise}
 import njs/buffer.{type Buffer}
 import njs/ngx.{type JsObject}
@@ -88,3 +89,12 @@ pub fn variables(session: StreamSession) -> JsObject
 
 @external(javascript, "../stream_ffi.mjs", "raw_variables")
 pub fn raw_variables(session: StreamSession) -> JsObject
+
+@external(javascript, "../stream_ffi.mjs", "js_var_names")
+pub fn js_var_names(session: StreamSession) -> Array(String)
+
+@external(javascript, "../stream_ffi.mjs", "js_var_names_prefix")
+pub fn js_var_names_with_prefix(
+  session: StreamSession,
+  prefix p: String,
+) -> Array(String)
