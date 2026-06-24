@@ -165,7 +165,7 @@ export function read_async(fd, l, p) {
     return new Promise(resolve => {
         const length = l > 1024 ? l : 1024;
         const b = Buffer.alloc(length)
-        Fs.promises.read(fd, b, 0, l, p).then((i) = resolve(new FileReadResult(i, b)))
+        Fs.promises.read(fd, b, 0, l, p).then((i) => resolve(new FileReadResult(i, b)))
     })
 }
 

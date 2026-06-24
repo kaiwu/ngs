@@ -1,5 +1,7 @@
-export function process() {
-  return globalThis.process;
+export { runtime_process as process };
+
+function runtime_process() {
+  return process;
 }
 
 export function argv() {

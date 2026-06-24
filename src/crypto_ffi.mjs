@@ -3,7 +3,10 @@ import {
   Base64,
   Base64Url,
 } from "./njs/buffer.mjs";
-import cryptoModule from "crypto";
+
+function native_crypto() {
+    return globalThis.require("crypto");
+}
 
 function encoding(e) {
   if (e instanceof Hex) {
@@ -115,7 +118,7 @@ export function unwrap_key(f, wk, uk, ua, uka, e, ku) {
 }
 
 export function create_hash(algorithm) {
-    return cryptoModule.createHash(algorithm);
+    return native_crypto().createHash(algorithm);
 }
 
 export function hash_update(hash, data) {
@@ -139,7 +142,7 @@ export function hash_constructor(hash, algorithm) {
 }
 
 export function create_hmac(algorithm, key) {
-    return cryptoModule.createHmac(algorithm, key);
+    return native_crypto().createHmac(algorithm, key);
 }
 
 export function hmac_update(hmac, data) {
