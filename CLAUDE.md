@@ -49,6 +49,12 @@ The build pipeline (`src/ngs.gleam` → `src/ngs_ffi.mjs`) runs Gleam compilatio
 - Globals: `ngx`, `njs`, `console`, `crypto` (Web Crypto)
 - Promises work; no event loop, no `setImmediate`, limited `setTimeout`
 - Log levels in njs C source are `ngx.ERR`, `ngx.WARN`, `ngx.INFO` (not `ERROR`)
+- **Bundler config (downstream consumers):** never use a "browser" target — it injects
+  polyfills that shadow njs globals (e.g. Bun `target:"browser"` swaps global `Buffer` for
+  a throwing `node:buffer` shim and replaces `import 'querystring'` with a wrong polyfill).
+  Use a node/es2020 target and mark njs builtins `external`: `querystring crypto fs xml
+  zlib buffer` (`xml` is njs-only → must be explicit). `process` is a global, never an
+  import. See README "Bundling ngs from another bundler". ngs's own build already does this.
 
 Official references: [njs reference](https://nginx.org/en/docs/njs/reference.html) · [compatibility](https://nginx.org/en/docs/njs/compatibility.html) · [QuickJS engine notes](https://nginx.org/en/docs/njs/engine.html)
 

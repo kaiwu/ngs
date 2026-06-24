@@ -398,6 +398,60 @@ ngs uses a custom build system (`src/ngs.gleam`) that:
 2. Bundles applications with esbuild
 3. Copies nginx configurations to dist directory
 
+### Bundling ngs from another bundler (Bun, webpack, rollup, vite, …)
+
+> [!IMPORTANT]
+> njs is **QuickJS, not Node and not a browser**. ngs's own `npm run build` is already
+> configured correctly (esbuild, `target: es2020`, njs builtins marked `external`). But if
+> you consume ngs as a Gleam dependency and bundle the result with a *different* tool, you
+> **must** replicate two precautions, or the bundler will silently corrupt your output.
+
+**1. Do not use a "browser" target.** Browser targets inject polyfills that *shadow njs
+globals*. For example, Bun's `target: "browser"` replaces the global `Buffer` with an
+inlined `node:buffer` shim whose less-common methods literally `throw`, and replaces
+`import qs from 'querystring'` with a wrong inlined polyfill. None of this errors at build
+time — it only breaks at runtime. Use a **node** target, which leaves `Buffer`/`process`
+as runtime globals and emits builtins as **bare** specifiers (`'crypto'`, not
+`'node:crypto'`) that njs resolves to its own modules.
+
+**2. Mark njs builtin modules `external`** so the bundler never tries to resolve or
+polyfill them:
+
+```
+querystring  crypto  fs  xml  zlib  buffer
+```
+
+`xml` is **njs-only** (Node has no such builtin), so it must be listed explicitly even
+under a node target, or resolution fails. `process` is an njs **global, not an importable
+module** — never write `import ... from 'process'`; use the global (as ngs's bindings do).
+
+**esbuild** (what ngs uses internally — see `src/ngs_ffi.mjs`):
+
+```js
+build({
+  entryPoints: [entry], bundle: true, format: "esm", outfile: out,
+  target: ["es2020"],                                          // not a browser target
+  external: ["querystring", "crypto", "fs", "xml", "zlib", "buffer"],
+});
+```
+
+**Bun.build:**
+
+```js
+await Bun.build({
+  entrypoints: [entry], format: "esm", outdir,
+  target: "node",                                              // NOT "browser"
+  external: ["querystring", "crypto", "fs", "xml", "zlib", "buffer"],
+});
+```
+
+**Verify the output** — these greps must both come back empty:
+
+```bash
+grep -E "node:buffer browser polyfill|from ['\"]node:" dist/**/app.js   # injected polyfills
+grep -E "from ['\"]process['\"]"                       dist/**/app.js   # process imported as a module
+```
+
 ### Available npm scripts
 
 ```bash
