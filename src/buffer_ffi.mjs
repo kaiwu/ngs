@@ -30,6 +30,18 @@ export function byte_length(v, e) {
   return Buffer.byteLength(v, encoding(e))
 }
 
+export function constants() {
+  return Buffer.constants;
+}
+
+export function constants_max_length() {
+  return Buffer.constants.MAX_LENGTH;
+}
+
+export function constants_max_string_length() {
+  return Buffer.constants.MAX_STRING_LENGTH;
+}
+
 export function array_buffer_byte_length(ab) {
   return ab.byteLength;
 }
@@ -362,4 +374,3 @@ export function write(b, ba, e, o, l) {
   b.write(ba, o, l, encoding(e));
   return b;
 }
-

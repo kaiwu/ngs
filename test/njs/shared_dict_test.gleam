@@ -1,6 +1,8 @@
 import njs/shared_dict
 
 pub fn module_test() {
+  let _ = shared_dict.shared_memory_error_name
+  let _ = shared_dict.shared_memory_error_message
   let _ = shared_dict.add
   let _ = shared_dict.capacity
   let _ = shared_dict.clear

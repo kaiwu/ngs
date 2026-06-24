@@ -7,5 +7,8 @@ pub fn set_timeout(
   args: b,
 ) -> Timeout
 
+@external(javascript, "../timers_ffi.mjs", "set_immediate")
+pub fn set_immediate(callback: fn(a) -> Nil, args: b) -> Timeout
+
 @external(javascript, "../timers_ffi.mjs", "clear_timeout")
 pub fn clear_timeout(timeout: Timeout) -> Nil

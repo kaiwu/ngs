@@ -184,6 +184,50 @@ export function version() {
     return JSON.stringify(v);
 }
 
+export function build() {
+    return ngx.build;
+}
+
+export function conf_file_path() {
+    return ngx.conf_file_path;
+}
+
+export function conf_prefix() {
+    return ngx.conf_prefix;
+}
+
+export function error_log_path() {
+    return ngx.error_log_path;
+}
+
+export function prefix() {
+    return ngx.prefix;
+}
+
+export function nginx_version() {
+    return ngx.version;
+}
+
+export function ngx_version_number() {
+    return ngx.version_number;
+}
+
+export function worker_id() {
+    return ngx.worker_id;
+}
+
+export function level_err() {
+    return ngx.ERR;
+}
+
+export function level_info() {
+    return ngx.INFO;
+}
+
+export function level_warn() {
+    return ngx.WARN;
+}
+
 export function ngx_log(level, message) {
     switch (level) {
         case 0: // Info
@@ -200,6 +244,10 @@ export function ngx_log(level, message) {
 
 export function engine_id() {
     return ngx.engine_id;
+}
+
+export function njs_version() {
+    return njs.version;
 }
 
 export function njs_version_number() {

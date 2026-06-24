@@ -11,6 +11,12 @@ pub type DictItem {
 @external(javascript, "../shared_dict_ffi.mjs", "get_shared_dict")
 pub fn get_shared_dict(name: String) -> Result(SharedDict, Nil)
 
+@external(javascript, "../shared_dict_ffi.mjs", "shared_memory_error_name")
+pub fn shared_memory_error_name() -> String
+
+@external(javascript, "../shared_dict_ffi.mjs", "shared_memory_error_message")
+pub fn shared_memory_error_message() -> String
+
 @external(javascript, "../shared_dict_ffi.mjs", "add")
 fn do_add(dict: SharedDict, key: String, value: a, timeout: Int) -> Bool
 

@@ -1,6 +1,8 @@
 import njs/fs
 
 pub fn module_test() {
+  let _ = fs.constants
+  let _ = fs.promises
   let _ = fs.access_sync
   let _ = fs.access
   let _ = fs.append_file_sync
@@ -43,6 +45,7 @@ pub fn module_test() {
   let _ = fs.write
   let _ = fs.file_handle_close
   let _ = fs.file_handle_fd
+  let _ = fs.file_handle_value_of
   let _ = fs.file_handle_read
   let _ = fs.file_handle_stat
   let _ = fs.file_handle_write

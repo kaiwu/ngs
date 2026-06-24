@@ -8,6 +8,10 @@ pub type Dirent
 
 pub type FileHandle
 
+pub type Constants
+
+pub type Promises
+
 pub const utf8 = "utf8"
 
 pub const buf = "buffer"
@@ -55,6 +59,9 @@ pub type FileReadResult {
   FileReadResult(bytes_read: Int, buffer: Buffer)
 }
 
+@external(javascript, "../fs_ffi.mjs", "constants")
+pub fn constants() -> Constants
+
 @external(javascript, "../fs_ffi.mjs", "constants_f_ok")
 pub fn constants_f_ok() -> Int
 
@@ -66,6 +73,9 @@ pub fn constants_w_ok() -> Int
 
 @external(javascript, "../fs_ffi.mjs", "constants_x_ok")
 pub fn constants_x_ok() -> Int
+
+@external(javascript, "../fs_ffi.mjs", "promises")
+pub fn promises() -> Promises
 
 @external(javascript, "../fs_ffi.mjs", "access_sync")
 pub fn access_sync(path: String, mode: Int) -> Result(Bool, Nil)
@@ -224,6 +234,9 @@ pub fn file_handle_close(handle: FileHandle) -> Promise(Nil)
 
 @external(javascript, "../fs_ffi.mjs", "file_handle_fd")
 pub fn file_handle_fd(handle: FileHandle) -> Int
+
+@external(javascript, "../fs_ffi.mjs", "file_handle_value_of")
+pub fn file_handle_value_of(handle: FileHandle) -> Int
 
 @external(javascript, "../fs_ffi.mjs", "file_handle_read")
 pub fn file_handle_read(

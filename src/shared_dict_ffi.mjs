@@ -10,6 +10,14 @@ export function get_shared_dict(name) {
     }
 }
 
+export function shared_memory_error_name() {
+    return SharedMemoryError.prototype.name;
+}
+
+export function shared_memory_error_message() {
+    return SharedMemoryError.prototype.message;
+}
+
 export function add(d, k, v, t) {
     return t ? d.add(k, v, t) : d.add(k, v);
 }

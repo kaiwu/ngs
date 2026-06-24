@@ -1,6 +1,7 @@
 import njs/process
 
 pub fn module_test() {
+  let _ = process.process
   let _ = process.argv
   let _ = process.env
   let _ = process.kill

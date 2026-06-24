@@ -2,6 +2,10 @@ import { default as Fs } from 'fs';
 import { Ok, Error } from "./gleam.mjs"
 import { FileReadResult } from "./njs/fs.mjs"
 
+export function constants() {
+    return Fs.constants;
+}
+
 export function constants_f_ok() {
     return Fs.constants.F_OK;
 }
@@ -16,6 +20,10 @@ export function constants_w_ok() {
 
 export function constants_x_ok() {
     return Fs.constants.X_OK;
+}
+
+export function promises() {
+    return Fs.promises;
 }
 
 export function access_sync(p, m) {
@@ -256,6 +264,10 @@ export function file_handle_close(h) {
 
 export function file_handle_fd(h) {
     return h.fd;
+}
+
+export function file_handle_value_of(h) {
+    return h.valueOf();
 }
 
 export function file_handle_read(h, l, p) {

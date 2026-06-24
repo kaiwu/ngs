@@ -350,6 +350,8 @@ const SEMANTIC_ALIASES: Record<string, string[]> = {
   "from_bytes":                ["from"],
   "from_buffer":               ["from"],
   "from_string":               ["from"],
+  "constants_max_length":       ["MAX_LENGTH"],
+  "constants_max_string_length":["MAX_STRING_LENGTH"],
 
   // Fetch Response — Gleam uses descriptive names; njs uses short property names
   "response_is_ok":            ["ok"],
@@ -393,6 +395,42 @@ const SEMANTIC_ALIASES: Record<string, string[]> = {
   // Crypto — Gleam uses async Web Crypto; semantically covers the sync chain
   "compute_hash":              ["createHash"],
   "compute_hmac":              ["createHmac"],
+  "crypto_key_algorithm":       ["algorithm"],
+  "crypto_key_extractable":     ["extractable"],
+  "crypto_key_type":            ["type"],
+  "crypto_key_usages":          ["usages"],
+  "hash_update":                ["update"],
+  "hash_copy":                  ["copy"],
+  "hash_constructor":           ["constructor"],
+  "hmac_update":                ["update"],
+  "hmac_constructor":           ["constructor"],
+
+  // SharedMemoryError prototype properties.
+  "shared_memory_error_name":    ["name"],
+  "shared_memory_error_message": ["message"],
+
+  // Zlib constants — exposed as legal lowercase Gleam function names.
+  "z_no_compression":           ["Z_NO_COMPRESSION"],
+  "z_best_speed":               ["Z_BEST_SPEED"],
+  "z_default_compression":      ["Z_DEFAULT_COMPRESSION"],
+  "z_best_compression":         ["Z_BEST_COMPRESSION"],
+  "z_filtered":                 ["Z_FILTERED"],
+  "z_huffman_only":             ["Z_HUFFMAN_ONLY"],
+  "z_rle":                      ["Z_RLE"],
+  "z_fixed":                    ["Z_FIXED"],
+  "z_default_strategy":         ["Z_DEFAULT_STRATEGY"],
+
+  // ngx/njs constants and getters with names that avoid existing helpers.
+  "level_err":                  ["ERR"],
+  "level_info":                 ["INFO"],
+  "level_warn":                 ["WARN"],
+  "ngx_log":                    ["log"],
+  "nginx_version":              ["version"],
+  "ngx_version_number":         ["version_number"],
+  "njs_version":                ["version"],
+  "njs_version_number":         ["version_number"],
+  "njs_engine":                 ["engine"],
+  "njs_on":                     ["on"],
 };
 
 /**

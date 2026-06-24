@@ -3,6 +3,7 @@ import {
   Base64,
   Base64Url,
 } from "./njs/buffer.mjs";
+import cryptoModule from "crypto";
 
 function encoding(e) {
   if (e instanceof Hex) {
@@ -37,76 +38,124 @@ export function random_uuid() {
     return crypto.randomUUID();
 }
 
+export function subtle() {
+    return crypto.subtle;
+}
+
+export function crypto_key_algorithm(k) {
+    return k.algorithm;
+}
+
+export function crypto_key_extractable(k) {
+    return k.extractable;
+}
+
+export function crypto_key_type(k) {
+    return k.type;
+}
+
+export function crypto_key_usages(k) {
+    return k.usages;
+}
+
+export function crypto_key_pair_private_key(kp) {
+    return kp.privateKey;
+}
+
+export function crypto_key_pair_public_key(kp) {
+    return kp.publicKey;
+}
+
 export function encrypt(a, k, d) {
-    return new Promise(resolve => {
-        crypto.subtle.encrypt(a, k, d).then(v => resolve(v))
-    })
+    return crypto.subtle.encrypt(a, k, d);
 }
 
 export function decrypt(a, k, d) {
-    return new Promise(resolve => {
-        crypto.subtle.decrypt(a, k, d).then(v => resolve(v))
-    })
+    return crypto.subtle.decrypt(a, k, d);
 }
 
 export function sign(a, k, d) {
-    return new Promise(resolve => {
-        crypto.subtle.sign(a, k, d).then(v => resolve(v))
-    })
+    return crypto.subtle.sign(a, k, d);
 }
 
 export function verify(a, k, s, d) {
-    return new Promise(resolve => {
-        crypto.subtle.verify(a, k, s, d).then(v => resolve(v))
-    })
+    return crypto.subtle.verify(a, k, s, d);
 }
 
 export function digest(a, d) {
-    return new Promise(resolve => {
-        crypto.subtle.digest(a, d).then(v => resolve(v))
-    })
+    return crypto.subtle.digest(a, d);
 }
 
 export function import_key(f, k, a, e, ku) {
-    return new Promise(resolve => {
-        crypto.subtle.importKey(f, k, a, e, ku).then(v => resolve(v))
-    })
+    return crypto.subtle.importKey(f, k, a, e, ku);
 }
 
 export function export_key(f, k) {
-    return new Promise(resolve => {
-        crypto.subtle.exportKey(f, k).then(v => resolve(v))
-    })
+    return crypto.subtle.exportKey(f, k);
 }
 
 export function generate_key(a, e, u) {
-    return new Promise(resolve => {
-        crypto.subtle.generateKey(a, e, u).then(v => resolve(v))
-    })
+    return crypto.subtle.generateKey(a, e, u);
 }
 
 export function derive_bits(a, k, l) {
-    return new Promise(resolve => {
-        crypto.subtle.deriveBits(a, k, l).then(v => resolve(v))
-    })
+    return crypto.subtle.deriveBits(a, k, l);
 }
 
 export function derive_key(a, k, dka, e, ku) {
-    return new Promise(resolve => {
-        crypto.subtle.deriveKey(a, k, dka, e, ku).then(v => resolve(v))
-    })
+    return crypto.subtle.deriveKey(a, k, dka, e, ku);
 }
 
 export function wrap_key(f, k, wk, wa) {
-    return new Promise(resolve => {
-        crypto.subtle.wrapKey(f, k, wk, wa).then(v => resolve(v))
-    })
+    return crypto.subtle.wrapKey(f, k, wk, wa);
 }
 
 export function unwrap_key(f, wk, uk, ua, uka, e, ku) {
-    return new Promise(resolve => {
-        crypto.subtle.unwrapKey(f, wk, uk, ua, uka, e, ku).then(v => resolve(v))
-    })
+    return crypto.subtle.unwrapKey(f, wk, uk, ua, uka, e, ku);
+}
+
+export function create_hash(algorithm) {
+    return cryptoModule.createHash(algorithm);
+}
+
+export function hash_update(hash, data) {
+    return hash.update(data);
+}
+
+export function hash_digest_buffer(hash) {
+    return hash.digest();
+}
+
+export function hash_digest(hash, enc) {
+    return hash.digest(encoding(enc));
+}
+
+export function hash_copy(hash) {
+    return hash.copy();
+}
+
+export function hash_constructor(hash, algorithm) {
+    return hash.constructor(algorithm);
+}
+
+export function create_hmac(algorithm, key) {
+    return cryptoModule.createHmac(algorithm, key);
+}
+
+export function hmac_update(hmac, data) {
+    return hmac.update(data);
+}
+
+export function hmac_digest_buffer(hmac) {
+    return hmac.digest();
+}
+
+export function hmac_digest(hmac, enc) {
+    return hmac.digest(encoding(enc));
+}
+
+export function hmac_constructor(hmac, algorithm, key) {
+    return hmac.constructor(algorithm, key);
 }
 
 // Compute a hash digest and return it encoded as a string.

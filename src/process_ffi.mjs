@@ -1,3 +1,7 @@
+export function process() {
+  return globalThis.process;
+}
+
 export function argv() {
   return process.argv;
 }

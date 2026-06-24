@@ -23,6 +23,21 @@ pub type TypedArrayType {
 
 pub type Buffer
 
+pub type BufferConstants
+
+/// Valid byte lengths for Buffer readInt/readUInt/writeInt/writeUInt methods.
+///
+/// njs 1.0.0 rejects zero-length reads and writes. Use the `_sized` helpers
+/// below when the width is known statically.
+pub type ByteLength {
+  One
+  Two
+  Three
+  Four
+  Five
+  Six
+}
+
 pub type Encoding {
   Utf8
   Hex
@@ -30,8 +45,28 @@ pub type Encoding {
   Base64Url
 }
 
+pub fn byte_length_to_int(length: ByteLength) -> Int {
+  case length {
+    One -> 1
+    Two -> 2
+    Three -> 3
+    Four -> 4
+    Five -> 5
+    Six -> 6
+  }
+}
+
 @external(javascript, "../buffer_ffi.mjs", "byte_length")
 pub fn byte_length(value v: v, encoding e: Encoding) -> Int
+
+@external(javascript, "../buffer_ffi.mjs", "constants")
+pub fn constants() -> BufferConstants
+
+@external(javascript, "../buffer_ffi.mjs", "constants_max_length")
+pub fn constants_max_length() -> Int
+
+@external(javascript, "../buffer_ffi.mjs", "constants_max_string_length")
+pub fn constants_max_string_length() -> Int
 
 @external(javascript, "../buffer_ffi.mjs", "array_buffer_byte_length")
 pub fn array_buffer_byte_length(ab: ArrayBuffer) -> Int
@@ -182,8 +217,24 @@ pub fn read_int32_le(buffer bf: Buffer, offset o: Int) -> Int
 @external(javascript, "../buffer_ffi.mjs", "read_int_be")
 pub fn read_int_be(buffer bf: Buffer, offset o: Int, byte_length l: Int) -> Int
 
+pub fn read_int_be_sized(
+  buffer bf: Buffer,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Int {
+  read_int_be(bf, o, byte_length_to_int(l))
+}
+
 @external(javascript, "../buffer_ffi.mjs", "read_int_le")
 pub fn read_int_le(buffer bf: Buffer, offset o: Int, byte_length l: Int) -> Int
+
+pub fn read_int_le_sized(
+  buffer bf: Buffer,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Int {
+  read_int_le(bf, o, byte_length_to_int(l))
+}
 
 @external(javascript, "../buffer_ffi.mjs", "read_uint8")
 pub fn read_uint8(buffer bf: Buffer, offset o: Int) -> Int
@@ -203,8 +254,24 @@ pub fn read_uint32_le(buffer bf: Buffer, offset o: Int) -> Int
 @external(javascript, "../buffer_ffi.mjs", "read_uint_be")
 pub fn read_uint_be(buffer bf: Buffer, offset o: Int, byte_length l: Int) -> Int
 
+pub fn read_uint_be_sized(
+  buffer bf: Buffer,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Int {
+  read_uint_be(bf, o, byte_length_to_int(l))
+}
+
 @external(javascript, "../buffer_ffi.mjs", "read_uint_le")
 pub fn read_uint_le(buffer bf: Buffer, offset o: Int, byte_length l: Int) -> Int
+
+pub fn read_uint_le_sized(
+  buffer bf: Buffer,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Int {
+  read_uint_le(bf, o, byte_length_to_int(l))
+}
 
 @external(javascript, "../buffer_ffi.mjs", "read_float_be")
 pub fn read_float_be(buffer bf: Buffer, offset o: Int) -> Float
@@ -241,6 +308,15 @@ pub fn write_int_be(
   byte_length l: Int,
 ) -> Buffer
 
+pub fn write_int_be_sized(
+  buffer bf: Buffer,
+  value v: Int,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Buffer {
+  write_int_be(bf, v, o, byte_length_to_int(l))
+}
+
 @external(javascript, "../buffer_ffi.mjs", "write_int_le")
 pub fn write_int_le(
   buffer bf: Buffer,
@@ -248,6 +324,15 @@ pub fn write_int_le(
   offset o: Int,
   byte_length l: Int,
 ) -> Buffer
+
+pub fn write_int_le_sized(
+  buffer bf: Buffer,
+  value v: Int,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Buffer {
+  write_int_le(bf, v, o, byte_length_to_int(l))
+}
 
 @external(javascript, "../buffer_ffi.mjs", "write_uint8")
 pub fn write_uint8(buffer bf: Buffer, value v: Int, offset o: Int) -> Buffer
@@ -272,6 +357,15 @@ pub fn write_uint_be(
   byte_length l: Int,
 ) -> Buffer
 
+pub fn write_uint_be_sized(
+  buffer bf: Buffer,
+  value v: Int,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Buffer {
+  write_uint_be(bf, v, o, byte_length_to_int(l))
+}
+
 @external(javascript, "../buffer_ffi.mjs", "write_uint_le")
 pub fn write_uint_le(
   buffer bf: Buffer,
@@ -279,6 +373,15 @@ pub fn write_uint_le(
   offset o: Int,
   byte_length l: Int,
 ) -> Buffer
+
+pub fn write_uint_le_sized(
+  buffer bf: Buffer,
+  value v: Int,
+  offset o: Int,
+  byte_length l: ByteLength,
+) -> Buffer {
+  write_uint_le(bf, v, o, byte_length_to_int(l))
+}
 
 @external(javascript, "../buffer_ffi.mjs", "write_float_be")
 pub fn write_float_be(

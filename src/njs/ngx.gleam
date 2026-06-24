@@ -68,8 +68,44 @@ pub const error = 2
 @external(javascript, "../ngx_ffi.mjs", "ngx_log")
 pub fn log(level: Int, message: a) -> Nil
 
+@external(javascript, "../ngx_ffi.mjs", "build")
+pub fn build() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "conf_file_path")
+pub fn conf_file_path() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "conf_prefix")
+pub fn conf_prefix() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "error_log_path")
+pub fn error_log_path() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "prefix")
+pub fn prefix() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "nginx_version")
+pub fn nginx_version() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "ngx_version_number")
+pub fn ngx_version_number() -> Int
+
+@external(javascript, "../ngx_ffi.mjs", "worker_id")
+pub fn worker_id() -> Int
+
+@external(javascript, "../ngx_ffi.mjs", "level_err")
+pub fn level_err() -> Int
+
+@external(javascript, "../ngx_ffi.mjs", "level_info")
+pub fn level_info() -> Int
+
+@external(javascript, "../ngx_ffi.mjs", "level_warn")
+pub fn level_warn() -> Int
+
 @external(javascript, "../ngx_ffi.mjs", "engine_id")
 pub fn engine_id() -> String
+
+@external(javascript, "../ngx_ffi.mjs", "njs_version")
+pub fn njs_version() -> String
 
 @external(javascript, "../ngx_ffi.mjs", "njs_version_number")
 pub fn njs_version_number() -> Int

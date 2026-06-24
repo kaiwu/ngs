@@ -51,7 +51,7 @@ export function http_raw_headers_in(r) {
 
 export function http_get_header_in(r, name) {
   let v = r.headersIn[name];
-  if (v) {
+  if (v !== undefined) {
     return new Ok(v);
   } else {
     return new Error(undefined);
