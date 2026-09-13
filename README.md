@@ -210,6 +210,11 @@ crypto.decrypt(AesGcm(...), key, ciphertext)
 - Key generation, import/export
 - Key derivation
 
+Synchronous hash/HMAC bindings use njs's built-in `crypto` module through an ESM
+import. Async operations use the global `crypto.subtle` object. QuickJS supports
+both APIs, but has no `globalThis.require`; preserve the native import by marking
+`crypto` external in esbuild (see the bundling instructions below).
+
 ### Buffer Module (`njs/buffer`)
 
 Efficient binary data handling:
@@ -347,6 +352,14 @@ bun test
 bun test tests/hello/do.test.js
 ```
 
+Crypto regression tests execute the Gleam bindings in nginx with `js_engine qjs`
+and check that both build and watch bundles exclude a conflicting `crypto` package:
+
+```bash
+gleam test
+bun test tests/misc_crypto
+```
+
 ### Test infrastructure
 
 The test harness (`tests/harness.js`) provides:
@@ -430,10 +443,16 @@ module** — never write `import ... from 'process'`; use the global (as ngs's b
 ```js
 build({
   entryPoints: [entry], bundle: true, format: "esm", outfile: out,
-  target: ["es2020"],                                          // not a browser target
+  target: ["es2020"],                                          // syntax compatibility
   external: ["querystring", "crypto", "fs", "xml", "zlib", "buffer"],
 });
 ```
+
+For esbuild, `target` controls JavaScript syntax, not package resolution. The explicit
+`external` list keeps imports such as `import nativeCrypto from "crypto"` in the
+output for njs to resolve. Removing `crypto` from that list can bundle an unrelated
+package with the same name. Do not replace the import with `require("crypto")`:
+esbuild's ESM require helper cannot load the module in QuickJS.
 
 **Bun.build:**
 

@@ -106,7 +106,7 @@ case http.get_header_in(r, "Authorization") {
 ```
 Header names are case-insensitive in njs but use canonical casing (e.g. `"Authorization"`).
 
-### Crypto (async Web Crypto — the Gleam API)
+### Crypto (native synchronous module and async Web Crypto)
 ```gleam
 // Hash
 let hash_str <- promise.await(crypto.compute_hash("sha256", data_buf, buffer.Hex))
@@ -114,7 +114,12 @@ let hash_str <- promise.await(crypto.compute_hash("sha256", data_buf, buffer.Hex
 // HMAC
 let hmac_str <- promise.await(crypto.compute_hmac("sha256", key_buf, data_buf, buffer.Base64))
 ```
-The node-style synchronous `createHash`/`createHmac` chain is intentionally not exposed — the async Web Crypto path covers all practical handler use cases. The only unsupported case is computing a hash inside a `js_set` handler (which cannot return a Promise).
+The synchronous `create_hash`/`create_hmac` chains are also exposed. Their FFI uses
+`import nativeCrypto from "crypto"` to load njs's built-in module; `crypto` must stay
+external in every bundle. QuickJS has no `globalThis.require`, and a bare `require`
+also fails after esbuild wraps it. The alias keeps the global `crypto.subtle` object
+available for the async bindings. Run `bun test tests/misc_crypto` to exercise both
+APIs in QuickJS and check package collisions in build and watch output.
 
 ### Shared Dict
 ```gleam

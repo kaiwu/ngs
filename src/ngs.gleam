@@ -142,6 +142,10 @@ fn apps() -> List(App) {
       "./build/dev/javascript/ngs/app/misc_aes_gcm/misc_aes_gcm.mjs",
     ),
     App(
+      "misc_crypto",
+      "./build/dev/javascript/ngs/app/misc_crypto/misc_crypto.mjs",
+    ),
+    App(
       "http_js_var_names",
       "./build/dev/javascript/ngs/app/http_js_var_names/http_js_var_names.mjs",
     ),

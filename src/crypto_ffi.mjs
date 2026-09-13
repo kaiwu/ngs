@@ -1,12 +1,11 @@
+// njs's built-in module: keep "crypto" external when bundling for QuickJS.
+// Use an alias so the global WebCrypto object remains available below.
+import nativeCrypto from "crypto";
 import {
   Hex,
   Base64,
   Base64Url,
 } from "./njs/buffer.mjs";
-
-function native_crypto() {
-    return globalThis.require("crypto");
-}
 
 function encoding(e) {
   if (e instanceof Hex) {
@@ -118,7 +117,7 @@ export function unwrap_key(f, wk, uk, ua, uka, e, ku) {
 }
 
 export function create_hash(algorithm) {
-    return native_crypto().createHash(algorithm);
+    return nativeCrypto.createHash(algorithm);
 }
 
 export function hash_update(hash, data) {
@@ -142,7 +141,7 @@ export function hash_constructor(hash, algorithm) {
 }
 
 export function create_hmac(algorithm, key) {
-    return native_crypto().createHmac(algorithm, key);
+    return nativeCrypto.createHmac(algorithm, key);
 }
 
 export function hmac_update(hmac, data) {
