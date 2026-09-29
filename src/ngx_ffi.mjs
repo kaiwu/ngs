@@ -239,6 +239,9 @@ export function ngx_log(level, message) {
         case 2: // Err
             ngx.log(ngx.ERR, message);
             break;
+        case 3: // Notice: NGX_LOG_NOTICE is 6; njs has no ngx.NOTICE constant.
+            ngx.log(6, message);
+            break;
     }
 }
 

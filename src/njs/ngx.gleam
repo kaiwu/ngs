@@ -65,6 +65,8 @@ pub const warn = 1
 
 pub const error = 2
 
+pub const notice = 3
+
 @external(javascript, "../ngx_ffi.mjs", "ngx_log")
 pub fn log(level: Int, message: a) -> Nil
 
