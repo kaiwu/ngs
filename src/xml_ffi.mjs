@@ -1,23 +1,9 @@
-// Use njs built-in xml module, with fallback for Node.js testing
-// In njs, built-in modules are accessible via global objects
-// import {default as Xml} from 'xml';
-let xml
-try {
-  // Check if we're in njs environment by looking for njs-specific global
-  if (typeof njs !== 'undefined') {
-    xml = require('xml');  // njs built-in xml module
-  } else {
-    throw new Error('Not in njs environment');
-  }
-} catch (e) {
-  // Node.js test environment - create mock since 'xml' would be interpreted as npm package
-  xml = {
-    parse: () => ({}),
-    c14n: () => ({}),
-    exclusiveC14n: () => ({}),
-    serialize: () => ({}),
-    serializeToString: () => '',
-  };
+// njs built-in module: keep "xml" external when bundling for QuickJS.
+import xml from 'xml';
+import { Ok, Error } from './gleam.mjs';
+
+function optional(value) {
+  return value === undefined ? new Error(undefined) : new Ok(value);
 }
 
 export function parse(d) {
@@ -45,15 +31,23 @@ export function doc_root(d) {
 }
 
 export function doc_tag(d, n) {
-  return d[n];
+  return optional(d.$root.$name === n ? d.$root : undefined);
 }
 
 export function node_tag_name(no, n) {
-  return no[n];
+  return node_tag(no, n);
 }
 
 export function node_attr(no, n) {
-  return no['$attr$' + n];
+  return optional(no['$attr$' + n]);
+}
+
+export function node_get_attribute_ns(no, uri, name) {
+  return optional(no.getAttributeNS(uri, name));
+}
+
+export function node_get_child_ns(no, uri, name) {
+  return optional(no.getChildNS(uri, name));
 }
 
 export function node_set_attr(no, n, v) {
@@ -61,7 +55,7 @@ export function node_set_attr(no, n, v) {
 }
 
 export function node_attrs(no) {
-  return no.$attrs;
+  return optional(no.$attrs);
 }
 
 export function node_name(no) {
@@ -69,23 +63,23 @@ export function node_name(no) {
 }
 
 export function node_ns(no) {
-  return no.$ns;
+  return optional(no.$ns);
 }
 
 export function node_parent(no) {
-  return no.$parent;
+  return optional(no.$parent);
 }
 
 export function node_tag(no, n) {
-  return no['$tag$' + n];
+  return optional(no['$tag$' + n]);
 }
 
-export function node_set_tag(no, n, v) {
-  no['$tag$' + n] = v;
+export function node_remove_tag(no, n) {
+  delete no['$tag$' + n];
 }
 
 export function node_tags(no) {
-  return no.$tags;
+  return no.$tags ?? [];
 }
 
 export function node_set_tags(no, ts) {
@@ -93,11 +87,7 @@ export function node_set_tags(no, ts) {
 }
 
 export function node_tags_name(no, n) {
-  return no['$tags$' + n];
-}
-
-export function node_set_tags_name(no, n, ts) {
-  no['$tags$' + n] = ts;
+  return no['$tags$' + n] ?? [];
 }
 
 export function node_text(no) {
@@ -124,10 +114,14 @@ export function node_remove_children(no, n) {
   no.removeChildren(n);
 }
 
+export function node_remove_all_children(no) {
+  no.removeChildren();
+}
+
 export function node_remove_text(no) {
   no.removeText();
 }
 
 export function attr_value(a, n) {
-  return a[n];
+  return optional(a[n]);
 }

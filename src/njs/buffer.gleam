@@ -77,6 +77,8 @@ pub fn new_array_buffer(size s: Int) -> ArrayBuffer
 @external(javascript, "../buffer_ffi.mjs", "new_typed_array")
 pub fn new_typed_array(t: TypedArrayType, size s: Int) -> TypedArray
 
+/// Allocates a zero-filled buffer. On QuickJS njs 1.0.2+, oversized lengths
+/// throw RangeError rather than wrapping. See `constants_max_length`.
 @external(javascript, "../buffer_ffi.mjs", "alloc")
 pub fn alloc(size s: Int) -> Buffer
 

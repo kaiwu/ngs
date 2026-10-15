@@ -41,9 +41,13 @@ pub fn get(o: JsObject, k: k) -> Result(JsObject, Nil)
 @external(javascript, "../ngx_ffi.mjs", "name")
 pub fn name(a: a) -> String
 
+/// Fetches a URL. Options are forwarded to njs, including
+/// `max_response_body_size` (non-negative, and enforced on decoded chunked data
+/// in njs 1.0.2+). Invalid response framing rejects the promise.
 @external(javascript, "../ngx_ffi.mjs", "fetch")
 pub fn fetch_url(resource r: String, options o: o) -> Promise(Response)
 
+/// Fetches a Request with the same options and response limits as `fetch_url`.
 @external(javascript, "../ngx_ffi.mjs", "fetch")
 pub fn fetch_request(resource r: Request, options o: o) -> Promise(Response)
 

@@ -200,4 +200,7 @@ http {
 
 ## nginx Plus Limitations
 
-Some njs-examples reference nginx Plus features unavailable in open-source nginx: `js_periodic`, advanced key-value stores, some certificate management directives. Implementations use open-source equivalents where possible; see ROADMAP.md for deferred items.
+Some njs-examples reference nginx Plus features unavailable in open-source nginx:
+advanced key-value stores and some certificate management directives. `js_periodic`
+is available in the vendored open-source njs module; dedicated Gleam types for its
+context are still missing. See ROADMAP.md for deferred items.

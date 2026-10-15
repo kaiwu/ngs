@@ -377,6 +377,8 @@ const SEMANTIC_ALIASES: Record<string, string[]> = {
 
   // XML — node_set_attr covers setAttribute (attr ≠ attribute expansion)
   "node_set_attr":             ["setAttribute"],
+  "node_get_attribute_ns":     ["getAttributeNS"],
+  "node_get_child_ns":         ["getChildNS"],
 
   // FS — njs concatenates these words; Gleam uses underscores
   "read_dir_sync":             ["readdirSync"],

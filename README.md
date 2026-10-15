@@ -267,6 +267,29 @@ use result <- promise.await(fs.file_handle_read(handle, buf, 0, 1024, None))
 
 See [hexdocs.pm/ngs](https://hexdocs.pm/ngs/) for complete API documentation.
 
+### XML bindings on njs 1.0.2
+
+`node_get_attribute_ns(node, namespace_uri, local_name)` and
+`node_get_child_ns(node, namespace_uri, local_name)` return `Result` values. Use
+`""` for no namespace; unprefixed attributes never inherit a default namespace.
+Use these lookups when namespace identity matters, including signed XML.
+
+The XML lookup functions `doc_tag`, `node_tag_name`, `node_tag`, `node_attr`,
+`node_attrs`, `node_ns`, `node_parent`, and `attr_value` now return
+`Result(value, Nil)`. Handle `Error(Nil)` for missing values; empty attributes
+remain `Ok("")`. `node_tag_name` safely handles child names matching node methods.
+
+`node_set_tag` and `node_set_tags_name` have been removed because QuickJS rejects
+those assignments. Use `node_remove_tag` to delete matching children, and
+`node_add_child` or `node_set_tags` to copy namespace-free nodes.
+`node_add_child_doc` copies a document root, and `node_remove_all_children`
+removes all children. Detached nodes remain readable; mutating or canonicalizing
+them throws `TypeError`.
+
+The XML FFI imports njs's built-in `xml` module, which must remain external in
+bundles. XML runtime tests run in nginx with QuickJS, since Node has no such
+built-in module.
+
 ## Examples
 
 The project includes 25+ example nginx handlers organized by category:
@@ -358,6 +381,13 @@ and check that both build and watch bundles exclude a conflicting `crypto` packa
 ```bash
 gleam test
 bun test tests/misc_crypto
+```
+
+The njs 1.0.2 regression suite bundles the compiled Gleam bindings and runs XML,
+Buffer length, fetch framing, body limit, and keepalive checks in QuickJS:
+
+```bash
+bun test tests/njs_1_0_2
 ```
 
 ### Test infrastructure
