@@ -31,6 +31,12 @@ const connectAndSend = async (port, payload, timeoutMs = 2000) =>
     client.on("close", finish);
     client.on("timeout", finish);
     client.on("error", (err) => {
+      // s.deny() resets the socket. Bun 1.4 surfaces that peer reset as
+      // ECONNRESET. An empty read is a denied request.
+      if (err?.code === "ECONNRESET") {
+        finish();
+        return;
+      }
       if (settled) return;
       settled = true;
       reject(err);
