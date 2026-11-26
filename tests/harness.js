@@ -1,10 +1,19 @@
 import { spawn, spawnSync } from "bun";
-import { mkdirSync, rmSync, existsSync } from "fs";
+import { mkdirSync, rmSync, existsSync, readFileSync } from "fs";
 import { join, dirname } from "path";
 
 let nginxProcess = null;
-const NGINX_BIN = "./submodules/nginx/objs/nginx";
+const NGINX_BIN = process.env.NGS_NJS_PREVIEW_BIN || "./submodules/nginx/objs/nginx";
 const TEST_PORT = 8888;
+
+// Assert the selected binary independently of what its running handler reports.
+export function expectedNjsVersion() {
+  if (process.env.NGS_NJS_PREVIEW_BIN) return 0x010003;
+  const header = readFileSync("submodules/njs/src/njs.h", "utf8");
+  const version = header.match(/^#define\s+NJS_VERSION_NUMBER\s+(0x[\da-f]+)/im);
+  if (!version) throw new Error("Missing NJS_VERSION_NUMBER in submodules/njs/src/njs.h");
+  return Number(version[1]);
+}
 
 // Build nginx before running tests
 export function ensureBuild() {

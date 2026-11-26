@@ -1,7 +1,7 @@
 import { describe, test, expect, beforeAll, afterAll } from 'bun:test';
 import { build } from 'esbuild';
 import { copyFileSync, mkdirSync } from 'node:fs';
-import { startNginx, stopNginx, cleanupRuntime } from '../harness.js';
+import { startNginx, stopNginx, cleanupRuntime, expectedNjsVersion } from '../harness.js';
 
 const MODULE = 'njs_1_0_2';
 
@@ -131,9 +131,9 @@ describe('njs 1.0.2 bindings in QuickJS', () => {
         expect(errors.detached_exclusion.message).toBe('"excluding" is not in XMLNode tree');
     });
 
-    test('Buffer XML parsing, canonicalization, and checked Buffer sizes run on 1.0.2', async () => {
+    test('Buffer XML parsing, canonicalization, and checked Buffer sizes run on the selected build', async () => {
         const result = await request('/canonicalization');
-        expect(result.version).toBe(0x010002);
+        expect(result.version).toBe(expectedNjsVersion());
         expect(result.engine).toBe('QuickJS');
         for (const key of ['c14n', 'serialize', 'string'])
             expect(result[key]).toBe('<r><keep a="1" b="2"></keep></r>');
